@@ -15,6 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //Prepare the SQL query to check if the user exists
     $user = new User();
     
+        echo $username;
+        echo $password;
+        
+        $user->checkUser($username, $password); 
         //Check if the entered password matches the hashed password in the database
         if($user->login($username, $password)) {
             //Passwords match, so log in the user
@@ -24,9 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             //Passwords don't match, so show an error message
             $login_err = "Invalid password.";
-            echo 'error';
+            echo 'error'; 
         }
-    
 }
 ?>
 

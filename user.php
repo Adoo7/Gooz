@@ -144,20 +144,28 @@ class User {
     }
     
     function checkUser($username, $password) {
+        
         $data = Database::getInstance()->singleFetch(
                 'SELECT * FROM User WHERE UserName = \'' .$username
                 .'\' AND Password = \'' .$password .'\'');
         $this->initWith($data->UserID, $data->UserName, $data->Password, $data->Email, $data->RoleID);
-        echo 'check failed';
+        
+        if ($this->Username != '') {
+            echo $this->Username;
+            echo $this->UserID;
+        } else  {
+            echo 'check failed';
+        }
+        
     }
     
-    function login($username, $password) {
+    function login() {
         
         try {
             
             if($this->UserID != null) {
                 
-                $this->checkUser($username, $password);
+                $this->checkUser($this->Username, $this->Password);
                 $_SESSION['UserID'] = $this->getUid();
                 $_SESSION['UserName'] = $this->getUsername();
                 echo '<br>username: '.$username
@@ -166,14 +174,12 @@ class User {
                 return true;
                 
             } else {
-                
                 $error[] = 'Wrong username or password';
                 return false;
             }
             
         } catch (Exception $ex) {
             $error[] = $ex->getMessage();
-            
         }
      
         return false;
