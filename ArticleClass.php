@@ -156,9 +156,9 @@ class Article {
                     ArticleText = :ArticleText,
                     PublishDate = :PublishDate,
                     Published = :Published,
-                    NoReaders = :NoReaders,
-                    NoLikes = :NoLikes,
-                    NoDislike = :NoDislike,
+                    NoReaders = 0,
+                    NoLikes = 0,
+                    NoDislike = 0,
                     CategoryID = :CategoryID,
                     UserID = :UserID';
 
