@@ -1,5 +1,5 @@
 <?php
-session_start();
+include 'header.php';
 include './Database.php';
 include './user.php';
 // check if the form was submitted

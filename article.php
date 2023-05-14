@@ -1,8 +1,8 @@
 <?php
-
+    include 'header.php';
 ?>
 <html>
-
+    
 <head>
   <meta charset="utf-8">
   <title>Article Title</title>
@@ -10,16 +10,6 @@
 </head>
 
 <body>
-  <header>
-    <h1 class="logo">IT Newsletter</h1>
-    <nav class="main-nav">
-      <ul>
-        <li><a href="index.php">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="login.php">Login</a></li>
-      </ul>
-    </nav>
-  </header>
   <main>
     <header class="article-header">
       <h2>Article Title</h2>
