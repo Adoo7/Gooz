@@ -1,15 +1,14 @@
 <?php
+
+echo $_SESSION['UserID'].'--tested';
+
 include 'header.php';
 include 'article_view.php';
+
+echo $_SESSION['UserID'];
 ?>
 
 <html>
-
-<head>
-  <meta charset="utf-8">
-  <title>IT Newsletter</title>
-  <link rel="stylesheet" href="style.css">
-</head>
 
 <body>
 

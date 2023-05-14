@@ -47,22 +47,22 @@ class User {
     }
     
     function getUsername(){
-        return $this->username;
+        return $this->Username;
     }
     
     function getPassword(){
-        return $this->password;
+        return $this->Password;
     }
     
     function getEmail(){
-        return $this->email;
+        return $this->Email;
     }
     
     function intWithUid($uid) {
         $db = Database::getInstance();
         $data = $db->singleFetch('SELECT * FROM User WHERE UserID = ' . $uid);
-        $this->initWith($data->UserID, $data->Username, $data->Password, $data->Email, $data->RoleID);
-        echo 'fetched user with username ' . $this->Username;
+        $this->initWith($data->UserID, $data->UserName, $data->Password, $data->Email, $data->RoleID);
+//        echo 'fetched user with username ' . $this->Username; //DEBUGGING STATEMENT
     }
     
     function initWithUsername() {
@@ -160,7 +160,7 @@ class User {
     }
     
     function login() {
-        
+            
         try {
             
             if($this->UserID != null) {
@@ -168,9 +168,10 @@ class User {
                 $this->checkUser($this->Username, $this->Password);
                 $_SESSION['UserID'] = $this->getUid();
                 $_SESSION['UserName'] = $this->getUsername();
+                $_SESSION['RoleID'] = $this->RoleID;
                 echo '<br>username: '.$username
                         .'password: '.$password;
-                
+                 
                 return true;
                 
             } else {
@@ -181,13 +182,14 @@ class User {
         } catch (Exception $ex) {
             $error[] = $ex->getMessage();
         }
-     
+        
         return false;
     }
     
     function logout() {
         $_SESSION['UserID'] = '';
         $_SESSION['UserName'] = '';
+        $_SESSION['RoleID'] = '';
         
         session_destroy();
     }
