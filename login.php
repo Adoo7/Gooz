@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         //Check if the entered password matches the hashed password in the database
         if($user->login($username, $password)) {
             //Passwords match, so log in the user
-            $_SESSION["loggedin"] = true;
+            $_SESSION["loggedin"] = true; 
             $_SESSION["username"] = $username;
             header("Location: index.php");
         } else {

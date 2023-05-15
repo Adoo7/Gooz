@@ -1,14 +1,37 @@
-<?php
+<section class="latest-news">
+    
+    <h2>Unpublished Articles</h2>
 
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
- */
+    <?php
+    $article = new Article();
+    $articles = $article->getUnPublishedArticles();
 
-//view & delete published articles
+    foreach ($articles as $article) {
+        echo '<article class="news-article">' .
+          '<h3>' . $article->getHeadLine() . '</h3>' .
+          '<p>' . $article->getArticleText() . '</p>' .
+          '<a href="article.php">Read more</a>' .
+          '</article>';
+    }
+    ?>
 
-//add & delete & edit articles prior to publishing
+</section>
 
-$artice = new Article();
+<section class="latest-news">
+    
+    <h2>Published Articles</h2>
 
-//article submission form 
+    <?php
+    $article = new Article();
+    $articles = $article->getPublishedArticles();
+
+    foreach ($articles as $article) {
+        echo '<article class="news-article">' .
+          '<h3>' . $article->getHeadLine() . '</h3>' .
+          '<p>' . $article->getArticleText() . '</p>' .
+          '<a href="article.php">Read more</a>' .
+          '</article>';
+    }
+    ?>
+
+</section>

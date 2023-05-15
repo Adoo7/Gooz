@@ -277,6 +277,67 @@ class Article {
 
         return false;
     }
+    
+    public function getPublishedArticles() {
+        $db = Database::getInstance();
+        $dbc = $db->connect();
+        $userID = $_SESSION['UserID'];
+        
+        $result = $db->querySQL("SELECT * FROM Article WHERE UserID = $userID AND Published = 1");
+
+        foreach ($result as $row) {
+
+            $article = new Article();
+            $article->setArticleID($row['ArticleID']);
+            $article->setHeadLine($row['HeadLine']);
+            $article->setArticleText($row['ArticleText']);
+            $article->setPublishDate($row['PublishDate']);
+            $article->setPublished($row['Published']);
+            $article->setNoReaders($row['NoReaders']);
+            $article->setNoLikes($row['NoLikes']);
+            $article->setNoDislike($row['NoDislike']);
+            $article->setCategoryID($row['CategoryID']);
+            $article->setUserID($row['UserID']);
+
+            $articles[] = $article;
+
+            //Uncomment to find out what the query is returning
+            //var_dump($row);
+        }
+        
+        return $articles;
+    }
+    
+    public function getUnPublishedArticles() {
+        $db = Database::getInstance();
+        $dbc = $db->connect();
+        $userID = $_SESSION['UserID'];
+        
+        $result = $db->querySQL("SELECT * FROM Article WHERE UserID = $userID AND Published = 0");
+
+        foreach ($result as $row) {
+
+            $article = new Article();
+            $article->setArticleID($row['ArticleID']);
+            $article->setHeadLine($row['HeadLine']);
+            $article->setArticleText($row['ArticleText']);
+            $article->setPublishDate($row['PublishDate']);
+            $article->setPublished($row['Published']);
+            $article->setNoReaders($row['NoReaders']);
+            $article->setNoLikes($row['NoLikes']);
+            $article->setNoDislike($row['NoDislike']);
+            $article->setCategoryID($row['CategoryID']);
+            $article->setUserID($row['UserID']);
+
+            $articles[] = $article;
+
+            //Uncomment to find out what the query is returning
+            //var_dump($row);
+        }
+        
+        return $articles;
+    }
+    
 }
 
 
