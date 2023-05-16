@@ -42,6 +42,14 @@ class User {
         $this->Email = $email;
     }
     
+    function setRoleID ($roleID){
+        $this->RoleID = $roleID;
+    }
+    
+    function getRoleID(){
+        return $this->RoleID;
+    }
+    
     function getUid(){
         return $this->UserID;
     }

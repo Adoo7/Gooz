@@ -34,7 +34,7 @@
       <ul class="nav-list">
         <li><a href="index.php">Home</a></li>
         <li><a href="dashboard.php">Dashboard</a></li>
-        <li>' . $loginLink . '</li>
+        
         <li>
           <form class="search-form">
             <label for="search">Search:</label>
@@ -43,7 +43,10 @@
             <button type="submit">Search</button>
           </form>
         </li>
-      </ul>
+        
+        <li>' . $loginLink . '</li>
+
+        </ul>
     </nav>
 </header>';
 

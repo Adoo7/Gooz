@@ -337,7 +337,7 @@ class Article {
         
         return $articles;
     }
-    
+
     public function getAllPublishedArticles() {
         $db = Database::getInstance();
         $dbc = $db->connect();
@@ -367,7 +367,7 @@ class Article {
         
         return $articles;
     }
-    
+  
     public function getAllUnPublishedArticles() {
         $db = Database::getInstance();
         $dbc = $db->connect();

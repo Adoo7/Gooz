@@ -8,15 +8,20 @@
 include 'header.php';
 include 'Database.php';
 include 'user.php';
+include 'ArticleClass.php';
 
 $user = new User();
 $user->intWithUid($_SESSION['UserID']);
 
 if($_SESSION['RoleID'] == 3) { //if user is admin show admin dashboard
+    
     include 'admin_dash.php';
+    
 } elseif ($_SESSION['RoleID'] == 2) { //if user is author show author dashboard
-    echo 'author dash';
-} elseif($_SESSION['RoleID'] == 1) { //if author is user show user dashboard
+    
+    include 'author_dash.php';
+    
+    } elseif($_SESSION['RoleID'] == 1) { //if author is user show user dashboard
     echo 'viewer dash';
 } else { //ask user to sign in
     echo 'not logged in';
