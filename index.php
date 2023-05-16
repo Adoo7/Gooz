@@ -15,5 +15,5 @@ echo $_SESSION['UserID'];
     <p>&copy; 2023 IT Newsletter. All Rights Reserved.</p>
   </footer>
 </body>
-
+ 
 </html> 
