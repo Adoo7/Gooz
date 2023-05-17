@@ -94,7 +94,7 @@
                 <td>$email</td>
                 <td>$roleid</td>
                 <td><a href="."edit_user.php?id=$uid"."><button>edit</button></a></td>
-                <td><button>delete</button></td>
+                <td><a href="."delete_user.php?id=$uid"."><button>delete</button></a></td>
             </tr>";            
     }
     ?>
