@@ -55,7 +55,7 @@ foreach ($result as $row) {
     echo '<article class="news-article">' .
       '<h3>' . $article->getHeadLine() . '</h3>' .
       '<p>' . $article->getArticleText() . '</p>' .
-      '<a href="article.php">Read more</a>' .
+      '<a href="article.php?id='. $article->getArticleID(). '">Read more</a>' .
       '</article>';
   }
 

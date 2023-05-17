@@ -1,5 +1,14 @@
 <?php
     include 'header.php';
+    include './Database.php';
+    include './user.php';
+    include 'ArticleClass.php';
+    
+    $article = new Article();
+    $article->setArticleID(urldecode($_GET['id']));
+    
+    $article->read_single();
+    
 ?>
 <html>
     

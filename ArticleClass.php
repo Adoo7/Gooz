@@ -122,19 +122,23 @@ class Article {
     // Get single article
     public function read_single() {
         // Create query
-        $query = 'SELECT * FROM ' . $this->table . ' WHERE ArticleID = ?';
+        $query = "SELECT * FROM Article WHERE ArticleID = $this->ArticleID";
 
+        $db = Database::getInstance();
+//        $this->conn = 
+        $dbc->connect();
+        $row = $db->querySQL($query);
         // Prepare statement
-        $stmt = $this->conn->prepare($query);
+//        $stmt = $this->conn->prepare($query);
+//
+//        // Bind ID
+//        $stmt->bindParam(1, $this->ArticleID);
+//
+//        // Execute query
+//        $stmt->execute();
 
-        // Bind ID
-        $stmt->bindParam(1, $this->ArticleID);
-
-        // Execute query
-        $stmt->execute();
-
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
+//        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        
         // Set properties
         $this->HeadLine = $row['HeadLine'];
         $this->ArticleText = $row['ArticleText'];
