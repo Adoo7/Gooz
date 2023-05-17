@@ -108,6 +108,28 @@ class User {
             return false;
         }
     }
+    
+    function editUser($userID) {
+        if ($this->isValid()) {
+            try {
+                Database::getInstance()->querySql('UPDATE User SET'
+                    . ' UserName = \'' . $this->Username 
+                    . '\', Password = \'' . $this->Password 
+                    . '\', Email = \'' . $this->Email 
+                    . '\', RoleID = \'' . $this->RoleID 
+                    . '\' WHERE UserID = ' . $userID);
+
+                return true;
+            } catch (Exception $ex) {
+                echo 'Exception: ' . $ex;
+                return false;
+            }
+        } else {
+            echo 'This is invalid';
+            return false;
+        }
+    }
+
      
     function updateDB() {
         if($this->isValid()) {
@@ -200,6 +222,33 @@ class User {
         $_SESSION['RoleID'] = '';
         
         session_destroy();
+    }
+    
+    public function getAllUsers(){
+        
+        $db = Database::getInstance();
+        $dbc = $db->connect();
+        
+        $result = $db->querySQL("SELECT * FROM User");
+
+        foreach ($result as $row) {
+
+            //UserID, UserName, Password, Email, RoleID
+            $user = new User();
+            $user->setUid($row['UserID']);
+            $user->setUsername($row['UserName']);
+            $user->setPasswpord($row['Password']);
+            $user->setEmail($row['Email']);
+            $user->setRoleID($row['RoleID']);
+
+            $users[] = $user;
+            
+            //Uncomment to find out what the query is returning
+            //var_dump($row);
+        }
+        
+        return $users;
+        
     }
     
 }

@@ -49,33 +49,53 @@
                 <th>Username</th>
                 <th>Password</th>
                 <th>Email</th>
-                <th>Role ID</th>
+                <th>Role</th>
+                
               </tr>
             </thead>
             <tbody>
     
     <?php
-//        echo '<tr>
-//                <td>1</td>
-//                <td>JohnDoe</td>
-//                <td>password123</td>
-//                <td>johndoe@example.com</td>
-//                <td>2 (Author)</td>
-//            </tr>'; 
-    $user = new User();
-    $user->intWithUid($_SESSION['UserID']);
-    echo $user->getUsername();
     
-    $users = $user->getUserList();
+    $user = new User();
+    $users = $user->getAllUsers();
     
     foreach ($users as $user) {
-        echo '<tr>
-                <td>1</td>
-                <td>JohnDoe</td>
-                <td>password123</td>
-                <td>johndoe@example.com</td>
-                <td>2 (Author)</td>
-            </tr>';            
+        
+        $uid = $user->getUid();
+        $username = $user->getUsername();
+        $password = $user->getPassword();
+        $email = $user->getEmail();
+        $roleid = $user->getRoleID();
+        
+        switch ($roleid) {
+            case 3:
+                
+                $roleid = 'Admin';
+                
+                break;
+            case 2:
+                $roleid = 'Author';
+                break;
+            // More cases can be added here
+            case 1:
+                $roleid = 'Viewer';
+                break;
+            default:
+                $roleid = 'undefined';
+                break;
+        }
+
+        
+        echo "<tr>
+                <td>$uid</td>
+                <td>$username</td>
+                <td>$password</td>
+                <td>$email</td>
+                <td>$roleid</td>
+                <td><a href="."edit_user.php?id=$uid"."><button>edit</button></a></td>
+                <td><button>delete</button></td>
+            </tr>";            
     }
     ?>
         </tbody>

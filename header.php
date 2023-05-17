@@ -10,16 +10,11 @@
     if (!isset($_SESSION['loggedin'])) {
         $_SESSION['loggedin'] = false;
     }
-
-    echo 'test';
-    echo '   ---'.$_SESSION['UserID'].'---   ';
-
+    
     if ($_SESSION['UserID'] == null || $_SESSION['loggedin'] == false) {
         $loginLink = '<a href="login.php">Login</a>';  
-        echo 'not logged in ';
     } else {
         $loginLink = '<a href="logout.php">Logout</a>';
-        echo 'logged in ';
     }
     
     echo '
