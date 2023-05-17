@@ -29,9 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user->setRoleID($roleID);
 
 
-    if($user->registerUser()) {
-        header("Location: login.php");
-    }
+    if($user->editUser($uid)) {
+        echo 'successfuly edited user';
+    } 
     
 }
 ?>
@@ -52,11 +52,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			<label for="password">Password:</label>
                         <input type="password" name="password" id="password" value="<?php echo $user->getPassword(); ?>" required>
                         <label>    
-                        <input type="radio" name="role" value="1">Viewer</label>
+                        <input type="radio" name="role" value="1" <?php if ($user->getRoleID() == 1) echo 'checked'; ?>>Viewer</label>
                         <label>
-                        <input type="radio" name="role" value="2">Author</label>
+                        <input type="radio" name="role" value="2" <?php if ($user->getRoleID() == 2) echo 'checked'; ?>>Author</label>
                         <label>    
-                        <input type="radio" name="role" value="3">Admin</label>
+                        <input type="radio" name="role" value="3" <?php if ($user->getRoleID() == 3) echo 'checked'; ?>>Admin</label>
                         <label for="email">Email:</label>
 			<input type="email" name="email" id="email" value="<?php echo $user->getEmail(); ?>" required>
 			<input type="submit" value="Edit account">

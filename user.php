@@ -71,6 +71,19 @@ class User {
         $data = $db->singleFetch('SELECT * FROM User WHERE UserID = ' . $uid);
         $this->initWith($data->UserID, $data->UserName, $data->Password, $data->Email, $data->RoleID);
 //        echo 'fetched user with username ' . $this->Username; //DEBUGGING STATEMENT
+        
+    }
+    
+    function intWithUidtoEdit($uid) {
+        $db = Database::getInstance();
+        $data = $db->singleFetch('SELECT * FROM User WHERE UserID = ' . $uid);
+//        echo 'fetched user with username ' . $this->Username; //DEBUGGING STATEMENT
+        if($data != null) {
+            return true;
+        } else {
+            return false;
+        }
+        
     }
     
     function initWithUsername() {
@@ -110,7 +123,7 @@ class User {
     }
     
     function editUser($userID) {
-        if ($this->isValid()) {
+        if ($this->isValidID($userID)) {
             try {
                 Database::getInstance()->querySql('UPDATE User SET'
                     . ' UserName = \'' . $this->Username 
@@ -152,22 +165,51 @@ class User {
         }
     }
     
+    public function isValidID($uid) {
+        $errors = true;
+        
+        if(empty($this->Username)) {
+            $errors = false; 
+            echo 'empty username';
+        }
+        else {
+            if (!$this->intWithUidtoEdit($uid)) {
+                $errors = false;
+                echo 'init failed + ';
+            }
+            
+            if (empty($this->Email)) {
+                $errors = false;
+                echo 'empty eamil';
+            }     
+            if (empty($this->Password)) {
+                $errors = false;
+                echo 'empty password';
+            }
+            return $errors;
+        }
+    }
+    
     public function isValid() {
         $errors = true;
         
         if(empty($this->Username)) {
             $errors = false; 
+            echo 'empty username';
         }
         else {
             if (!$this->initWithUsername()) {
                 $errors = false;
+                echo 'init failed';
             }
             
             if (empty($this->Email)) {
                 $errors = false;
+                echo 'empty eamil';
             }     
             if (empty($this->Password)) {
                 $errors = false;
+                echo 'empty password';
             }
             return $errors;
         }
