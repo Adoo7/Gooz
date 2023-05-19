@@ -20,11 +20,28 @@ class Article {
     public $NoDislike;
     public $CategoryID;
     public $UserID;
-
+    public $image;
+    public $video;
     
     public function __construct() {
     }
 
+    public function getVideo() {
+        return $this->video;
+    }
+    
+    public function setVideo($video) {
+        $this->video = $video;
+    }
+    
+    public function getImage() {
+        return $this->image;
+    }
+    
+    public function setImage($image) {
+        $this->image = $image;
+    }
+    
     public function getArticleID() {
         return $this->ArticleID;
     }

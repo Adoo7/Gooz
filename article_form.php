@@ -7,30 +7,22 @@ include './user.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //Get the username and password from the form
 
-    $articleTitle;
-    $articleText;
-    $articleVideo;
-    $articleImage;
-    $articleCategory;
+    $articleTitle = $_POST['articleTitle'];
+    $articleText = $_POST['articleText'];
+    $articleCategory = $_POST['articleCategory'];
+    $articleImage = $_POST['articleImage'];
+    $articleVideo = $_POST['articleVideo'];
     
     //Connect to the database
     $db = Database::getInstance();
     $dbc = $db->connect(); 
     
-    //Prepare the SQL query to check if the user exists
-    $user = new User();
+    $article = new Article();
     
-    $user->setUsername($username);
-    $user->setPasswpord($password);
-    $user->setEmail($email);
-    $user->setRoleID($roleID);
-
-
-    if($user->registerUser()) {
-        header("Location: login.php");
-    }
-    
-    
+    $article->setHeadLine($articleTitle);
+    $article->setArticleText($articleText);
+    $article->setArticle; //set article image if file is valid
+    $article->setArticleText($articleText); //set article video if file is provided and valid
     
 }
 
@@ -48,15 +40,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </tr>
         <tr>
             <td>Category</td>
-            <td><input type="select" name="articleCategory" value=""></input></td>
+            <td><input type="select" name="articleCategory"></input></td>
         </tr>
         <tr>
             <td>Image</td>
-            <td><input type="file" name="articleTitle"></input></td>
+            <td><input type="file" name="articleImage"></input></td>
         </tr>
         <tr>
             <td>Video</td>
-            <td><input type="file" name="articleTitle"></input></td>
+            <td><input type="file" name="articleVideo"></input></td>
         </tr>
         <tr>
             <input type="submit" value="Save as draft..">
