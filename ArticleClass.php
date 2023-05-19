@@ -120,35 +120,34 @@ class Article {
     }
 
     // Get single article
-    public function read_single() {
-        // Create query
-        $query = "SELECT * FROM Article WHERE ArticleID = $this->ArticleID";
+    public function read_single($articleID) {
+
+        $query = "SELECT * FROM Article WHERE ArticleID = $articleID";
 
         $db = Database::getInstance();
-//        $this->conn = 
-        $dbc->connect();
-        $row = $db->querySQL($query);
-        // Prepare statement
-//        $stmt = $this->conn->prepare($query);
-//
-//        // Bind ID
-//        $stmt->bindParam(1, $this->ArticleID);
-//
-//        // Execute query
-//        $stmt->execute();
-
-//        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $dbc = $db->connect();
+        $result = $db->querySQL($query);
+        
         
         // Set properties
-        $this->HeadLine = $row['HeadLine'];
-        $this->ArticleText = $row['ArticleText'];
-        $this->PublishDate = $row['PublishDate'];
-        $this->Published = $row['Published'];
-        $this->NoReaders = $row['NoReaders'];
-        $this->NoLikes = $row['NoLikes'];
-        $this->NoDislike = $row['NoDislike'];
-        $this->CategoryID = $row['CategoryID'];
-        $this->UserID = $row['UserID'];
+        foreach ($result as $row) {
+
+            $article = new Article();
+            $article->setArticleID($row['ArticleID']);
+            $article->setHeadLine($row['HeadLine']);
+            $article->setArticleText($row['ArticleText']);
+            $article->setPublishDate($row['PublishDate']);
+            $article->setPublished($row['Published']);
+            $article->setNoReaders($row['NoReaders']);
+            $article->setNoLikes($row['NoLikes']);
+            $article->setNoDislike($row['NoDislike']);
+            $article->setCategoryID($row['CategoryID']);
+            $article->setUserID($row['UserID']);
+            //Uncomment to find out what the query is returning
+            //var_dump($row);
+        }
+        
+        return $article;
     }
 
     // Create article

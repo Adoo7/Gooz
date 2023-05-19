@@ -5,46 +5,35 @@
     include 'ArticleClass.php';
     
     $article = new Article();
-    $article->setArticleID(urldecode($_GET['id']));
+    $id = urldecode($_GET['id']);
     
-    $article->read_single();
+    $thisArticle = $article->read_single($id); 
+    $text = $thisArticle->getArticleText();
+    $title = $thisArticle->getHeadLine();
     
 ?>
 <html>
     
 <head>
   <meta charset="utf-8">
-  <title>Article Title</title>
+  <title><?php echo $title; ?></title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
   <main>
     <header class="article-header">
-      <h2>Article Title</h2>
+      <h2><?php echo $title; ?></h2>
       <p class="meta">Published on May 1, 2023 by John Doe</p>
     </header>
     <div class="wrapper">
       <article>
 
         <div class="content">
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel turpis euismod, bibendum odio sit amet,
-            consectetur nulla. Donec posuere auctor augue, ac tristique nisl accumsan nec. Integer at dolor eget augue
-            sodales scelerisque. Nulla facilisi. Aliquam non enim sit amet nibh elementum ultrices. Fusce at convallis
-            quam, nec tempor velit. Donec aliquet augue et convallis aliquet. Suspendisse quis nulla vitae turpis
-            blandit blandit. Curabitur imperdiet metus quis risus eleifend laoreet. </p>
-          <img src="https://via.placeholder.com/500x300" alt="Article Image">
-          <p>Curabitur congue nunc eget metus maximus malesuada. Aliquam nec est euismod, dignissim nisl in, vulputate
-            justo. Integer a velit ut ipsum vehicula pharetra at at nisi. Praesent malesuada erat sed commodo tempor. In
-            ut justo a dolor pellentesque dapibus. Donec commodo lacus ut leo eleifend, vel convallis odio commodo.
-            Etiam in odio euismod, vestibulum lectus ut, fermentum turpis. Sed vel est erat. </p>
-          <audio src="https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_5MG.mp3" controls></audio>
-          <p>Vivamus semper quam sed ante efficitur, eget dapibus ex lacinia. Donec euismod elit non risus rhoncus
-            molestie. In eleifend eget enim vel mattis. Pellentesque habitant morbi tristique senectus et netus et
-            malesuada fames ac turpis egestas. Quisque vitae turpis ac enim convallis ultrices. Nunc id enim id odio
-            aliquet ultricies. </p>
-          <video src="https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_640_3MG.mp4"
-            controls></video>
+            <p><?php echo $text; ?></p>
+            <img src="https://via.placeholder.com/500x300" alt="Article Image"><br>
+<!--          <video src="https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_640_3MG.mp4"
+                 controls></video><! if there is a video run this line, otherwise keep hidden -->
         </div>
       </article>
 
@@ -102,8 +91,6 @@
           <label for="review">Review:</label>
           <textarea id="review" name="review" rows="4" cols="50" required></textarea>
           <input type="submit" value="Submit">
-
-
         </form>
       </section>
 

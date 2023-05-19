@@ -1,3 +1,5 @@
+<a href="article_form.php">create</a>
+
 <section class="latest-news">
     
     <h2>All Unpublished Articles</h2>
