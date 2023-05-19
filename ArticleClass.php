@@ -170,17 +170,17 @@ class Article {
     // Create article
     public function create() {
         // Create query
-        $query = 'INSERT INTO ' . $this->table . '
+        $query = "INSERT INTO " . $this->table . "
                 SET
                     HeadLine = :HeadLine,
                     ArticleText = :ArticleText,
                     PublishDate = :PublishDate,
                     Published = :Published,
-                    NoReaders = 0,
-                    NoLikes = 0,
-                    NoDislike = 0,
+                    NoReaders = :NoReaders,
+                    NoLikes = :NoLikes,
+                    NoDislike = :NoDislike,
                     CategoryID = :CategoryID,
-                    UserID = :UserID';
+                    UserID = :UserID";
 
         // Prepare statement
         $stmt = $this->conn->prepare($query);

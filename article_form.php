@@ -9,9 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $articleTitle = $_POST['articleTitle'];
     $articleText = $_POST['articleText'];
-    $articleCategory = $_POST['articleCategory'];
-    $articleImage = $_POST['articleImage'];
-    $articleVideo = $_POST['articleVideo'];
+    $articleCategory = $_POST['articleCategory'];// todo
     
     //Connect to the database
     $db = Database::getInstance();
@@ -21,14 +19,67 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     $article->setHeadLine($articleTitle);
     $article->setArticleText($articleText);
-    $article->setArticle; //set article image if file is valid
-    $article->setArticleText($articleText); //set article video if file is provided and valid
+    $article->setPublishDate(date("Y-m-d"));
     
+    if (isset($_POST['submit']) && $_POST['submit'] == 'Save as draft..') {
+        // Save the article as a draft
+        // Additional actions or logic can be placed here
+        $article->setPublished(0);
+    } elseif (isset($_POST['submit']) && $_POST['submit'] == 'Publish') {
+        // Publish the article
+        // Additional actions or logic can be placed here
+        $article->setPublished(1);
+    }
+    
+    $article->setNoReaders(0);
+    $article->setNoLikes(0);
+    $article->setNoDislike(0);
+    
+    $article->setCategoryID($articleCategory);
+    
+    $article->setUserID($_SESSION['UserID']);
+    
+    $articleImage = $_FILES['articleImage'];
+    $articleVideo = $_FILES['articleVideo'];
+    
+    // Image file validation
+    if (isset($articleImage) && $articleImage['error'] === UPLOAD_ERR_OK) {
+        $imageFileType = strtolower(pathinfo($articleImage['name'], PATHINFO_EXTENSION));
+        $allowedImageTypes = array('jpg', 'jpeg', 'png', 'gif');
+        
+        if (in_array($imageFileType, $allowedImageTypes)) {
+            $article->setImage($articleImage);
+        } else {
+            // Invalid image file type
+            // Handle the error or display a message to the user
+            echo 'invalid image file type';
+            
+        }
+    }
+    
+    // Video file validation
+    if (isset($articleVideo) && $articleVideo['error'] === UPLOAD_ERR_OK) {
+        $videoFileType = strtolower(pathinfo($articleVideo['name'], PATHINFO_EXTENSION));
+        $allowedVideoTypes = array('mp4', 'avi', 'mov', 'wmv');
+        
+        if (in_array($videoFileType, $allowedVideoTypes)) {
+            $article->setVideo($articleVideo);
+        } else {
+            // Invalid video file type
+            // Handle the error or display a message to the user
+            echo 'invalid video file type';
+        }
+    }
+    
+    echo'everything set';
+    
+    $article->create();
 }
+
 
 ?>
 
-<form action="post">
+<form action="" method="post">
     <table>
         <tr>
             <td>Article title</td>
