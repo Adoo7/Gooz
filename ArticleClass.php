@@ -191,13 +191,10 @@ class Article {
 
     // Create article
     public function create() {
-        echo '<br>test line 172<br>';
-
         $db = Database::getInstance();
         $db->connect();
         $this->conn = $db->getDBCon();
-        
-        echo 'test line 177<br>';
+//    debugging line    echo 'test line 177<br>';
         
         // Create query
         $query = "INSERT INTO Article(ArticleID, HeadLine,".
@@ -214,18 +211,50 @@ class Article {
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
-        echo 'test line 189<br>';
-        
-        echo 'test line 201<br>';
+//        echo 'test line 189<br>';
+//        echo 'test line 201<br>';
         // Bind data
         $stmt->bind_param("ssiii", $this->HeadLine, $this->ArticleText, $this->Published, $this->CategoryID, $this->UserID);
-//        $stmt->bindParam(1, $this->HeadLine, PDO::PARAM_STR);
-//        $stmt->bindParam(2, $this->ArticleText, PDO::PARAM_STR);
-//        $stmt->bindParam(3, $this->Published, PDO::PARAM_INT);
-//        $stmt->bindParam(4, $this->CategoryID, PDO::PARAM_INT);
-//        $stmt->bindParam(5, $this->UserID, PDO::PARAM_INT);
-//        
-        echo 'test line 205';
+        
+//        echo 'test line 205';
+        
+        // Execute query
+        if($stmt->execute()) {
+            return true;
+        }
+
+        // Print error if something goes wrong
+        printf("Error: %s.\n", $stmt->error);
+
+        return false;
+    }
+    
+    public function edit() {
+        $db = Database::getInstance();
+        $db->connect();
+        $this->conn = $db->getDBCon();
+//    debugging line    echo 'test line 177<br>';
+        
+        // Create query
+        $query = "UPDATE Article SET HeadLine = ?,".
+            "ArticleText = ?, PublishDate = NOW(), Published = ?,".
+            " CategoryID = ?) WHERE ArticleID = ?";
+
+        echo 'test line 185<br>';
+        // Prepare statement
+        try {
+        $stmt = $this->conn->prepare($query);
+        echo 'query prepped<br>';
+            // Rest of the code
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+//        echo 'test line 189<br>';
+//        echo 'test line 201<br>';
+        // Bind data
+        $stmt->bind_param("ssiii", $this->HeadLine, $this->ArticleText, $this->Published, $this->CategoryID, $this->ArticleID);
+        
+//        echo 'test line 205';
         
         // Execute query
         if($stmt->execute()) {
@@ -436,7 +465,7 @@ class Article {
         }
         
         return $articles;
-    }
+    } 
     
 }
 

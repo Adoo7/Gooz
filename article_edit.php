@@ -5,15 +5,17 @@ include './Database.php';
 include './user.php';
 include 'ArticleClass.php';
 // check if the form was submitted
+
+
+$article = new Article();
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     echo 'pressed submit <br>';
     
     //Connect to the database
     $db = Database::getInstance();
-    $dbc = $db->connect(); 
-    
-    $article = new Article();
+    $dbc = $db->connect();
     
     $article->setHeadLine($_POST['articleTitle']);
     $article->setArticleText($_POST['articleText']);
@@ -72,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     echo 'everything set <br>';
     
-    if ($article->create()) {
+    if ($article->edit()) {
         echo 'added';
         header("Location: dashboard.php");
     } else {
@@ -109,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <td><input type="file" name="articleVideo"></input></td>
         </tr>
         <tr>
-            <input type="submit" name="submit" value="Save as draft..">
+            <input type="submit" name="submit" value="Save changes">
             <input type="submit" name="submit" value="Publish">
         </tr>
     </table>
