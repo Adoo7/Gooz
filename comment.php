@@ -12,7 +12,7 @@ class Comment {
     private $ArticleID;
     private $UserID;
     
-    public function __construct($CommentID, $CommentText, $CommentDate, $ArticleID, $UserID) {
+    public function __construct() {
         $this->CommentID = null;
         $this->CommentText = null;
         $this->CommentDate = null;

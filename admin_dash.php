@@ -1,3 +1,5 @@
+<a href="article_form.php">create</a>
+
 <section class="latest-news">
     
     <h2>All Unpublished Articles</h2>
@@ -10,9 +12,9 @@
         echo '<article class="news-article">' .
                 '<h3>' . $article->getHeadLine() . '</h3>' .
                 '<p>' . $article->getArticleText() . '</p>' .
-                '<a href="article.php">Read more</a>' .
-                '<button type="button">Edit</button>' . //show article edit form
-                '<button type="button">Delete</button>' . //show popup to confirm deletion
+                '<a href="article.php?id='.$article->getArticleID().'">Read more</a>' .
+                '<a href="article_edit.php?id='.$article->getArticleID().'">Edit</a>' . //show article edit form
+                '<a href="article.php?id='.$article->getArticleID().'">Delete</a>' . //show popup to confirm deletion
             '</article>';
     }
     ?>
@@ -31,7 +33,7 @@
         echo '<article class="news-article">' .
           '<h3>' . $article->getHeadLine() . '</h3>' .
           '<p>' . $article->getArticleText() . '</p>' .
-          '<a href="article.php">Read more</a>' .
+          '<a href="article.php?id='.$article->getArticleID().'">Read more</a>' .
           '</article>';
     }
     ?>

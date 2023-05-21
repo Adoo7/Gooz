@@ -14,6 +14,10 @@ class Database
         return self::$instance;
     }
 
+    public function getDBCon() {
+        return $this->dblink;
+    }
+    
     function __construct()
     {
         if (is_null($this->dblink)) {
