@@ -166,14 +166,36 @@ class Article {
         
         return $article;
     }
+    
+    public function test() {
+        $i = 1;
+        
+        echo 'started test<br>';
+        
+        $db = Database::getInstance();
+        $db->connect();
+        $this->conn = $db->getDBCon();
+        
+        if ($sql = $this->conn->prepare("SELECT * FROM User WHERE UserID = ?")){
+            $sql->bind_param("i",$i);
+            $sql->execute();
+            echo 'ran statement<br>';
+            return true;
+        } else {
+            echo "Failed prepare statement" . $this->conn->error . $this->conn->error;
+            return false;
+        }
+        
+        echo 'finsihed test<br>';
+    }
 
     // Create article
     public function create() {
         echo '<br>test line 172<br>';
 
         $db = Database::getInstance();
-        $dbc = $db->connect();
-        $conn = $db->getDBCon();
+        $db->connect();
+        $this->conn = $db->getDBCon();
         
         echo 'test line 177<br>';
         
@@ -186,28 +208,23 @@ class Article {
         echo 'test line 185<br>';
         // Prepare statement
         try {
-        $stmt = $conn->prepare($query);
+        $stmt = $this->conn->prepare($query);
         echo 'query prepped<br>';
             // Rest of the code
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
         echo 'test line 189<br>';
-        // Clean data
-        $this->HeadLine = htmlspecialchars(strip_tags($this->HeadLine));
-        $this->ArticleText = htmlspecialchars(strip_tags($this->ArticleText));
-        $this->PublishDate = htmlspecialchars(strip_tags($this->PublishDate));
-        $this->Published = htmlspecialchars(strip_tags($this->Published));
-        $this->NoReaders = htmlspecialchars(strip_tags($this->NoReaders));
-        $this->NoLikes = htmlspecialchars(strip_tags($this->NoLikes));
-        $this->NoDislike = htmlspecialchars(strip_tags($this->NoDislike));
-        $this->CategoryID = htmlspecialchars(strip_tags($this->CategoryID));
-        $this->UserID = htmlspecialchars(strip_tags($this->UserID));
         
-        echo 'test line 201';
+        echo 'test line 201<br>';
         // Bind data
-        $stmt->bindParam("ssiii", $this->HeadLine, $this->ArticleText, $this->Published, $this->CategoryID, $this->UserID);
-        
+        $stmt->bind_param("ssiii", $this->HeadLine, $this->ArticleText, $this->Published, $this->CategoryID, $this->UserID);
+//        $stmt->bindParam(1, $this->HeadLine, PDO::PARAM_STR);
+//        $stmt->bindParam(2, $this->ArticleText, PDO::PARAM_STR);
+//        $stmt->bindParam(3, $this->Published, PDO::PARAM_INT);
+//        $stmt->bindParam(4, $this->CategoryID, PDO::PARAM_INT);
+//        $stmt->bindParam(5, $this->UserID, PDO::PARAM_INT);
+//        
         echo 'test line 205';
         
         // Execute query

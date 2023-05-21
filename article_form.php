@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </tr>
         <tr>
             <td>Category</td>
-            <td><input type="select" name="articleCategory"></input></td>
+            <td><input type="number" name="articleCategory"></input></td>
         </tr>
         <tr>
             <td>Image</td>
