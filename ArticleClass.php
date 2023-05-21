@@ -169,22 +169,30 @@ class Article {
 
     // Create article
     public function create() {
+        echo '<br>test line 172<br>';
+
+        $db = Database::getInstance();
+        $dbc = $db->connect();
+        $conn = $db->getDBCon();
+        
+        echo 'test line 177<br>';
+        
         // Create query
-        $query = "INSERT INTO " . $this->table . "
-                SET
-                    HeadLine = :HeadLine,
-                    ArticleText = :ArticleText,
-                    PublishDate = :PublishDate,
-                    Published = :Published,
-                    NoReaders = :NoReaders,
-                    NoLikes = :NoLikes,
-                    NoDislike = :NoDislike,
-                    CategoryID = :CategoryID,
-                    UserID = :UserID";
+        $query = "INSERT INTO Article(ArticleID, HeadLine,".
+            "ArticleText, PublishDate, Published, NoReaders,".
+            "NoLikes, NoDislike, CategoryID, UserID)". 
+            "VALUES (NULL, ?, ?, NOW(), ?, 0, 0, 0, ?, ?)";
 
+        echo 'test line 185<br>';
         // Prepare statement
-        $stmt = $this->conn->prepare($query);
-
+        try {
+        $stmt = $conn->prepare($query);
+        echo 'query prepped<br>';
+            // Rest of the code
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+        echo 'test line 189<br>';
         // Clean data
         $this->HeadLine = htmlspecialchars(strip_tags($this->HeadLine));
         $this->ArticleText = htmlspecialchars(strip_tags($this->ArticleText));
@@ -195,18 +203,13 @@ class Article {
         $this->NoDislike = htmlspecialchars(strip_tags($this->NoDislike));
         $this->CategoryID = htmlspecialchars(strip_tags($this->CategoryID));
         $this->UserID = htmlspecialchars(strip_tags($this->UserID));
-
-                // Bind data
-        $stmt->bindParam(':HeadLine', $this->HeadLine);
-        $stmt->bindParam(':ArticleText', $this->ArticleText);
-        $stmt->bindParam(':PublishDate', $this->PublishDate);
-        $stmt->bindParam(':Published', $this->Published);
-        $stmt->bindParam(':NoReaders', $this->NoReaders);
-        $stmt->bindParam(':NoLikes', $this->NoLikes);
-        $stmt->bindParam(':NoDislike', $this->NoDislike);
-        $stmt->bindParam(':CategoryID', $this->CategoryID);
-        $stmt->bindParam(':UserID', $this->UserID);
-
+        
+        echo 'test line 201';
+        // Bind data
+        $stmt->bindParam("ssiii", $this->HeadLine, $this->ArticleText, $this->Published, $this->CategoryID, $this->UserID);
+        
+        echo 'test line 205';
+        
         // Execute query
         if($stmt->execute()) {
             return true;

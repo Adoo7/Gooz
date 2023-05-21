@@ -3,13 +3,11 @@
 include 'header.php';
 include './Database.php';
 include './user.php';
+include 'ArticleClass.php';
 // check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    //Get the username and password from the form
-
-    $articleTitle = $_POST['articleTitle'];
-    $articleText = $_POST['articleText'];
-    $articleCategory = $_POST['articleCategory'];// todo
+    
+    echo 'pressed submit <br>';
     
     //Connect to the database
     $db = Database::getInstance();
@@ -17,17 +15,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     $article = new Article();
     
-    $article->setHeadLine($articleTitle);
-    $article->setArticleText($articleText);
+    $article->setHeadLine($_POST['articleTitle']);
+    $article->setArticleText($_POST['articleText']);
     $article->setPublishDate(date("Y-m-d"));
     
-    if (isset($_POST['submit']) && $_POST['submit'] == 'Save as draft..') {
+    if ($_POST['submit'] == 'Save as draft..') {
         // Save the article as a draft
         // Additional actions or logic can be placed here
+        echo 'set as unpublished <br>';
         $article->setPublished(0);
-    } elseif (isset($_POST['submit']) && $_POST['submit'] == 'Publish') {
+    } elseif ($_POST['submit'] == 'Publish') {
         // Publish the article
         // Additional actions or logic can be placed here
+        echo 'set as published <br>';
         $article->setPublished(1);
     }
     
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $article->setNoLikes(0);
     $article->setNoDislike(0);
     
-    $article->setCategoryID($articleCategory);
+    $article->setCategoryID($_POST['articleCategory']);
     
     $article->setUserID($_SESSION['UserID']);
     
@@ -53,7 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Invalid image file type
             // Handle the error or display a message to the user
             echo 'invalid image file type';
-            
         }
     }
     
@@ -71,9 +70,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
     
-    echo'everything set';
+    echo '<br> published: '.$article->getPublished();
+    echo '<br> headline: '.$article->getHeadLine();
+    echo '<br> image: '.$article->getImage();
+    echo '<br> uid: '.$article->getUserID();
+    echo '<br> text: '.$article->getArticleText();
+    echo '<br> category id: '.$article->getCategoryID(). '<br>';
     
-    $article->create();
+    echo 'everything set <br>';
+    
+    if ($article->create()) {
+        echo 'added';
+    } else {
+        echo 'something went wrong';
+    }
+    
+    echo 'if statement ran';
+    
 }
 
 
@@ -102,8 +115,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <td><input type="file" name="articleVideo"></input></td>
         </tr>
         <tr>
-            <input type="submit" value="Save as draft..">
-            <input type="submit" value="Publish">
+            <input type="submit" name="submit" value="Save as draft..">
+            <input type="submit" name="submit" value="Publish">
         </tr>
     </table>
 </form>
