@@ -148,7 +148,7 @@ class Article {
         
         // Set properties
         foreach ($result as $row) {
-
+            
             $article = new Article();
             $article->setArticleID($row['ArticleID']);
             $article->setHeadLine($row['HeadLine']);
@@ -162,7 +162,7 @@ class Article {
             $article->setUserID($row['UserID']);
             //Uncomment to find out what the query is returning
             //var_dump($row);
-        }
+        }   
         
         return $article;
     }
@@ -212,7 +212,6 @@ class Article {
             echo "Error: " . $e->getMessage();
         }
 //        echo 'test line 189<br>';
-//        echo 'test line 201<br>';
         // Bind data
         $stmt->bind_param("ssiii", $this->HeadLine, $this->ArticleText, $this->Published, $this->CategoryID, $this->UserID);
         
@@ -234,13 +233,11 @@ class Article {
         $db->connect();
         $this->conn = $db->getDBCon();
 //    debugging line    echo 'test line 177<br>';
-        
         // Create query
         $query = "UPDATE Article SET HeadLine = ?,".
-            "ArticleText = ?, PublishDate = NOW(), Published = ?,".
-            " CategoryID = ?) WHERE ArticleID = ?";
+            " ArticleText = ?, PublishDate = NOW(), Published = ?,".
+            " CategoryID = ? WHERE ArticleID = ?";
 
-        echo 'test line 185<br>';
         // Prepare statement
         try {
         $stmt = $this->conn->prepare($query);
@@ -250,17 +247,21 @@ class Article {
             echo "Error: " . $e->getMessage();
         }
 //        echo 'test line 189<br>';
-//        echo 'test line 201<br>';
+//        echo 'test line 211<br>';
         // Bind data
         $stmt->bind_param("ssiii", $this->HeadLine, $this->ArticleText, $this->Published, $this->CategoryID, $this->ArticleID);
         
-//        echo 'test line 205';
+        echo 'test line 205<br>';
         
         // Execute query
         if($stmt->execute()) {
             return true;
+        } else {
+            echo 'test line 400<br>';
+            echo 'error: ' . $stmt->error_list . '<br>';
+            return false;
         }
-
+        echo 'test line 206<br>';
         // Print error if something goes wrong
         printf("Error: %s.\n", $stmt->error);
 

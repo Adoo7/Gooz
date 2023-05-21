@@ -8,6 +8,9 @@ include 'ArticleClass.php';
 
 
 $article = new Article();
+$id = urldecode($_GET['id']);
+$article = $article->read_single($id);
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
@@ -21,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $article->setArticleText($_POST['articleText']);
     $article->setPublishDate(date("Y-m-d"));
     
-    if ($_POST['submit'] == 'Save as draft..') {
+    if ($_POST['submit'] == 'Save changes') {
         // Save the article as a draft
         // Additional actions or logic can be placed here
         echo 'set as unpublished <br>';
@@ -33,18 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $article->setPublished(1);
     }
     
-    $article->setNoReaders(0);
-    $article->setNoLikes(0);
-    $article->setNoDislike(0);
-    
     $article->setCategoryID($_POST['articleCategory']);
-    
-    $article->setUserID($_SESSION['UserID']);
-    
     $articleImage = $_FILES['articleImage'];
     $articleVideo = $_FILES['articleVideo'];
     
-    // Image file validation
+    // Image file validation NOT SURE IF IT WORKS
     if (isset($articleImage) && $articleImage['error'] === UPLOAD_ERR_OK) {
         $imageFileType = strtolower(pathinfo($articleImage['name'], PATHINFO_EXTENSION));
         $allowedImageTypes = array('jpg', 'jpeg', 'png', 'gif');
@@ -58,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
     
-    // Video file validation
+    // Video file validation NOT SURE IF IT WORKS
     if (isset($articleVideo) && $articleVideo['error'] === UPLOAD_ERR_OK) {
         $videoFileType = strtolower(pathinfo($articleVideo['name'], PATHINFO_EXTENSION));
         $allowedVideoTypes = array('mp4', 'avi', 'mov', 'wmv');
@@ -75,13 +71,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo 'everything set <br>';
     
     if ($article->edit()) {
-        echo 'added';
+        echo 'edited';
         header("Location: dashboard.php");
     } else {
         echo 'something went wrong';
     }
     
-    echo 'if statement ran';
     
 }
 
@@ -92,19 +87,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <table>
         <tr>
             <td>Article title</td>
-            <td><input type="text" name="articleTitle"></input></td>
+            <td><input type="text" name="articleTitle" value="<?php echo $article->HeadLine ?>"></input></td>
         </tr>
         <tr>
             <td>Article text</td>
-            <td><input type="text" name="articleText"></input></td>
+            <td><input type="text" name="articleText" value="<?php echo $article->ArticleText ?>"></input></td>
         </tr>
         <tr>
             <td>Category</td>
-            <td><input type="number" name="articleCategory"></input></td>
+            <td><input type="number" name="articleCategory" value="<?php echo $article->CategoryID ?>"></input></td>
         </tr>
         <tr>
             <td>Image</td>
-            <td><input type="file" name="articleImage"></input></td>
+            <td><input type="file" name="articleImage" ></input></td>
         </tr>
         <tr>
             <td>Video</td>
