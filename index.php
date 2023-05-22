@@ -14,7 +14,7 @@ echo $_SESSION['UserID'];
 
   <!-- Footer section -->
   <footer>
-    <p>&copy; 2023 IT Newsletter. All Rights Reserved.</p>
+    <p>&copy; 2023 IT Newsletter. All Rights Reserved.</p> 
   </footer>
 </body>
  

@@ -1,6 +1,6 @@
 <?php
 include 'header.php';
-include './Database.php';
+//include './Database.php';
 include './user.php';
 // check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
