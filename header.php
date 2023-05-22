@@ -19,6 +19,28 @@
         $hidden = '';
     }
     
+    include 'Database.php';
+    
+    $db = Database::getInstance();
+    $dbc = $db->connect();
+
+    $result = $db->querySQL('SELECT * FROM Category');
+    
+    $list = "";
+    if ($result) {
+        $rowCount = mysqli_num_rows($result);
+        if ($rowCount > 0) {
+            foreach ($result as $row) {
+                echo $row;
+                $list .= '<li><a class="dropdown-item text-light" href="index.php?id='.$row['CategoryID'].'">'.$row['CategoryName'].'</a></li>';
+            }
+        } else {
+            echo "No results found.";
+        }
+    } else {
+        echo "Error executing query: " . mysqli_error($dbc);
+    }
+    
     echo '
     <head>
         <meta charset="utf-8">
@@ -47,8 +69,7 @@
                     Topics
                 </a>
                 <ul data-bs-theme= "dark" class="dropdown-menu">
-                    <li><a class="dropdown-item text-light" href="#">Action</a></li>
-                    <li><a class="dropdown-item text-light" href="#">Another action</a></li>
+                    '.$list.'
                 </ul>
                 </li>
                 <li class="nav-item px-1">
