@@ -20,7 +20,7 @@
     }
     
     include 'Database.php';
-    
+    /*
     $db = Database::getInstance();
     $dbc = $db->connect();
 
@@ -39,7 +39,7 @@
         }
     } else {
         echo "Error executing query: " . mysqli_error($dbc);
-    }
+    }*/
     
     echo '
     <head>
@@ -69,7 +69,7 @@
                     Topics
                 </a>
                 <ul data-bs-theme= "dark" class="dropdown-menu">
-                    '.$list.'
+                    './*$list*/''.'
                 </ul>
                 </li>
                 <li class="nav-item px-1">
