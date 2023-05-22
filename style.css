@@ -15,7 +15,7 @@ a.nav-link:hover {
     transform: scale(1.2,1.2);
 }
 
-a.navbar-brand {
+a.navbar-brand {  
     font-family: "OldLondon", serif;
     font-weight: normal;
 }

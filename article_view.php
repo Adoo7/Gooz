@@ -3,14 +3,21 @@
 //     Create variable to store query
 //     loop through query while changing details based on it
 
-include 'Database.php';
+//include 'Database.php';
 include './ArticleClass.php';
 
+$categoryID = urldecode($_GET['id']);
 
 $db = Database::getInstance();
 $dbc = $db->connect();
 
-$result = $db->querySQL('SELECT * FROM Article');
+//determining if user is in dashboard or has clicked a category
+if(empty($categoryID)) {
+    //should be sorted by views OR likes
+    $result = $db->querySQL("SELECT * FROM Article");
+} else {
+    $result = $db->querySQL("SELECT * FROM Article WHERE CategoryID = $categoryID");
+}
 
 if ($result) {
     $rowCount = mysqli_num_rows($result);
