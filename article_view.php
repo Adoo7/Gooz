@@ -51,13 +51,15 @@ foreach ($result as $row) {
 
   <?php
   
+  echo '<div class= "row row-cols-1 row-cols-sm-2 row-cols-md-3">';
   foreach ($articles as $article) {
-    echo '<article class="news-article">' .
+    echo '<article class="col">' .
       '<h3>' . $article->getHeadLine() . '</h3>' .
       '<p>' . $article->getArticleText() . '</p>' .
       '<a href="article.php?id='. $article->getArticleID(). '">Read more</a>' .
-      '</article>';
+      '</article>'; 
   }
+  echo '</div>'
 
   ?>
 </section>

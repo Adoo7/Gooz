@@ -1,100 +1,21 @@
+@font-face {
+    font-family: "OldLondon";
+    src: url(fonts/OldLondon.ttf) format('truetype');
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
-  margin: 0;
-  padding: 0;
+    font-family: "Times New Roman",  serif;
 }
 
-header {
-  background-color: #333;
-  color: #fff;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+a.nav-link {
+    transition: all .1s ease-in-out;
 }
 
-nav ul {
-  list-style: none;
-  display: flex;
+a.nav-link:hover {
+    transform: scale(1.2,1.2);
 }
 
-nav li {
-  margin-right: 20px;
-}
-
-nav a {
-  color: #fff;
-  text-decoration: none;
-}
-
-section {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 0 20px;
-}
-
-article {
-  margin-bottom: 20px;
-}
-
-article h3 {
-  margin-top: 0;
-}
-
-article p {
-  line-height: 1.5;
-}
-
-article a {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 5px 10px;
-  background-color: #333;
-  color: #fff;
-  text-decoration: none;
-}
-
-article a:hover {
-  background-color: #666;
-}
-
-footer {
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  padding: 10px;
-}
-
-.wrapper {
-  margin: 0 150px;
-  padding-top: 30px;
-}
-
-.article-header {
-  margin-top: 1px;
-}
-
-.like-button,
-.dislike-button {
-  background-color: #e4dcdc;
-  border: none;
-  color: #333;
-  font-size: 16px;
-  padding: 10px 20px;
-  margin: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.like-button:hover,
-.dislike-button:hover {
-  background-color: #d3cbcb;
-}
-
-#article-likes,
-#article-dislikes {
-  font-size: 24px;
-  font-weight: bold;
-  margin: 0 10px;
+a.navbar-brand {
+    font-family: "OldLondon", serif;
+    font-weight: normal;
 }
