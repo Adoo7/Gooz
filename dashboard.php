@@ -6,7 +6,7 @@
  */
 
 include 'header.php';
-include 'Database.php';
+//include 'Database.php';
 include 'user.php';
 include 'ArticleClass.php';
 
