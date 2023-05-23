@@ -1,7 +1,7 @@
 <?php
 
 include 'header.php';
-include './Database.php';
+//include './Database.php';
 include './user.php';
 
 $uid = urldecode($_GET['id']);

@@ -1,5 +1,16 @@
 <a href="article_form.php">create</a>
-
+<head>
+    
+    <script>
+    function confirmDelete(userId) 
+    {
+        if (confirm("Are you sure you want to delete this user?")) 
+        {
+            window.location.href = "delete_user.php?id=" + userId;
+        }
+    }
+    </script>
+</head>
 <section class="latest-news">
     
     <h2>All Unpublished Articles</h2>
@@ -90,14 +101,14 @@
 
         
         echo "<tr>
-                <td>$uid</td>
-                <td>$username</td>
-                <td>$password</td>
-                <td>$email</td>
-                <td>$roleid</td>
-                <td><a href="."edit_user.php?id=$uid"."><button>edit</button></a></td>
-                <td><a href="."delete_user.php?id=$uid"."><button>delete</button></a></td>
-            </tr>";            
+        <td>$uid</td>
+        <td>$username</td>
+        <td>$password</td>
+        <td>$email</td>
+        <td>$roleid</td>
+        <td><a href=\"edit_user.php?id=$uid\"><button>edit</button></a></td>
+        <td><button onclick=\"confirmDelete($uid)\">delete</button></td>
+    </tr>";       
     }
     ?>
         </tbody>
