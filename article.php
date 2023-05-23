@@ -18,6 +18,45 @@
   <meta charset="utf-8">
   <title><?php echo $title; ?></title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  
+<!--  <script>
+    function likeDislikeCounter(button) {
+  let likes = parseInt(button.nextElementSibling.innerHTML);
+  likes++;
+  button.nextElementSibling.innerHTML = likes;
+  button.disabled = true; // disable the button after it has been clicked
+  // send AJAX request to update the database
+  // ...
+  document.getElementById("articleLike").innerHTML = likes;
+}
+  </script>-->
+  <script>
+      console.log("testefiuheiuo");
+  function likeDislikeCounter(button) {
+    let isLike = button.classList.contains("like-button") ? 1 : 0;
+    let likes = parseInt(button.nextElementSibling.innerHTML) + 1;
+    button.nextElementSibling.innerHTML = likes;
+    button.disabled = true;
+
+    $.ajax({
+      type: "POST",
+      url: "updateLikes.php",
+      data: {
+        article_id: <?php echo $id;?>, // replace with the actual ID of the article
+        is_like: isLike,
+        count: likes
+      },
+      success: function(response) {
+        console.log("Likes updated successfully. 2.0");
+      },
+      error: function(xhr, status, error) {
+        console.error("Failed to update likes: " + error);
+      }
+    });
+  }
+</script>
+      
 </head>
 
 <body>
@@ -40,9 +79,9 @@
 
       <!-- LIKE/DISLIKE FOR ARTICLE -->
       <div>
-        <button class="like-button" onclick="likeArticle()">Like</button>
+        <button class="like-button" onclick="likeDislikeCounter(this)">Like</button>
         <span id="article-likes">0</span>
-        <button class="dislike-button" onclick="dislikeArticle()">Dislike</button>
+        <button class="dislike-button" onclick="likeDislikeCounter(this)">Dislike</button>
         <span id="article-dislikes">0</span>
       </div>
 
@@ -60,9 +99,9 @@
               <p>This is a great article!</p>
               <!-- LIKE/DISLIKE FOR COMMENT -->
               <div>
-                <button class="like-button" onclick="likeComment(this)">Like</button>
-                <span class="comment-likes">0</span>
-                <button class="dislike-button" onclick="dislikeComment(this)">Dislike</button>
+                <button class="like-button" onclick="likeDislikeCounter(this)">Like</button>
+                <span class="comment-likes" id="articleLike">0</span>
+                <button class="dislike-button" onclick="likeDislikeCounter(this)">Dislike</button>
                 <span class="comment-dislikes">0</span>
               </div>
             </article>
@@ -76,9 +115,9 @@
               <p>I disagree with the author's points.</p>
               <!-- LIKE/DISLIKE FOR COMMENT -->
               <div>
-                <button class="like-button" onclick="likeComment(this)">Like</button>
+                <button class="like-button" onclick="likeDislikeCounter(this)">Like</button>
                 <span class="comment-likes">0</span>
-                <button class="dislike-button" onclick="dislikeComment(this)">Dislike</button>
+                <button class="dislike-button" onclick="likeDislikeCounter(this)">Dislike</button>
                 <span class="comment-dislikes">0</span>
               </div>
             </article>
