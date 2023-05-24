@@ -4,6 +4,7 @@
     //include './Database.php';
     include './user.php';
     include 'ArticleClass.php';
+    include 'comment.php';
     $article = new Article();
     $id = urldecode($_GET['id']);
     
@@ -11,6 +12,22 @@
     $text = $thisArticle->getArticleText();
     $title = $thisArticle->getHeadLine();
     
+    
+    if($_SERVER['REQUEST_METHOD'] == 'POST')
+    {
+        $comment = new Comment();
+        $comment->setArticleID($id);
+        $comment->setCommentDate(date("Y-m-d"));
+        $comment->setCommentText($_POST['review']);
+        $comment->setUserID($_SESSION['UserID']);
+        $comment->insertComment();
+        
+    }
+    if($_SESSION['UserID'] == null)
+    {
+        $hide = 'style="display:none;"';
+        
+    }
 ?>
 <html>
     
@@ -63,7 +80,7 @@
   <main>
     <header class="article-header">
       <h2><?php echo $title; ?></h2>
-      <p class="meta">Published on May 1, 2023 by John Doe</p>
+      <p class="meta"><?php echo $thisArticle->PublishDate;?> by <?php echo $thisArticle->getArticleCreator();?></p>
     </header>
     <div class="wrapper">
       <article>
@@ -78,11 +95,11 @@
 
 
       <!-- LIKE/DISLIKE FOR ARTICLE -->
-      <div>
+      <div <?php echo $hide;?>>
         <button class="like-button" onclick="likeDislikeCounter(this)">Like</button>
-        <span id="article-likes">0</span>
+        <span id="article-likes"><?php echo $thisArticle->NoLikes; ?></span>
         <button class="dislike-button" onclick="likeDislikeCounter(this)">Dislike</button>
-        <span id="article-dislikes">0</span>
+        <span id="article-dislikes"><?php echo $thisArticle->NoDislike; ?></span>
       </div>
 
 
@@ -90,47 +107,37 @@
       <section>
         <h3>Comments</h3>
         <ul class="comment-list" style="list-style-type: none;">
-          <li>
-            <article class="comment">
-              <header>
-                <h4>User123</h4>
-                <time datetime="2023-05-01T10:30:00">May 1, 2023 at 10:30am</time>
-              </header>
-              <p>This is a great article!</p>
-              <!-- LIKE/DISLIKE FOR COMMENT -->
-              <div>
-                <button class="like-button" onclick="likeDislikeCounter(this)">Like</button>
-                <span class="comment-likes" id="articleLike">0</span>
-                <button class="dislike-button" onclick="likeDislikeCounter(this)">Dislike</button>
-                <span class="comment-dislikes">0</span>
-              </div>
-            </article>
-          </li>
-          <li>
-            <article class="comment">
-              <header>
-                <h4>User456</h4>
-                <time datetime="2023-05-01T11:00:00">May 1, 2023 at 11:00am</time>
-              </header>
-              <p>I disagree with the author's points.</p>
-              <!-- LIKE/DISLIKE FOR COMMENT -->
-              <div>
-                <button class="like-button" onclick="likeDislikeCounter(this)">Like</button>
-                <span class="comment-likes">0</span>
-                <button class="dislike-button" onclick="likeDislikeCounter(this)">Dislike</button>
-                <span class="comment-dislikes">0</span>
-              </div>
-            </article>
-          </li>
+          <?php 
+            $comment = new Comment();
+            $comments = $comment->getAllComments($id);
+            foreach ($comments as $comm)
+            {
+                $commentCreator = $comm->getCommentCreator();
+                $date = $comm->getCommentDate();
+                $text = $comm->getCommentText();
+                
+                echo "<li>
+                        <article class=\"comment\">
+                            <header>
+                                <h4>$commentCreator</h4>
+                                <time datetime=\"2023-05-01T10:30:00\">$date</time>
+                            </header>
+                            <p>$text</p>
+                        </article>
+                      </li>";
+            }
+          ?>
         </ul>
 
         <!-- HIDE WITH PHP UNTIL USER LOGS IN -->
-        <h3>Leave a Review</h3>
-        <form>
-          <label for="review">Review:</label>
-          <textarea id="review" name="review" rows="4" cols="50" required></textarea>
-          <input type="submit" value="Submit">
-        </form>
+        <section <?php echo $hide;?>>
+            <h3>Leave a Review</h3>
+            <form method="POST">
+              <label for="review">Review:</label>
+              <textarea id="review" name="review" rows="4" cols="50" required></textarea>
+              <input type="submit" value="Submit">
+            </form>
+        </section>
       </section>
 
 

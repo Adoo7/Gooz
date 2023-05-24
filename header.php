@@ -1,6 +1,7 @@
 
 <?php
     
+    include 'Database.php';
     session_start();
 
     if (!isset($_SESSION['UserID'])) {
@@ -19,7 +20,6 @@
         $hidden = '';
     }
     
-    include 'Database.php';
     
     $db = Database::getInstance();
     $dbc = $db->connect();
