@@ -11,6 +11,7 @@ class Comment {
     private $CommentDate;
     private $ArticleID;
     private $UserID;
+    private $conn;
     
     public function __construct() {
         $this->CommentID = null;
@@ -59,8 +60,42 @@ class Comment {
     public function setUserID($UserID) {
         $this->UserID = $UserID;
     }
+    
+    function insertComment()
+    {
+        $db = Database::getInstance();
+        $db->connect();
+        $this->conn = $db->getDBCon();
+//    debugging line    echo 'test line 177<br>';
+        
+        // Create query
+        $query = "INSERT INTO Comment(CommentID, CommentText,".
+            "CommentDate, ArticleID, UserID)".
+            "VALUES (NULL, ?, NOW(), ?, ?)";
 
-function intWithCid($cid) {
+        // Prepare statement
+        try {
+        $stmt = $this->conn->prepare($query);
+            // Rest of the code
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+        // Bind data
+        $stmt->bind_param("sii", $this->CommentText, $this->ArticleID, $this->UserID);
+        
+        
+        // Execute query
+        if($stmt->execute()) {
+            return true;
+        }
+
+        // Print error if something goes wrong
+        printf("Error: %s.\n", $stmt->error);
+
+        return false;
+    }
+
+    function intWithCid($cid) {
         $db = Database::getInstance();
         $data = $db->singleFetch('SELECT * FROM Comment WHERE CommentID = ' . $cid);
         $this->initWith($data->CommentID, $data->CommentText, $data->CommentDate, $data->ArticleID, $data->UserID);
@@ -83,4 +118,47 @@ function intWithCid($cid) {
         $this->UserID = $userid;
     }
 
+    public function getAllComments($articleId) {
+        $db = Database::getInstance();
+        $dbc = $db->connect();
+        
+        $result = $db->querySQL("SELECT * FROM Comment WHERE ArticleID = $articleId");
+        foreach ($result as $row) {
+            $comment = new Comment();
+            $comment->setArticleID($row['ArticleID']);
+            $comment->setCommentDate($row['CommentDate']);
+            $comment->setCommentID($row['CommentID']);
+            $comment->setCommentText($row['CommentText']);
+            $comment->setUserID($row['UserID']);
+//            $article->setArticleID($row['ArticleID']);
+
+            $comments[] = $comment;
+
+            //Uncomment to find out what the query is returning
+            //var_dump($row);
+        }
+        
+        return $comments;
+    }
+    
+    public function getCommentCreator() 
+    {
+        $db = Database::getInstance();
+        $db->connect();
+        $this->conn = $db->getDBCon();
+        
+        if ($sql = $this->conn->prepare("SELECT User.UserName FROM Comment JOIN User ON Comment.UserID = User.UserID WHERE Comment.UserID = ?"))
+        {
+            $sql->bind_param("i", $this->UserID);
+            $sql->execute();
+            $sql->bind_result($userName);
+            $sql->fetch();
+            return $userName;
+        } 
+        else 
+        {
+            echo "Failed to prepare statement: " . $this->conn->error;
+            return false;
+        }   
+    }
 }

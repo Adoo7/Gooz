@@ -12,16 +12,32 @@ $db = Database::getInstance();
 $dbc = $db->connect();
 
 //determining if user is in dashboard or has clicked a category
-if(empty($categoryID)) {
-    //should be sorted by views OR likes
-    $result = $db->querySQL("SELECT * FROM Article");
+if(isset($_GET['id']) && isset($_GET['search'])){
+    $categoryID = urldecode($_GET['id']);
+    $searchQuery = urldecode($_GET['search']);
+    
+    $result = $db->querySQL("SELECT * FROM Article WHERE CategoryID = $categoryID AND (HeadLine LIKE '%$searchQuery%' OR ArticleText LIKE '%$searchQuery%')");
+}
+elseif (isset($_GET['search'])) {
+    // search query is present in URL, retrieve articles matching search query
+    $searchQuery = urldecode($_GET['search']);
+    $result = $db->querySQL("SELECT * FROM Article WHERE HeadLine LIKE '%$searchQuery%' OR ArticleText LIKE '%$searchQuery%'");
 } else {
-    $result = $db->querySQL("SELECT * FROM Article WHERE CategoryID = $categoryID");
+    
+    // no search query in URL, determine if user is in dashboard or has clicked a category
+    $categoryID = urldecode($_GET['id']);
+    if(empty($categoryID)) {
+        //should be sorted by views OR likes
+        $result = $db->querySQL("SELECT * FROM Article");
+
+    } else {
+        $result = $db->querySQL("SELECT * FROM Article WHERE CategoryID = $categoryID");
+    }
 }
 
 if ($result) {
     $rowCount = mysqli_num_rows($result);
-    if ($rowCount > 0) {
+    if ($rowCount > 0) {        
         // Process the results
     } else {
         echo "No results found.";
