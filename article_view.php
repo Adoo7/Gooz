@@ -12,11 +12,19 @@ $db = Database::getInstance();
 $dbc = $db->connect();
 
 //determining if user is in dashboard or has clicked a category
-if(empty($categoryID)) {
-    //should be sorted by views OR likes
-    $result = $db->querySQL("SELECT * FROM Article");
+if (isset($_GET['search'])) {
+    // search query is present in URL, retrieve articles matching search query
+    $searchQuery = urldecode($_GET['search']);
+    $result = $db->querySQL("SELECT * FROM Article WHERE HeadLine LIKE '%$searchQuery%' OR ArticleText LIKE '%$searchQuery%'");
 } else {
-    $result = $db->querySQL("SELECT * FROM Article WHERE CategoryID = $categoryID");
+    // no search query in URL, determine if user is in dashboard or has clicked a category
+    $categoryID = urldecode($_GET['id']);
+    if(empty($categoryID)) {
+        //should be sorted by views OR likes
+        $result = $db->querySQL("SELECT * FROM Article");
+    } else {
+        $result = $db->querySQL("SELECT * FROM Article WHERE CategoryID = $categoryID");
+    }
 }
 
 if ($result) {
@@ -31,24 +39,39 @@ if ($result) {
 }
 
 
-foreach ($result as $row) {
-    
-    $article = new Article();
-    $article->setArticleID($row['ArticleID']);
-    $article->setHeadLine($row['HeadLine']);
-    $article->setArticleText($row['ArticleText']);
-    $article->setPublishDate($row['PublishDate']);
-    $article->setPublished($row['Published']);
-    $article->setNoReaders($row['NoReaders']);
-    $article->setNoLikes($row['NoLikes']);
-    $article->setNoDislike($row['NoDislike']);
-    $article->setCategoryID($row['CategoryID']);
-    $article->setUserID($row['UserID']);
-    
-    $articles[] = $article;
-        
-    //Uncomment to find out what the query is returning
-    //var_dump($row);
+if (isset($_GET['search'])) {
+    // display search results
+    echo '<div class= "row row-cols-1 row-cols-sm-2 row-cols-md-3">';
+    foreach ($result as $row) {
+        $article = new Article();
+        $article->setArticleID($row['ArticleID']);
+        $article->setHeadLine($row['HeadLine']);
+        $article->setArticleText($row['ArticleText']);
+        $article->setPublishDate($row['PublishDate']);
+        $article->setPublished($row['Published']);
+        $article->setNoReaders($row['NoReaders']);
+        $article->setNoLikes($row['NoLikes']);
+        $article->setNoDislike($row['NoDislike']);
+        $article->setCategoryID($row['CategoryID']);
+        $article->setUserID($row['UserID']);   
+        echo '<div class="col">' .
+          '<h3>' . $article->getHeadLine() . '</h3>' .
+          '<p>' . $article->getArticleText() . '</p>' .
+          '<a href="article.php?id='. $article->getArticleID(). '">Read more</a>' .
+          '</div>'; 
+    }
+    echo '</div>';
+} else {
+    // display articles for category or all articles
+    echo '<div class= "row row-cols-1 row-cols-sm-2 row-cols-md-3">';
+    foreach ($articles as $article) {
+        echo '<div class="col">' .
+          '<h3>' . $article->getHeadLine() . '</h3>' .
+          '<p>' . $article->getArticleText() . '</p>' .
+                '<a href="article.php?id='. $article->getArticleID(). '">Read more</a>' .
+          '</div>'; 
+    }
+    echo '</div>';
 }
 
 ?>
