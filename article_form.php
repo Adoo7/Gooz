@@ -4,6 +4,28 @@ include 'header.php';
 //include './Database.php';
 include './user.php';
 include 'ArticleClass.php';
+
+
+$db = Database::getInstance();
+$dbc = $db->connect();
+
+$result = $db->querySQL('SELECT * FROM Category');
+
+$list = "";
+if ($result) {
+    $rowCount = mysqli_num_rows($result);
+    if ($rowCount > 0) {
+        foreach ($result as $row) {
+            //echo $row;
+            $list .= '<li><a class="dropdown-item text-light" href="index.php?id='.$row['CategoryID'].'">'.$row['CategoryName'].'</a></li>';
+        }
+    } else {
+        echo "No results found.";
+    }
+} else {
+    echo "Error executing query: " . mysqli_error($dbc);
+}
+
 // check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     

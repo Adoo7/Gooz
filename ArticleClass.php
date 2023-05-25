@@ -188,6 +188,27 @@ class Article {
         
         echo 'finsihed test<br>';
     }
+    public function getArticleCreator() 
+    {
+        
+        $db = Database::getInstance();
+        $db->connect();
+        $this->conn = $db->getDBCon();
+        
+        if ($sql = $this->conn->prepare("SELECT User.UserName FROM Article JOIN User ON Article.UserID = User.UserID WHERE Article.UserID = ?"))
+        {
+            $sql->bind_param("i", $this->UserID);
+            $sql->execute();
+            $sql->bind_result($userName);
+            $sql->fetch();
+            return $userName;
+        } 
+        else 
+        {
+            echo "Failed to prepare statement: " . $this->conn->error;
+            return false;
+        }   
+    }
     // Create article
     public function create() {
         $db = Database::getInstance();
@@ -205,7 +226,6 @@ class Article {
         // Prepare statement
         try {
         $stmt = $this->conn->prepare($query);
-        echo 'query prepped<br>';
             // Rest of the code
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -324,23 +344,29 @@ class Article {
 
     // Delete article
     public function delete() {
+        
+        $db = Database::getInstance();
+        $db->connect();
+        $this->conn = $db->getDBCon();
         // Create query
-        $query = 'DELETE FROM ' . $this->table . ' WHERE ArticleID = :ArticleID';
-
-        // Prepare statement
-        $stmt = $this->conn->prepare($query);
-
-                // Clean data
-        $this->ArticleID = htmlspecialchars(strip_tags($this->ArticleID));
+        $query = 'DELETE FROM Article WHERE ArticleID = ?';
+//         Prepare statement
+        try
+        {
+            $stmt = $this->conn->prepare($query);
+        }
+        catch(PDOException $e)
+        {
+            echo "Error: ".$e->getMessage();
+        }
 
         // Bind data
-        $stmt->bindParam(':ArticleID', $this->ArticleID);
-
+        $stmt->bind_param('i', $this->ArticleID);
         // Execute query
         if($stmt->execute()) {
             return true;
+            
         }
-
         // Print error if something goes wrong
         printf("Error: %s.\n", $stmt->error);
 
