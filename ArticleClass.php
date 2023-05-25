@@ -188,6 +188,7 @@ class Article {
         
         echo 'finsihed test<br>';
     }
+
     // Create article
     public function create() {
         $db = Database::getInstance();

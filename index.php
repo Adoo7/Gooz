@@ -13,9 +13,7 @@ echo $_SESSION['UserID'];
 <body>
 
   <!-- Footer section -->
-  <footer>
-    <p>&copy; 2023 IT Newsletter. All Rights Reserved.</p> 
-  </footer>
+  <?php include "footer.php" ?>
 </body>
  
 </html> 
