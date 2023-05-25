@@ -73,7 +73,7 @@
                 </ul>
                 </li>
                 <li class="nav-item px-1">
-                <a class="nav-link active text-white fw-bold fst-italic" href="index.php">LATEST IT NEWS</a>
+                <a class="nav-link active text-white fw-bold fst-italic" href="index.php?id=1">LATEST TECH NEWS</a>
                 </li>
             </ul>
             <form class="d-flex my-0" role="search">
@@ -83,22 +83,5 @@
             </div>
         </div>
     </nav>'
-    /*
-        <li><a href="dashboard.php">Dashboard</a></li>
-        
-        <li>
-          <form class="search-form">
-            <label for="search">Search:</label>
-            <br>
-            <input type="text" id="search" name="search">
-            <button type="submit">Search</button>
-          </form>
-        </li>
-        
-        <li>' . $loginLink . '</li>
-
-        </ul>
-    </nav>
-</header>';*/
 
 ?>
