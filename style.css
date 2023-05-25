@@ -12,11 +12,11 @@ body {
     font-family: "Times New Roman",  serif;
 }
 
-a.nav-link {
+a.zoom {
     transition: all .1s ease-in-out;
 }
 
-a.nav-link:hover {
+a.zoom:hover {
     transform: scale(1.2,1.2);
 }
 

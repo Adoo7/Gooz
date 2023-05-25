@@ -41,18 +41,73 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
-	<div class="login-container">
-		<h1>Login</h1>
-		<form action="" method="post">
-			<label for="username">Username:</label>
-			<input type="text" name="username" id="username" required>
-			<label for="password">Password:</label>
-			<input type="password" name="password" id="password" required>
-			<input type="submit" value="Login">
-		</form>
+    
+    <ul class="mt-4 nav nav-tabs justify-content-center" id="navtabs">
+        <li class="nav-item">
+            <a class="nav-link active" id="login-tab" data-bs-toggle="tab" href="#login-tab-pane">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="register-tab" data-bs-toggle="tab" href="#register-tab-pane">Register</a>
+        </li>
+    </ul>
+    
+    <div class="row tab-content justify-content-center">
+        <div class="tab-pane fade show active col-10 col-md-6" id="login-tab-pane">
+            <form action="login.php" method="post">
+
+                <!-- Name input -->
+                <div class="my-4">
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" />
+                </div>
+
+                <!-- Password input -->
+                <div class="mb-4">
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" />
+                </div>
+
+                <!-- Submit button -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-secondary btn-block mb-4">Sign in</button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="tab-pane fade col-10 col-md-6" id="register-tab-pane">
+            <form action="register.php" method="post">
+ 
+                <!-- Email input -->
+                <div class="my-4">
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" />
+                </div>
+
+                <!-- Password input -->
+                <div class="mb-4">
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" />
+                </div>
+
+                <!-- Email input -->
+                <div class="my-4">
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Email" />
+                </div>
                 
-	</div>
-    <a href="register.php">Don't have an account? Click to register</a>
+                <!<!-- Role Select input -->
+                <div class="row my-4 d-flex justify-content-around">
+
+                        <input type="radio" class="btn-check" name="role" id="viewer" value="1">
+                        <label class="btn btn-outline-secondary col-10 col-md-5 mb-2" for="viewer">Viewer</label>
+
+                        <input type="radio" class="btn-check" id="author" name="role" value="2">
+                        <label class="btn btn-outline-secondary col-10 col-md-5 mb-2" for="author">Author</label>
+
+                </div>
+
+                <!-- Submit button -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
+                </div>
+            </form>
+  </div>
+</div>
 </body>
 
 </html>

@@ -12,10 +12,10 @@
     }
     
     if ($_SESSION['UserID'] == null || $_SESSION['loggedin'] == false) {
-        $loginLink = '<a class="nav-link active text-light" href="login.php">Login</a>';
+        $loginLink = '<a class="nav-link active text-light zoom" href="login.php">Login</a>';
         $hidden = ' d-none';
     } else {
-        $loginLink = '<a class="nav-link active text-light" href="logout.php">Logout</a>';
+        $loginLink = '<a class="nav-link active text-light zoom" href="logout.php">Logout</a>';
         $hidden = '';
     }
     
@@ -62,10 +62,10 @@
                 '.$loginLink.'
                 </li>
                 <li class="nav-item px-1">
-                <a class="nav-link active text-light'.$hidden.'" href="dashboard.php">Dashboard</a>
+                <a class="nav-link active text-light zoom'.$hidden.'" href="dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item dropdown px-1">
-                <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown">
+                <a class="nav-link dropdown-toggle text-light zoom" href="#" role="button" data-bs-toggle="dropdown">
                     Topics
                 </a>
                 <ul data-bs-theme= "dark" class="dropdown-menu">
@@ -73,9 +73,9 @@
                 </ul>
                 </li>
                 <li class="nav-item px-1">
-                <a class="nav-link active text-white fw-bold fst-italic" href="index.php?id=1">LATEST TECH NEWS</a>
+                <a class="nav-link active text-white fw-bold fst-italic zoom" href="index.php?id=1">LATEST TECH NEWS</a>
                 </li>
-            </ul>';
+                </ul>';
     echo        '<form class="d-flex my-0" method="GET">';
     if (isset($_GET['id'])){
         $catID =  $_GET['id']; 
