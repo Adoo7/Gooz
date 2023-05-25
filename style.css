@@ -3,6 +3,11 @@
     src: url(fonts/OldLondon.ttf) format('truetype');
 }
 
+@font-face {
+    font-family: "playball";
+    src: url(fonts/playball.ttf) format('truetype');
+}
+
 body {
     font-family: "Times New Roman",  serif;
 }
@@ -18,4 +23,16 @@ a.nav-link:hover {
 a.navbar-brand {  
     font-family: "OldLondon", serif;
     font-weight: normal;
+}
+
+.oldLondon {
+    font-family: "OldLondon", serif;
+}
+
+.playball {
+    font-family: "playball", serif;
+}
+
+.bg-grey {
+    background-color: #2F2F2F;
 }

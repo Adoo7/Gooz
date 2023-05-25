@@ -1,37 +1,4 @@
-
-<head>
-    
-    <script>
-    function confirmDelete(userId) 
-    {
-        if (confirm("Are you sure you want to delete this user?")) 
-        {
-            window.location.href = "delete_user.php?id=" + userId;
-        }
-    }
-    function confirmDeleteArticle(articleId)
-    {
-        if(confirm("Are you sure you want to delete this article?"))
-        {
-            window.location.href = "delete_article.php?id=" + articleId;
-        }
-    }
-    function editArticle(articleId)
-    {
-        window.location.href = "article_edit.php?id=" + articleId;
-    }
-    function viewArticle(articleId)
-    {
-        window.location.href = "article.php?id=" + articleId;
-    }
-    function createArticle()
-    {
-        window.location.href = "article_form.php";
-    }
-    </script>
-</head>
-
-<button onclick="createArticle()" >Create New Article</button>
+<a href="article_form.php">create</a>
 
 <section class="latest-news">
     
@@ -45,9 +12,9 @@
         echo '<article class="news-article">' .
                 '<h3>' . $article->getHeadLine() . '</h3>' .
                 '<p>' . $article->getArticleText() . '</p>' .
-                '<button onclick="viewArticle('.$article->getArticleID().')">Read more</button>'. //show article page
-                '<button onclick="editArticle('.$article->getArticleID().')">Edit</button>'. //show article edit form
-                '<button onclick="confirmDeleteArticle('.$article->getArticleID().')">Delete</button>' . //show popup to confirm deletion
+                '<a href="article.php?id='.$article->getArticleID().'">Read more</a>' .
+                '<a href="article_edit.php?id='.$article->getArticleID().'">Edit</a>' . //show article edit form
+                '<a href="article.php?id='.$article->getArticleID().'">Delete</a>' . //show popup to confirm deletion
             '</article>';
     }
     ?>
@@ -66,8 +33,7 @@
         echo '<article class="news-article">' .
           '<h3>' . $article->getHeadLine() . '</h3>' .
           '<p>' . $article->getArticleText() . '</p>' .
-          '<button onclick="viewArticle('.$article->getArticleID().')">Read more</button>'. //show article page
-          '<button onclick="confirmDeleteArticle('.$article->getArticleID().')">Delete</button>'.
+          '<a href="article.php?id='.$article->getArticleID().'">Read more</a>' .
           '</article>';
     }
     ?>
@@ -124,14 +90,14 @@
 
         
         echo "<tr>
-        <td>$uid</td>
-        <td>$username</td>
-        <td>$password</td>
-        <td>$email</td>
-        <td>$roleid</td>
-        <td><a href=\"edit_user.php?id=$uid\"><button>edit</button></a></td>
-        <td><button onclick=\"confirmDelete($uid)\">delete</button></td>
-    </tr>";       
+                <td>$uid</td>
+                <td>$username</td>
+                <td>$password</td>
+                <td>$email</td>
+                <td>$roleid</td>
+                <td><a href="."edit_user.php?id=$uid"."><button>edit</button></a></td>
+                <td><a href="."delete_user.php?id=$uid"."><button>delete</button></a></td>
+            </tr>";            
     }
     ?>
         </tbody>
