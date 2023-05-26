@@ -293,4 +293,31 @@ class User {
         
     }
     
+    public function searchUsers($q){
+        
+        $db = Database::getInstance();
+        $dbc = $db->connect();
+        
+        $result = $db->querySQL("SELECT * FROM User WHERE UserName like '%".$q."%'");
+
+        foreach ($result as $row) {
+
+            //UserID, UserName, Password, Email, RoleID
+            $user = new User();
+            $user->setUid($row['UserID']);
+            $user->setUsername($row['UserName']);
+            $user->setPasswpord($row['Password']);
+            $user->setEmail($row['Email']);
+            $user->setRoleID($row['RoleID']);
+
+            $users[] = $user;
+            
+            //Uncomment to find out what the query is returning
+            //var_dump($row);
+        }
+        
+        return $users;
+        
+    }
+    
 }

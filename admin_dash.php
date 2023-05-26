@@ -27,6 +27,23 @@
     {
         window.location.href = "article_form.php";
     }
+    function showUsers(str)
+    {
+        //create the AJAX request object
+        xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.open("GET", "getUsers.php?q=" + str, true);
+        xmlhttp.send();
+   
+        //declare a function that is called when something happens to the request
+        xmlhttp.onreadystatechange = function()
+        {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+            {
+                document.getElementById("users-table").innerHTML = xmlhttp.responseText;
+            }
+        }
+    }
     </script>
 </head>
 
@@ -44,7 +61,7 @@
                 </ul>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="users-tab" data-bs-toggle="tab" href="#users-tab-pane">Users</a>
+                <a class="nav-link" id="users-tab" data-bs-toggle="tab" onclick="showUsers('')" href="#users-tab-pane">Users</a>
             </li>
         </ul>
         
@@ -89,62 +106,11 @@
 
             <div class="tab-pane fade show col-11" id="users-tab-pane">
                 <h2>Users</h2>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>User ID</th>
-                            <th>Username</th>
-                            <th>Password</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $user = new User();
-                        $users = $user->getAllUsers();
-    
-                        foreach ($users as $user) {
-        
-                            $uid = $user->getUid();
-                            $username = $user->getUsername();
-                            $password = $user->getPassword();
-                            $email = $user->getEmail();
-                            $roleid = $user->getRoleID();
-        
-                            switch ($roleid) {
-                                case 3:
-
-                                    $roleid = 'Admin';
-
-                                    break;
-                                case 2:
-                                    $roleid = 'Author';
-                                    break;
-                                // More cases can be added here
-                                case 1:
-                                    $roleid = 'Viewer';
-                                    break;
-                                default:
-                                    $roleid = 'undefined';
-                                    break;
-                            }
-
-        
-                            echo "<tr>
-                                    <td>$uid</td>
-                                    <td>$username</td>
-                                    <td>$password</td>
-                                    <td>$email</td>
-                                    <td>$roleid</td>
-                                    <td><a href=\"edit_user.php?id=$uid\"><button>edit</button></a></td>
-                                    <td><button onclick=\"confirmDelete($uid)\">delete</button></td>
-                                </tr>";            
-                        }
-                        ?>
-                    </tbody>
-                </table>
+                
+                <input type="text" name="Search" size="50" value="" onkeyup="showUsers(this.value)"/>
+                
+                <div id="users-table"></div>
+                
             </div>
         </div>
     </div>
