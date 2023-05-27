@@ -3,19 +3,42 @@
     src: url(fonts/OldLondon.ttf) format('truetype');
 }
 
+@font-face {
+    font-family: "playball";
+    src: url(fonts/playball.ttf) format('truetype');
+}
+
 body {
     font-family: "Times New Roman",  serif;
 }
 
-a.nav-link {
+a.zoom {
     transition: all .1s ease-in-out;
 }
 
-a.nav-link:hover {
+a.zoom:hover {
     transform: scale(1.2,1.2);
 }
 
 a.navbar-brand {  
     font-family: "OldLondon", serif;
     font-weight: normal;
+}
+
+.oldLondon {
+    font-family: "OldLondon", serif;
+}
+
+.playball {
+    font-family: "playball", serif;
+}
+
+.bg-grey {
+    background-color: #2F2F2F;
+}
+
+.article-text {
+    text-align: justify;
+    text-justify: inter-word;
+    font-size: 22px;
 }

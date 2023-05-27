@@ -49,7 +49,11 @@
 }
   </script>-->
   <script>
-      console.log("testefiuheiuo");
+      
+   $(document).ready(function(){
+        $("article:odd").addClass("bg-light");     
+    });
+      
   function likeDislikeCounter(button) {
     let isLike = button.classList.contains("like-button") ? 1 : 0;
     let likes = parseInt(button.nextElementSibling.innerHTML) + 1;
@@ -78,69 +82,88 @@
 
 <body>
   <main>
-    <header class="article-header">
-      <h2><?php echo $title; ?></h2>
-      <p class="meta"><?php echo $thisArticle->PublishDate;?> by <?php echo $thisArticle->getArticleCreator();?></p>
-    </header>
-    <div class="wrapper">
-      <article>
-
-        <div class="content">
-            <p><?php echo $text; ?></p>
-            <img src="https://via.placeholder.com/500x300" alt="Article Image"><br>
-<!--          <video src="https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_640_3MG.mp4"
-                 controls></video><! if there is a video run this line, otherwise keep hidden -->
-        </div>
-      </article>
-
-
+    <div class="row">
+        <header class="col-12 article-header text-center pt-5">
+            <h2 class="display-4"><?php echo $title; ?></h2>
+          <p class="meta"><?php echo $thisArticle->PublishDate;?> by <?php echo $thisArticle->getArticleCreator();?></p>
+        </header>
+        <article>   
+            <div class="row center">
+                <div class="col-1 padding"></div>
+                <div class="content col-10 center">
+                    <p class="article-text">
+                        <img class="img m-4 rounded float-end " src="https://via.placeholder.com/500x300" alt="Article Image">
+                        <?php echo $text; ?>
+                    </p>
+                    <br>
+        <!--          <video src="https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_640_3MG.mp4"
+                         controls></video><! if there is a video run this line, otherwise keep hidden -->
+                </div>
+                <div class="col-1 padding"></div>
+            </div>
+        </article>
+        
       <!-- LIKE/DISLIKE FOR ARTICLE -->
-      <div <?php echo $hide;?>>
-        <button class="like-button" onclick="likeDislikeCounter(this)">Like</button>
-        <span id="article-likes"><?php echo $thisArticle->NoLikes; ?></span>
-        <button class="dislike-button" onclick="likeDislikeCounter(this)">Dislike</button>
-        <span id="article-dislikes"><?php echo $thisArticle->NoDislike; ?></span>
+      <div class="row">
+        <div class="d-flex justify-content-end">
+            
+            <div class="col-2 d-flex justify-content-around pt-5" <?php echo $hide;?>>
+                <div>
+                    <button class="like-button" onclick="likeDislikeCounter(this)">Like</button>
+                    <span id="article-likes"><?php echo $thisArticle->NoLikes; ?></span>
+                </div>
+                <div>
+                    <button class="dislike-button" onclick="likeDislikeCounter(this)">Dislike</button>
+                    <span id="article-dislikes"><?php echo $thisArticle->NoDislike; ?></span>
+                </div>
+            </div>
+            <div class="col-1 padding"></div>
+        </div>
+          
+          <hr class="mt-4">
+          
+        <!-- COMMENT SECTION AND LEAVING REVIEWS -->
+        <div class="row col-12">
+            
+            <h3 class="text-center p-2">Comment section</h3>
+            <div class="col-2 padding"></div>
+            <ul class="comment-list col-8" style="list-style-type: none;">
+              <?php 
+                $comment = new Comment();
+                $comments = $comment->getAllComments($id);
+                foreach ($comments as $comm)
+                {
+                    $commentCreator = $comm->getCommentCreator();
+                    $date = $comm->getCommentDate();
+                    $text = $comm->getCommentText();
+
+                    echo "<li>
+                            <article class=\"comment rounded border-bottom mb-4\">
+                                <header>
+                                    <div class=\"d-flex pt-2 pb-2 col-4 justify-content-around align-items-center\">
+                                        <h5 class=\"text-center mr-auto col-2 fw-bold\">$commentCreator</h4>
+                                        <time class=\"\" datetime=\"$date\">$date</time>
+                                    </div>
+                                </header>
+                                <p class=\"p-3\">$text</p>
+                            </article>
+                          </li>";
+                }
+              ?>
+            </ul>
+            <div class="col-2 padding"></div>
+
+            <!-- HIDE WITH PHP UNTIL USER LOGS IN -->
+            <div <?php echo $hide;?>>
+                <form class="d-flex justify-content-center gap-5 align-items-center bg-light py-4" method="POST">
+                    <h3>Leave a Review</h3>
+                    <textarea class="form-control w-50 col-1" id="review" name="review" rows="4" cols="50" required></textarea>
+                    <input class="btn btn-light btn-lg" type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
       </div>
-
-
-      <!-- COMMENT SECTION AND LEAVING REVIEWS -->
-      <section>
-        <h3>Comments</h3>
-        <ul class="comment-list" style="list-style-type: none;">
-          <?php 
-            $comment = new Comment();
-            $comments = $comment->getAllComments($id);
-            foreach ($comments as $comm)
-            {
-                $commentCreator = $comm->getCommentCreator();
-                $date = $comm->getCommentDate();
-                $text = $comm->getCommentText();
-                
-                echo "<li>
-                        <article class=\"comment\">
-                            <header>
-                                <h4>$commentCreator</h4>
-                                <time datetime=\"2023-05-01T10:30:00\">$date</time>
-                            </header>
-                            <p>$text</p>
-                        </article>
-                      </li>";
-            }
-          ?>
-        </ul>
-
-        <!-- HIDE WITH PHP UNTIL USER LOGS IN -->
-        <section <?php echo $hide;?>>
-            <h3>Leave a Review</h3>
-            <form method="POST">
-              <label for="review">Review:</label>
-              <textarea id="review" name="review" rows="4" cols="50" required></textarea>
-              <input type="submit" value="Submit">
-            </form>
-        </section>
-      </section>
-
-
+    </div>
   </main>
 </body>
 

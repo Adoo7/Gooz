@@ -60,6 +60,7 @@ class Comment {
     public function setUserID($UserID) {
         $this->UserID = $UserID;
     }
+    
     function insertComment()
     {
         $db = Database::getInstance();
@@ -93,6 +94,7 @@ class Comment {
 
         return false;
     }
+
     function intWithCid($cid) {
         $db = Database::getInstance();
         $data = $db->singleFetch('SELECT * FROM Comment WHERE CommentID = ' . $cid);
@@ -115,6 +117,7 @@ class Comment {
         $this->ArticleID = $articleid;
         $this->UserID = $userid;
     }
+
     public function getAllComments($articleId) {
         $db = Database::getInstance();
         $dbc = $db->connect();
@@ -137,6 +140,7 @@ class Comment {
         
         return $comments;
     }
+    
     public function getCommentCreator() 
     {
         $db = Database::getInstance();

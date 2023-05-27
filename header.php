@@ -2,7 +2,7 @@
 <?php
     
     session_start();
-
+    
     if (!isset($_SESSION['UserID'])) {
         $_SESSION['UserID'] = null;
     }
@@ -12,10 +12,10 @@
     }
     
     if ($_SESSION['UserID'] == null || $_SESSION['loggedin'] == false) {
-        $loginLink = '<a class="nav-link active text-light" href="login.php">Login</a>';
+        $loginLink = '<a class="nav-link active text-light zoom" href="login.php">Login</a>';
         $hidden = ' d-none';
     } else {
-        $loginLink = '<a class="nav-link active text-light" href="logout.php">Logout</a>';
+        $loginLink = '<a class="nav-link active text-light zoom" href="logout.php">Logout</a>';
         $hidden = '';
     }
     
@@ -44,7 +44,7 @@
     echo '
     <head>
         <meta charset="utf-8">
-        <title>IT Newsletter</title>
+        <title>Gooz News</title>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="style.css">
@@ -62,10 +62,10 @@
                 '.$loginLink.'
                 </li>
                 <li class="nav-item px-1">
-                <a class="nav-link active text-light'.$hidden.'" href="dashboard.php">Dashboard</a>
+                <a class="nav-link active text-light zoom'.$hidden.'" href="dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item dropdown px-1">
-                <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown">
+                <a class="nav-link dropdown-toggle text-light zoom" href="#" role="button" data-bs-toggle="dropdown">
                     Topics
                 </a>
                 <ul data-bs-theme= "dark" class="dropdown-menu">
@@ -73,32 +73,20 @@
                 </ul>
                 </li>
                 <li class="nav-item px-1">
-                <a class="nav-link active text-white fw-bold fst-italic" href="index.php">LATEST IT NEWS</a>
+                <a class="nav-link active text-white fw-bold fst-italic zoom" href="index.php?id=1">LATEST TECH NEWS</a>
                 </li>
-            </ul>
-            <form class="d-flex my-0" role="search">
-                <input class="form-control me-2" type="search" id="search" name="search" placeholder="Search">
+                </ul>';
+    echo        '<form class="d-flex my-0" method="GET">';
+    if (isset($_GET['id'])){
+        $catID =  $_GET['id']; 
+        echo   '<input type="hidden" name="id" value="'.$catID.'">';
+    }
+    echo       '<input class="form-control me-2" type="search" id="search" name="search" placeholder="Search">
                 <button class="btn btn-light" type="submit">Search</button>
-            </form>
+            </form>';
+    echo'        
             </div>
         </div>
-    </nav>'
-    /*
-        <li><a href="dashboard.php">Dashboard</a></li>
-        
-        <li>
-          <form class="search-form">
-            <label for="search">Search:</label>
-            <br>
-            <input type="text" id="search" name="search">
-            <button type="submit">Search</button>
-          </form>
-        </li>
-        
-        <li>' . $loginLink . '</li>
-
-        </ul>
-    </nav>
-</header>';*/
+    </nav>';
 
 ?>

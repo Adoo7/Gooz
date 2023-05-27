@@ -2,7 +2,7 @@
 
 include 'header.php';
 include 'article_view.php';
- 
+
 ?>
 
 <html>
@@ -10,9 +10,7 @@ include 'article_view.php';
 <body>
 
   <!-- Footer section -->
-  <footer>
-    <p>&copy; 2023 IT Newsletter. All Rights Reserved.</p> 
-  </footer>
+  <?php include "footer.php" ?>
 </body>
  
 </html> 

@@ -24,37 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     if($user->registerUser()) {
-        header("Location: login.php");
+        header("Location: index.php");
     }
     
 }
 ?>
-
-<html>
-
-<head>
-	<title>Register Page</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
-</head>
-
-<body>
-	<div class="login-container">
-		<h1>Register</h1>
-		<form action="" method="post">
-			<label for="username">Username:</label>
-			<input type="text" name="username" id="username" required>
-			<label for="password">Password:</label>
-			<input type="password" name="password" id="password" required>
-                        <label>    
-                        <input type="radio" name="role" value="1">Viewer</label>
-                        <label>
-                        <input type="radio" name="role" value="2">Author</label>
-                        <label for="email">Email:</label>
-			<input type="email" name="email" id="email" required>
-			<input type="submit" value="Create account">
-
-		</form>
-	</div>
-</body>
-
-</html>
