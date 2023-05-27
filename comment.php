@@ -95,6 +95,45 @@ class Comment {
         return false;
     }
 
+    public function delete($id) {
+        
+        $this->setCommentText('Comment removed by admin.');
+        
+        $db = Database::getInstance();
+        $db->connect();
+        $this->conn = $db->getDBCon();
+//    debugging line    echo 'test line 177<br>';
+        // Create query
+        $query = "UPDATE Comment SET CommentText = 'Comment removed by admin.',".
+            " CommentDate = NOW() WHERE CommentID = ?";
+
+        // Prepare statement
+        try {
+        $stmt = $this->conn->prepare($query);
+            // Rest of the code
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+//        echo 'test line 189<br>';
+//        echo 'test line 211<br>';
+        // Bind data
+        $stmt->bind_param("i", $id);
+        
+        
+        // Execute query
+        if($stmt->execute()) { 
+            echo $this->CommentText;
+            return true;
+        } else {
+            echo 'error: ' . $stmt->error_list . '<br>';
+            return false;
+        }
+        // Print error if something goes wrong
+        printf("Error: %s.\n", $stmt->error);
+
+        return false;
+    }
+    
     function intWithCid($cid) {
         $db = Database::getInstance();
         $data = $db->singleFetch('SELECT * FROM Comment WHERE CommentID = ' . $cid);

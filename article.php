@@ -76,6 +76,26 @@
       }
     });
   }
+  
+  function deleteComment(id) {
+  
+        if (confirm("Are you sure you want to delete this comment?")) 
+        {
+            xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.open("GET", "AJAXPHP/deleteComment.php?id=" + id, true);
+            xmlhttp.send();
+            
+            xmlhttp.onreadystatechange = function()
+            {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                {
+                    document.getElementById("comment-" + id).innerHTML = xmlhttp.responseText;
+                }
+            }
+        }
+    }
+  
 </script>
       
 </head>
@@ -136,6 +156,7 @@
                     $commentCreator = $comm->getCommentCreator();
                     $date = $comm->getCommentDate();
                     $text = $comm->getCommentText();
+                    $commID = $comm->getCommentID();
 
                     echo "<li>
                             <article class=\"comment rounded border-bottom mb-4\">
@@ -145,7 +166,10 @@
                                         <time class=\"\" datetime=\"$date\">$date</time>
                                     </div>
                                 </header>
-                                <p class=\"p-3\">$text</p>
+                                <div class=\"d-flex py-2 justify-content-between align-items-center\">
+                                    <p id=\"comment-$commID\" class=\"p-3\">$text</p>
+                                    <button class=\"col-1 btn btn-danger m-3\" onclick=\"deleteComment($commID)\">Delete</button>
+                                </div>
                             </article>
                           </li>";
                 }
