@@ -28,10 +28,10 @@ elseif (isset($_GET['search'])) {
     $categoryID = urldecode($_GET['id']);
     if(empty($categoryID)) {
         //should be sorted by views OR likes
-        $result = $db->querySQL("SELECT * FROM Article");
+        $result = $db->querySQL("SELECT * FROM Article ORDER BY NoReaders DESC");
 
     } else {
-        $result = $db->querySQL("SELECT * FROM Article WHERE CategoryID = $categoryID");
+        $result = $db->querySQL("SELECT * FROM Article WHERE CategoryID = $categoryID ORDER BY NoReaders DESC");
     }
 }
 
