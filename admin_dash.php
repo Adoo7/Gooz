@@ -1,11 +1,23 @@
 <head>
     
     <script>
-    function confirmDelete(userId) 
+    function confirmDelete(userID) 
     {
         if (confirm("Are you sure you want to delete this user?")) 
         {
-            window.location.href = "delete_user.php?id=" + userId;
+            xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.open("GET", "AJAXPHP/deleteUser.php?id=" + userID, true);
+            xmlhttp.send();
+            
+            xmlhttp.onreadystatechange = function()
+            {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                {
+                    document.getElementById("controls").innerHTML = xmlhttp.responseText;
+                    showUsers('');
+                }
+            }
         }
     }
     function confirmDeleteArticle(articleId)
@@ -77,10 +89,9 @@
         else if(document.getElementById('admin').checked == true) {   
             r = 3;
         }
-        
-        //window.alert(id + username + password + email + r);
+
         //create the AJAX request object
-        //xmlhttp = new XMLHttpRequest();
+        xmlhttp = new XMLHttpRequest();
 
         xmlhttp.open("GET", "AJAXPHP/updateUser.php?id=" + id + "&name=" + username + "&pass=" + password +"&email=" + email + "&roleid=" + r, true);
         xmlhttp.send();
