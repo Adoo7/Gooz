@@ -63,14 +63,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     $articleImage = $_FILES['articleImage'];
     $articleVideo = $_FILES['articleVideo'];
+    $targetDir = "uploads/";
+
     
-    // Image file validation
+    echo 'everything set <br>';
+    
+    if ($article->create()) {
+        echo 'atricle added';
+        $file = new Files();
+        $file->getNewArticleID();
+            // Image file validation
     if (isset($articleImage) && $articleImage['error'] === UPLOAD_ERR_OK) {
         $imageFileType = strtolower(pathinfo($articleImage['name'], PATHINFO_EXTENSION));
         $allowedImageTypes = array('jpg', 'jpeg', 'png', 'gif');
         
+        
         if (in_array($imageFileType, $allowedImageTypes)) {
+            
             $article->setImage($articleImage);
+            
+            $fileName = basename($_FILES["articleImage"]["name"]);
+            $file->setFileName($fileName);
+            $targetFilePath = $targetDir . $fileName;
+            $file->setFlocation($targetFilePath);
+            $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
+            $file->setFileType($fileType);
+            
+             if(move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)){
+            // Insert image file name into database
+                if($file->addFile()){
+                    echo 'video uploaded';
+                }else{
+                    echo 'video failed';
+                }
+             }
+            
         } else {
             // Invalid image file type
             // Handle the error or display a message to the user
@@ -85,17 +112,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         if (in_array($videoFileType, $allowedVideoTypes)) {
             $article->setVideo($articleVideo);
+            
+            
+            $fileName = basename($_FILES["articleVideo"]["name"]);
+            $file->setFileName($fileName);
+            $targetFilePath = $targetDir . $fileName;
+            $file->setFlocation($targetFilePath);
+            $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
+            $file->setFileType($fileType);
+            
+             if(move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)){
+            // Insert image file name into database
+                if($file->addFile()){
+                    echo 'video uploaded';
+                }else{
+                    echo 'video failed';
+                }
+             }
         } else {
             // Invalid video file type
             // Handle the error or display a message to the user
             echo 'invalid video file type';
         }
     }
-    
-    echo 'everything set <br>';
-    
-    if ($article->create()) {
-        echo 'added';
         header("Location: dashboard.php");
     } else {
         echo 'something went wrong';

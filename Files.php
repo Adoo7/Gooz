@@ -120,5 +120,13 @@ class Files {
         $data = $db->multiFetch('Select * from files where ArticleID=' . $this->ArticleID);
         return $data;
     }
-
+        public function getNewArticleID() {
+        
+        $query = "SELECT articleID FROM `Article` ORDER by ArticleID DESC LIMIT 1";
+        
+        $db = Database::getInstance();
+        $dbc = $db->connect();
+        $result = $db->querySQL($query);
+        $this->ArticleID = $result;
+    }
 }

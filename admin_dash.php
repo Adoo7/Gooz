@@ -101,7 +101,7 @@
     </script>
 </head>
 
-<!--<button onclick="createArticle()" >Create New Article</button>-->
+<button onclick="createArticle()" >Create New Article</button>
 <div class="container-fluid">
 <!-- data tabs -->
 <div class="row d-flex justify-content-center">
