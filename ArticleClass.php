@@ -247,20 +247,18 @@ class Article {
         return false;
     }
     
-    public function edit() {
+    public function increasePageCount() {
         $db = Database::getInstance();
         $db->connect();
         $this->conn = $db->getDBCon();
 //    debugging line    echo 'test line 177<br>';
         // Create query
-        $query = "UPDATE Article SET HeadLine = ?,".
-            " ArticleText = ?, PublishDate = NOW(), Published = ?,".
-            " CategoryID = ? WHERE ArticleID = ?";
+        $query = "UPDATE Article SET NoReaders = ?".
+            " WHERE ArticleID = ?";
 
         // Prepare statement
         try {
         $stmt = $this->conn->prepare($query);
-        echo 'query prepped<br>';
             // Rest of the code
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -268,19 +266,16 @@ class Article {
 //        echo 'test line 189<br>';
 //        echo 'test line 211<br>';
         // Bind data
-        $stmt->bind_param("ssiii", $this->HeadLine, $this->ArticleText, $this->Published, $this->CategoryID, $this->ArticleID);
+        $stmt->bind_param("ii", $_SESSION['pageCounter'], $this->ArticleID);
         
-        echo 'test line 205<br>';
         
         // Execute query
         if($stmt->execute()) {
             return true;
         } else {
-            echo 'test line 400<br>';
             echo 'error: ' . $stmt->error_list . '<br>';
             return false;
         }
-        echo 'test line 206<br>';
         // Print error if something goes wrong
         printf("Error: %s.\n", $stmt->error);
 

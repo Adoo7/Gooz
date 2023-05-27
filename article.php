@@ -28,6 +28,10 @@
         $hide = 'style="display:none;"';
         
     }
+    
+    $_SESSION['pageCounter'] = $thisArticle->getNoReaders();
+    $_SESSION['pageCounter']++;
+    $thisArticle->increasePageCount();
 ?>
 <html>
     
@@ -86,6 +90,7 @@
         <header class="col-12 article-header text-center pt-5">
             <h2 class="display-4"><?php echo $title; ?></h2>
           <p class="meta"><?php echo $thisArticle->PublishDate;?> by <?php echo $thisArticle->getArticleCreator();?></p>
+          <p class="meta">View count: <?php echo $thisArticle->getNoReaders();?></p>
         </header>
         <article>   
             <div class="row center">
