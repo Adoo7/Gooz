@@ -66,7 +66,7 @@ class User {
         return $this->Email;
     }
     
-    function intWithUid($uid) {
+    function initWithUid($uid) {
         $db = Database::getInstance();
         $data = $db->singleFetch('SELECT * FROM User WHERE UserID = ' . $uid);
         $this->initWith($data->UserID, $data->UserName, $data->Password, $data->Email, $data->RoleID);
@@ -74,7 +74,7 @@ class User {
         
     }
     
-    function intWithUidtoEdit($uid) {
+    function initWithUidtoEdit($uid) {
         $db = Database::getInstance();
         $data = $db->singleFetch('SELECT * FROM User WHERE UserID = ' . $uid);
 //        echo 'fetched user with username ' . $this->Username; //DEBUGGING STATEMENT
@@ -173,7 +173,7 @@ class User {
             echo 'empty username';
         }
         else {
-            if (!$this->intWithUidtoEdit($uid)) {
+            if (!$this->initWithUidtoEdit($uid)) {
                 $errors = false;
                 echo 'init failed + ';
             }
@@ -298,7 +298,7 @@ class User {
         $db = Database::getInstance();
         $dbc = $db->connect();
         
-        $result = $db->querySQL("SELECT * FROM User WHERE UserName like '%".$q."%'");
+        $result = $db->querySQL("SELECT * FROM User WHERE UserName LIKE '%".$q."%' OR UserID LIKE '%".$q."&'");
 
         foreach ($result as $row) {
 

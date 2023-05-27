@@ -7,7 +7,7 @@ include './user.php';
 $uid = urldecode($_GET['id']);
 
 $user = new User();
-$user->intWithUid($uid);
+$user->initWithUid($uid);
 
 $user->deleteUser();
 

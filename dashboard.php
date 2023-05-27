@@ -11,7 +11,7 @@ include 'user.php';
 include 'ArticleClass.php';
 
 $user = new User();
-$user->intWithUid($_SESSION['UserID']);
+$user->initWithUid($_SESSION['UserID']);
 
 if($_SESSION['RoleID'] == 3) { //if user is admin show admin dashboard
     

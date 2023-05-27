@@ -27,12 +27,13 @@
     {
         window.location.href = "article_form.php";
     }
+    
     function showUsers(str)
     {
         //create the AJAX request object
         xmlhttp = new XMLHttpRequest();
 
-        xmlhttp.open("GET", "getUsers.php?q=" + str, true);
+        xmlhttp.open("GET", "AJAXPHP/getUsers.php?q=" + str, true);
         xmlhttp.send();
    
         //declare a function that is called when something happens to the request
@@ -44,6 +45,57 @@
             }
         }
     }
+    
+    function showUserControls(id)
+    {
+        //create the AJAX request object
+        xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.open("GET", "AJAXPHP/getUserControls.php?id=" + id, true);
+        xmlhttp.send();
+   
+        //declare a function that is called when something happens to the request
+        xmlhttp.onreadystatechange = function()
+        {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+            {
+                document.getElementById("controls").innerHTML = xmlhttp.responseText;
+            }
+        }
+    }
+    
+    function updateUser(id, username, password, email)
+    {
+        var r = 0;
+        
+        if(document.getElementById('viewer').checked == true) {   
+            r = 1;
+        } 
+        else if(document.getElementById('author').checked == true) {   
+            r = 2;
+        } 
+        else if(document.getElementById('admin').checked == true) {   
+            r = 3;
+        }
+        
+        //window.alert(id + username + password + email + r);
+        //create the AJAX request object
+        //xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.open("GET", "AJAXPHP/updateUser.php?id=" + id + "&name=" + username + "&pass=" + password +"&email=" + email + "&roleid=" + r, true);
+        xmlhttp.send();
+   
+        //declare a function that is called when something happens to the request
+        xmlhttp.onreadystatechange = function()
+        {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+            {
+                window.alert(xmlhttp.responseText);
+            }
+        }
+        
+        showUsers('');
+    }
     </script>
 </head>
 
@@ -54,7 +106,7 @@
     <div class ="col-12 col-lg-4 p-1 border border-top-0 rounded-bottom">
         <ul class="mt-2 nav nav-tabs nav-justified" id="navtabs">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Articles</a>
+                <a class="nav-link dropdown-toggle active" data-bs-toggle="dropdown" href="#">Articles</a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item active" id="unpublished-articles-tab" data-bs-toggle="tab" href="#unpublished-article-tab-pane">unpublished articles</a></li>
                     <li><a class="dropdown-item" id="published-article-tab" data-bs-toggle="tab" href="#published-article-tab-pane">published articles</a></li>
@@ -116,7 +168,6 @@
     </div>
     
     <!-- controls -->
-    <div class ="col-11 col-md-8">
-    </div>
+    <div class ="col-11 col-md-8" id="controls"></div>
 </div>
 </div>
