@@ -4,15 +4,16 @@ include '../Database.php';
 include '../ArticleClass.php';
 
 $q = urldecode($_GET['q']);
+$pub = urldecode($_GET['pub']);
 
 $db = Database::getInstance();
 $dbc = $db->connect();
 
 //determining if user is in dashboard or has clicked a category
 if($q == '') {
-    $result = $db->querySQL("SELECT * FROM Article");
-} else {
-    $result = $db->querySQL("SELECT * FROM Article WHERE HeadLine LIKE '%$q%' OR ArticleText LIKE '%$q%'");
+    $result = $db->querySQL("SELECT * FROM Article WHERE Published = $pub");
+} else {//Make this work with author, will need to do complex query
+    $result = $db->querySQL("SELECT * FROM Article WHERE (HeadLine LIKE '%$q%' OR ArticleText LIKE '%$q%') AND Published = $pub"); 
 }
 if ($result) {
     $rowCount = mysqli_num_rows($result);

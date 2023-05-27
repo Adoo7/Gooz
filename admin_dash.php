@@ -3,7 +3,7 @@
     <script>
         
         window.onload = function() {
-            showArticles("");
+            showArticles("", 0);
         }
         
     function confirmDelete(userID) 
@@ -60,12 +60,12 @@
         }
     }
     
-    function showArticles(str)
+    function showArticles(str, pub)
     {
         //create the AJAX request object
         xmlhttp = new XMLHttpRequest();
 
-        xmlhttp.open("GET", "AJAXPHP/getArticles.php?q=" + str, true);
+        xmlhttp.open("GET", "AJAXPHP/getArticles.php?q=" + str + "&pub=" + pub, true);
         xmlhttp.send();
         
         //declare a function that is called when something happens to the request
@@ -73,7 +73,11 @@
         {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
             {
-                document.getElementById("unpublished-article-table").innerHTML = xmlhttp.responseText;
+                if (pub == 0) {
+                    document.getElementById("unpublished-article-table").innerHTML = xmlhttp.responseText;
+                } else {
+                    document.getElementById("published-article-table").innerHTML = xmlhttp.responseText;
+                }
             } else {
 //                window.alert("error");
             }
@@ -174,8 +178,8 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle active" data-bs-toggle="dropdown" href="#">Articles</a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item active" id="unpublished-articles-tab" onclick="showArticles('')" data-bs-toggle="tab" href="#unpublished-article-tab-pane">unpublished articles</a></li>
-                    <li><a class="dropdown-item" id="published-article-tab" data-bs-toggle="tab" onclick="showArticles('')" href="#published-article-tab-pane">published articles</a></li>
+                    <li><a class="dropdown-item active" id="unpublished-articles-tab" onclick="showArticles('', 0)" data-bs-toggle="tab" href="#unpublished-article-tab-pane">unpublished articles</a></li>
+                    <li><a class="dropdown-item" id="published-article-tab" data-bs-toggle="tab" onclick="showArticles('', 1)" href="#published-article-tab-pane">published articles</a></li>
                 </ul>
             </li>
             <li class="nav-item">
@@ -186,37 +190,14 @@
         <div class="tab-content">
             <div class="tab-pane fade show active col-12" id="unpublished-article-tab-pane">
                 <h2 class="text-center border-bottom py-4">All Unpublished Articles</h2>
-                <input type="text" class="w-100" name="Search" placeholder="Title or Author" onkeyup="showArticles(this.value)"/>
-                <div id="unpublished-article-table">
-                    
-                </div>
+                <input type="text" class="w-100" name="Search" placeholder="Title or Author" onkeyup="showArticles(this.value, 0)"/>
+                <div id="unpublished-article-table"></div>
             </div>
         
             <div class="tab-pane fade show col-12" id="published-article-tab-pane">
                 <h2 class="text-center border-bottom py-4">All Published Articles</h2>
-                <input type="text" class="w-100" name="Search" placeholder="Title or Author" onkeyup="showUsers(this.value)"/> <!--TODO: Add functionality - search for published articles-->
-
-                <?php
-                $publishedArticle = new Article();
-                $publishedArticles = $publishedArticle->getAllPublishedArticles();
-
-                echo '<table class="table col-4 table-hover">'
-                . '<tbody>';
-                
-                foreach ($publishedArticles as $article) {
-                    echo '<tr onclick="showArticleControls('.$article->getArticleID().');">' .
-                            '<td>'.
-                            '<div class="d-flex flex-column mb-4">'.
-                            '<h4 class="text-center">' . $article->getHeadLine() . '</h4>' .
-                            '<p class="dashboard-article-text">' . $article->getArticleText() . '</p>' .
-                            '</div>'.
-                            '</td>'.
-                        '</tr>';
-                }
-                
-                echo '</tbody></table>';
-                
-                ?>
+                <input type="text" class="w-100" name="test" placeholder="Title or Author" onkeyup="showArticles(this.value, 1)"/> <!--TODO: Add functionality - search for published articles-->
+                <div id="published-article-table"></div>
             </div>
 
 
