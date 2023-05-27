@@ -9,7 +9,7 @@ include "../user.php";
 $user = new User();
 $users = $user->searchUsers($q);
 
-echo '<table>
+echo '<table class="table col-4 table-hover">
         <thead>
             <tr>
                 <th>User ID</th>
@@ -44,14 +44,12 @@ switch ($roleid) {
         break;
 }
 
-echo "<tr>
+echo "<tr onclick=\"showUserControls($uid)\">
         <td>$uid</td>
         <td>$username</td>
         <td>$password</td>
         <td>$email</td>
-        <td>$roleid</td>
-        <td><button onclick=\"showUserControls($uid)\">edit</button></a></td>
-        <td><button onclick=\"confirmDelete($uid)\">delete</button></td>
+        <td>$roleid  </td>
       </tr>";            
 }
 

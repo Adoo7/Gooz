@@ -298,7 +298,7 @@ class User {
         $db = Database::getInstance();
         $dbc = $db->connect();
         
-        $result = $db->querySQL("SELECT * FROM User WHERE UserName LIKE '%".$q."%' OR UserID LIKE '%".$q."&'");
+        $result = $db->querySQL("SELECT * FROM User WHERE UserName LIKE '%".$q."%' OR UserID LIKE '%".$q."%'");
 
         foreach ($result as $row) {
 

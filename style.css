@@ -36,3 +36,9 @@ a.navbar-brand {
 .bg-grey {
     background-color: #2F2F2F;
 }
+
+.article-text {
+    text-align: justify;
+    text-justify: inter-word;
+    font-size: 22px;
+}

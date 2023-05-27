@@ -56,9 +56,13 @@ echo '
                 
                 <!-- Update button -->
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-primary btn-block mb-4 mx-5" onclick="updateUser(userid.value, username.value, password.value, email.value)">Update</button>
+                    <button type="submit" class="btn btn-primary btn-block mb-4 mx-5" 
+                    onclick="updateUser(userid.value, username.value, password.value, email.value)">Update</button>
                 </div>
-                    
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-danger btn-block mb-4 mx-5" 
+                    onclick="confirmDelete(userid.value)">Delete</button>
+                </div>    
             
      ';
 }

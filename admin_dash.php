@@ -90,6 +90,8 @@
         {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
             {
+                document.getElementById("controls").innerHTML = '<h3 class="text-center">User successfully updated!</h3>'
+            } else  {
                 window.alert(xmlhttp.responseText);
             }
         }
