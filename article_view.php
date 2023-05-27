@@ -81,18 +81,18 @@ foreach ($result as $row) {
     foreach ($articles as $article) {
 
         if($darkbg){
-            echo '<div class="col-md-5 my-2 p-2 bg-grey border-0 rounded py-1 text-white">'.
+            echo '<div class="col-md-5 my-2 p-2 bg-grey border-0 rounded py-1 text-white h-50 d-inline-block">'.
             '<article>' .
             '<h3 class="text-center playball mb-0">' . $article->getHeadLine() . '</h3><hr class="border-white border-1 mt-0 mb-2">' .
-            '<p>' . $article->getArticleText() . '</p>' .
+            '<p class="article-text main-page-article-text">' . $article->getArticleText() . '</p>' .
             '<a class="link-light fst-italic" href="article.php?id='. $article->getArticleID(). '">Read more...</a>' .
             '</article></div>';
 
         } else {
-            echo '<div class="col-md-5 my-2 p-2">'.
+            echo '<div class="col-md-5 my-2 p-2 h-50 d-inline-block">'.
             '<article>' .
             '<h3 class="text-center playball mb-0">' . $article->getHeadLine() . '</h3><hr class="border-black border-1 mt-0 mb-2">' .
-            '<p>' . $article->getArticleText() . '</p>' .
+            '<p class="article-text main-page-article-text">' . $article->getArticleText() . '</p>' .
             '<a class="link-body-emphasis fst-italic" href="article.php?id='. $article->getArticleID(). '">Read more...</a>' .
             '</article></div>';
         }

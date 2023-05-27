@@ -27,10 +27,7 @@
             window.location.href = "delete_article.php?id=" + articleId;
         }
     }
-    function editArticle(articleId)
-    {
-        window.location.href = "article_edit.php?id=" + articleId;
-    }
+    
     function viewArticle(articleId)
     {
         window.location.href = "article.php?id=" + articleId;
@@ -107,13 +104,46 @@
         }
         
     }
+    function showArticleControls(id){
+        
+        xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.open("GET", "AJAXPHP/getArticleControls.php?id=" + id, true);
+        xmlhttp.send();
+        
+        xmlhttp.onreadystatechange = function()
+        {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+            {
+                document.getElementById("controls").innerHTML = xmlhttp.responseText;
+            } else {
+            }
+        }
+    }
+    function updateArticle(id, headline, text, published, catid) {
+        
+            xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.open("GET", "AJAXPHP/updateArticle.php?id=" + id + "&headline=" + headline + "&text=" + text + "&published=" + published + "&catid=" + catid , true);
+            xmlhttp.send();
+
+            xmlhttp.onreadystatechange = function()
+            {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                {   
+                    document.getElementById("controls").innerHTML = xmlhttp.responseText; 
+                } else {
+                }
+            }
+            
+        }
     </script>
 </head>
 
 <!--<button onclick="createArticle()" >Create New Article</button>-->
 <div class="container-fluid">
 <!-- data tabs -->
-<div class="row d-flex justify-content-center">
+<div class="row d-flex justify-content-start">
     <div class ="col-12 col-xl-4 p-1 border border-top-0 rounded-bottom">
         <ul class="mt-2 nav nav-tabs nav-justified" id="navtabs">
             <li class="nav-item dropdown">
@@ -130,39 +160,56 @@
         
         <div class="tab-content">
             <div class="tab-pane fade show active col-12" id="unpublished-article-tab-pane">
-                <h2>All Unpublished Articles</h2>
-
+                <h2 class="text-center border-bottom py-4">All Unpublished Articles</h2>
+                <input type="text" class="w-100" name="Search" placeholder="ID or Username" onkeyup="showUsers(this.value)"/> <!--TODO: Add functionality - search for unpublished articles-->
+                
                 <?php
                 $unPublishedArticle = new Article();
                 $unPublishedArticles = $unPublishedArticle->getAllUnPublishedArticles();
 
+                echo '<table class="table col-4 table-hover">'
+                . '<tbody>';
+                
                 foreach ($unPublishedArticles as $article) {
-                    echo '<article>' .
-                            '<h3>' . $article->getHeadLine() . '</h3>' .
-                            '<p>' . $article->getArticleText() . '</p>' .
-                            '<button onclick="viewArticle('.$article->getArticleID().')">Read more</button>'. //show article page
-                            '<button onclick="editArticle('.$article->getArticleID().')">Edit</button>'. //show article edit form
-                            '<button onclick="confirmDeleteArticle('.$article->getArticleID().')">Delete</button>' . //show popup to confirm deletion
-                         '</article>';
+                    echo '<tr onclick="showArticleControls('.$article->getArticleID().');">' .
+                            '<td>'.
+                            '<div class="d-flex flex-column mb-4">'.
+                            '<h4 class="text-center">' . $article->getHeadLine() . '</h4>' .
+                            '<p class="dashboard-article-text">' . $article->getArticleText() . '</p>' .
+                            '</div>'.
+                            '</td>'.
+                        '</tr>';
                 }
+                
+                echo '</tbody></table>';
+                
                 ?>
             </div>
         
             <div class="tab-pane fade show col-12" id="published-article-tab-pane">
-                <h2>All Published Articles</h2>
+                <h2 class="text-center border-bottom py-4">All Published Articles</h2>
+                <input type="text" class="w-100" name="Search" placeholder="ID or Username" onkeyup="showUsers(this.value)"/> <!--TODO: Add functionality - search for published articles-->
 
                 <?php
                 $publishedArticle = new Article();
                 $publishedArticles = $publishedArticle->getAllPublishedArticles();
 
+                echo '<table class="table col-4 table-hover">'
+                . '<tbody>';
+                
                 foreach ($publishedArticles as $article) {
-                    echo '<article>' .
-                            '<h3>' . $article->getHeadLine() . '</h3>' .
-                            '<p>' . $article->getArticleText() . '</p>' .
-                            '<button onclick="viewArticle('.$article->getArticleID().')">Read more</button>'. //show article page
-                            '<button onclick="confirmDeleteArticle('.$article->getArticleID().')">Delete</button>'.
-                         '</article>';
+                    echo '<tr onclick="showArticleControls('.$article->getArticleID().');">' .
+                            '<td>'.
+                            '<div class="d-flex flex-column mb-4">'.
+                            '<h4 class="text-center">' . $article->getHeadLine() . '</h4>' .
+                            '<p class="dashboard-article-text">' . $article->getArticleText() . '</p>' .
+                            '</div>'.
+                            '</td>'.
+                        '</tr>';
                 }
+                
+                echo '</tbody></table>';
+                
                 ?>
             </div>
 
