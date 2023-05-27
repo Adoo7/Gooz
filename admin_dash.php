@@ -1,11 +1,23 @@
 <head>
     
     <script>
-    function confirmDelete(userId) 
+    function confirmDelete(userID) 
     {
         if (confirm("Are you sure you want to delete this user?")) 
         {
-            window.location.href = "delete_user.php?id=" + userId;
+            xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.open("GET", "AJAXPHP/deleteUser.php?id=" + userID, true);
+            xmlhttp.send();
+            
+            xmlhttp.onreadystatechange = function()
+            {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                {
+                    document.getElementById("controls").innerHTML = xmlhttp.responseText;
+                    showUsers('');
+                }
+            }
         }
     }
     function confirmDeleteArticle(articleId)
@@ -77,10 +89,9 @@
         else if(document.getElementById('admin').checked == true) {   
             r = 3;
         }
-        
-        //window.alert(id + username + password + email + r);
+
         //create the AJAX request object
-        //xmlhttp = new XMLHttpRequest();
+        xmlhttp = new XMLHttpRequest();
 
         xmlhttp.open("GET", "AJAXPHP/updateUser.php?id=" + id + "&name=" + username + "&pass=" + password +"&email=" + email + "&roleid=" + r, true);
         xmlhttp.send();
@@ -90,13 +101,11 @@
         {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
             {
-                document.getElementById("controls").innerHTML = '<h3 class="text-center">User successfully updated!</h3>'
-            } else  {
-                window.alert(xmlhttp.responseText);
+                document.getElementById("controls").innerHTML = xmlhttp.responseText;
+                showUsers('');
             }
         }
         
-        showUsers('');
     }
     </script>
 </head>
@@ -105,7 +114,7 @@
 <div class="container-fluid">
 <!-- data tabs -->
 <div class="row d-flex justify-content-center">
-    <div class ="col-12 col-lg-4 p-1 border border-top-0 rounded-bottom">
+    <div class ="col-12 col-xl-4 p-1 border border-top-0 rounded-bottom">
         <ul class="mt-2 nav nav-tabs nav-justified" id="navtabs">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle active" data-bs-toggle="dropdown" href="#">Articles</a>
@@ -120,7 +129,7 @@
         </ul>
         
         <div class="tab-content">
-            <div class="tab-pane fade show active col-11" id="unpublished-article-tab-pane">
+            <div class="tab-pane fade show active col-12" id="unpublished-article-tab-pane">
                 <h2>All Unpublished Articles</h2>
 
                 <?php
@@ -139,7 +148,7 @@
                 ?>
             </div>
         
-            <div class="tab-pane fade show col-11" id="published-article-tab-pane">
+            <div class="tab-pane fade show col-12" id="published-article-tab-pane">
                 <h2>All Published Articles</h2>
 
                 <?php
@@ -158,10 +167,10 @@
             </div>
 
 
-            <div class="tab-pane fade show col-11" id="users-tab-pane">
-                <h2>Users</h2>
+            <div class="tab-pane fade show col-12" id="users-tab-pane">
+                <h2 class="w-100 text-center">Users</h2>
                 
-                <input type="text" name="Search" size="50" value="" onkeyup="showUsers(this.value)"/>
+                <input type="text" class="w-100" name="Search" placeholder="ID or Username" onkeyup="showUsers(this.value)"/>
                 
                 <div id="users-table"></div>
                 
