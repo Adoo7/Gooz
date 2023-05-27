@@ -12,6 +12,6 @@ $user->setRoleID($_GET['roleid']);
 
 $user->editUser($_GET['id']);
 
-echo 'update successful';
+echo '<h1 class="text-center mt-5">User '.$_GET['id'].': "'.$_GET['name'].'" has been successfully updated!</h1>';
 
 
