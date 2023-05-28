@@ -18,7 +18,7 @@ if(isset($_GET['id']) && isset($_GET['search'])){
     
     $result = $db->querySQL("SELECT * FROM Article WHERE CategoryID = $categoryID AND (HeadLine LIKE '%$searchQuery%' OR ArticleText LIKE '%$searchQuery%')");
 }
-elseif (isset($_GET['search'])) {
+elseif (isset($_GET['search'])) { 
     // search query is present in URL, retrieve articles matching search query
     $searchQuery = urldecode($_GET['search']);
     $result = $db->querySQL("SELECT * FROM Article WHERE HeadLine LIKE '%$searchQuery%' OR ArticleText LIKE '%$searchQuery%'");
