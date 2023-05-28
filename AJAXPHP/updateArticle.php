@@ -7,18 +7,39 @@
 
 include "../Database.php";
 include "../ArticleClass.php";
+session_start();
 
 $id = urldecode($_GET['id']);
 
 $thisArticle = new Article();
-$article = $thisArticle->read_single($id);
 
-$article->setHeadLine($_GET['headline']);
-$article->setArticleText($_GET['text']);
-$article->setPublished($_GET['published']);
-$article->setCategoryID($_GET['catid']);
-$article->setArticleID($id);
+if ($id > 0) {
 
-$article->edit();
+    $article = $thisArticle->read_single($id);
+    $article->setHeadLine($_GET['headline']);
+    $article->setArticleText($_GET['text']);
+    $article->setPublished($_GET['published']);
+    $article->setCategoryID($_GET['catid']);
+    $article->setArticleID($id);
 
-echo '<h1 class="text-center mt-5">Article '.$_GET['headline'].'" has been successfully updated!</h1>';
+    $article->edit();
+
+    echo '<h1 class="text-center mt-5">Article '.$_GET['headline'].'" has been successfully updated!</h1>';
+} 
+else 
+{
+    $article = new Article();
+    $article->setHeadLine($_GET['headline']);
+    $article->setArticleText($_GET['text']);
+    $article->setPublished($_GET['published']);
+    $article->setCategoryID($_GET['catid']);
+    $article->setUserID($_SESSION['UserID']);
+    
+    $article->create();
+    
+    if ($article->getPublished() == 0) {
+        echo '<h1 class="text-center mt-5">Article '.$_GET['headline'].'" has been published!</h1>';
+    } else {
+        echo '<h1 class="text-center mt-5">Article '.$_GET['headline'].'" has been saved as draft!</h1>';
+    }
+}

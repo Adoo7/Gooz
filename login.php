@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //Passwords match, so log in the user
             $_SESSION["loggedin"] = true; 
             $_SESSION["username"] = $username;
+            $_SESSION["UserID"] = $user->getUid();
             header("Location: index.php");
         } else {
             //Passwords don't match, so show an error message

@@ -1,9 +1,8 @@
 <head>
-    
     <script>
         
         window.onload = function() {
-            showArticles("", 0);
+            showArticles('', 0);
         }
         
     function confirmDelete(userID) 
@@ -56,30 +55,6 @@
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
             {
                 document.getElementById("users-table").innerHTML = xmlhttp.responseText;
-            }
-        }
-    }
-    
-    function showArticles(str, pub)
-    {
-        //create the AJAX request object
-        xmlhttp = new XMLHttpRequest();
-
-        xmlhttp.open("GET", "AJAXPHP/getArticles.php?q=" + str + "&pub=" + pub, true);
-        xmlhttp.send();
-        
-        //declare a function that is called when something happens to the request
-        xmlhttp.onreadystatechange = function()
-        {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
-            {
-                if (pub == 0) {
-                    document.getElementById("unpublished-article-table").innerHTML = xmlhttp.responseText;
-                } else {
-                    document.getElementById("published-article-table").innerHTML = xmlhttp.responseText;
-                }
-            } else {
-//                window.alert("error");
             }
         }
     }
@@ -146,22 +121,49 @@
             {
                 document.getElementById("controls").innerHTML = xmlhttp.responseText;
             } else {
+//                window.alert(xmlhttp.responseText);
             }
         }
     }
+    
+    function showArticles(str, pub)
+    {
+        //create the AJAX request object
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "AJAXPHP/getArticles.php?q=" + str + "&pub=" + pub);
+        xmlhttp.send();
+        //declare a function that is called when something happens to the request
+        xmlhttp.onreadystatechange = function()
+        {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+            {
+                if (pub == 0) {
+                    document.getElementById("unpublished-article-table").innerHTML = xmlhttp.responseText;
+                } else {
+                    document.getElementById("published-article-table").innerHTML = xmlhttp.responseText;
+                }
+            } else {
+//                window.alert(xmlhttp.responseText);
+            }
+        }  
+        
+    }
+    
     function updateArticle(id, headline, text, published, catid) {
         
             xmlhttp = new XMLHttpRequest();
-
-            xmlhttp.open("GET", "AJAXPHP/updateArticle.php?id=" + id + "&headline=" + headline + "&text=" + text + "&published=" + published + "&catid=" + catid , true);
+            xmlhttp.open("GET", "AJAXPHP/updateArticle.php?id=" + id + "&headline=" + headline + "&text=" + text + "&published=" + published + "&catid=" + catid, true);
             xmlhttp.send();
-
             xmlhttp.onreadystatechange = function()
+            
             {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
                 {   
                     document.getElementById("controls").innerHTML = xmlhttp.responseText; 
+                    showArticles('', published);
+                    window.alert(xmlhttp.responseText);
                 } else {
+                    window.alert(xmlhttp.responseText);
                 }
             }
             
@@ -169,8 +171,7 @@
     </script>
 </head>
 
-<!--<button onclick="createArticle()" >Create New Article</button>-->
-<div class="container-fluid">
+<div class="container-fluid h-100 overflow-hidden">
 <!-- data tabs -->
 <div class="row d-flex justify-content-start">
     <div class ="col-12 col-xl-4 p-1 border border-top-0 rounded-bottom">
@@ -187,11 +188,12 @@
             </li>
         </ul>
         
-        <div class="tab-content">
-            <div class="tab-pane fade show active col-12" id="unpublished-article-tab-pane">
+        <div class="tab-content d-flex">
+            <div class="tab-pane fade show col-12 active" id="unpublished-article-tab-pane">
                 <h2 class="text-center border-bottom py-4">All Unpublished Articles</h2>
                 <input type="text" class="w-100" name="Search" placeholder="Title or Author" onkeyup="showArticles(this.value, 0)"/>
-                <div id="unpublished-article-table"></div>
+                <div id="unpublished-article-table" class="overflow-auto" style="height: 60vh;"></div>
+                <button class="btn btn-primary col-12 p-2 mt-4" onclick="showArticleControls(-1)" >Create New Article</button>
             </div>
         
             <div class="tab-pane fade show col-12" id="published-article-tab-pane">
@@ -207,10 +209,11 @@
                 <input type="text" class="w-100" name="Search" placeholder="ID or Username" onkeyup="showUsers(this.value)"/>
                 
                 <div id="users-table"></div>
-                
             </div>
         </div>
     </div>
+    
+        
     
     <!-- controls -->
     <div class ="col-11 col-md-8" id="controls"></div>

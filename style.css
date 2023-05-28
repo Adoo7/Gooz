@@ -62,3 +62,17 @@ a.navbar-brand {
     -webkit-line-clamp: 3;
     display: -webkit-box;
 }
+
+.hide-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+#unpublished-article-tab-pane {
+    height: 100px;
+}
+
+.hide-scroll-e {
+    overflow: hidden;
+    -ms-overflow-x: none;
+    scrollbar-width: none;
+}

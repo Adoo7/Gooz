@@ -9,17 +9,23 @@ $id = $_GET['id'];
 
 include "../Database.php";
 include "../ArticleClass.php";
+include '../user.php';
 
-//to get the list of categories from the database
-    $db = Database::getInstance();
-    $dbc = $db->connect();
-    $result = $db->querySQL('SELECT * FROM Category');
-    
-    $list = "";
-    
+
+$db = Database::getInstance();
+$dbc = $db->connect();
+
+$user = new User();
+$user->initWithUid($_SESSION['UserID']);
 
 $thisArticle = new Article();
-$article = $thisArticle->read_single($id);
+if($id > 0) {
+    $article = $thisArticle->read_single($id);
+} else {
+    $article = new Article;
+    $article->setPublished(0);
+}
+
 
 $boolPublished = '';
 //disable publish button if article published already
@@ -29,26 +35,42 @@ if($article->getPublished() == 1) {
     $boolPublished = '';
 }
 
-if ($result) {
-        $rowCount = mysqli_num_rows($result);
-        if ($rowCount > 0) {
-            foreach ($result as $row) {
-                //echo $row;
-                if ($article->getCategoryID() == $row['CategoryID']) {
-                    $list .= '<option selected value="'.$row['CategoryID'].'">'.$row['CategoryName'].'</option>"></li>';
-                } else {
-                    $list .= '<option value="'.$row['CategoryID'].'">'.$row['CategoryName'].'</option>"></li>';
-                }
-                
-            }
-        } else {
-            echo "No results found.";
-        }
-    } else {
-        echo "Error executing query: " . mysqli_error($dbc);
-    }
+//to get the list of categories from the database
+$result = $db->querySQL('SELECT * FROM Category');
+$list = "";
 
-if($article->read_single($id)){
+if ($result) {
+    $rowCount = mysqli_num_rows($result);
+    if ($rowCount > 0) 
+    {
+        foreach ($result as $row) 
+        {
+            //echo $row;
+            if ($article->getCategoryID() == $row['CategoryID']) 
+            {
+                $list .= '<option selected value="'.$row['CategoryID'].'">'.$row['CategoryName'].'</option>"></li>';
+            } 
+            else 
+            {
+                $list .= '<option value="'.$row['CategoryID'].'">'.$row['CategoryName'].'</option>"></li>';
+            }
+        }
+    } 
+    else 
+    {
+        echo "No results found.";
+    }     
+} 
+else 
+{
+    echo "Error executing query: " . mysqli_error($dbc);
+}
+
+
+
+if($id > 0){
+    
+    $article->read_single($id);
     
     $id = $article->getArticleID();
     $title = $article->getHeadLine();
@@ -81,4 +103,29 @@ if($article->read_single($id)){
         </form>
      ';
     
+} else {
+    
+    echo '   
+        <form class="d-flex flex-column gap-3 my-5 mx-2" id="edit_form">
+            <div class="d-flex justify-content-around">  <span class="fw-bold">'.$user->getUsername().'</span> '.date("Y-m-d").'</div>
+            <div class="form-group">
+              <input type="text" class="form-control" id="articleTitle" placeholder="Article Title" value="">
+            </div>
+            <div class="form-group">
+              <textarea class="form-control" id="articleText" placeholder="Article Text" rows="15"></textarea>
+            </div>
+            <div class="form-group">
+              <select class="form-control" id="articleCategory">
+                '.$list.'
+              </select>
+            </div>
+            <div class="d-flex row gap-5 mx-0">
+                <button id="saveButton" class="col btn btn-secondary btn-block mb-4" type="submit"
+                onclick="updateArticle(0, articleTitle.value, articleText.value, 0, articleCategory.value)">Save as draft</button>
+                <button class="col btn btn-primary btn-block mb-4" type="submit" '.$boolPublished.'
+                onclick="updateArticle(0, articleTitle.value, articleText.value, 1, articleCategory.value)">Publish</button>
+            </div>
+            <div class="d-flex justify-content-end" id="changes"></div>
+        </form>
+     ';
 }
