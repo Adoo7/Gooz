@@ -138,33 +138,39 @@ class Article {
 
     // Get single article
     public function read_single($articleID) {
+        if ($articleID > 0) {
+            $query = "SELECT * FROM Article WHERE ArticleID = $articleID";
 
-        $query = "SELECT * FROM Article WHERE ArticleID = $articleID";
+            $db = Database::getInstance();
+            $dbc = $db->connect();
+            $result = $db->querySQL($query);
 
-        $db = Database::getInstance();
-        $dbc = $db->connect();
-        $result = $db->querySQL($query);
-        
-        
-        // Set properties
-        foreach ($result as $row) {
-            
+
+            // Set properties
+            foreach ($result as $row) {
+
+                $article = new Article();
+                $article->setArticleID($row['ArticleID']);
+                $article->setHeadLine($row['HeadLine']);
+                $article->setArticleText($row['ArticleText']);
+                $article->setPublishDate($row['PublishDate']);
+                $article->setPublished($row['Published']);
+                $article->setNoReaders($row['NoReaders']);
+                $article->setNoLikes($row['NoLikes']);
+                $article->setNoDislike($row['NoDislike']);
+                $article->setCategoryID($row['CategoryID']);
+                $article->setUserID($row['UserID']);
+                //Uncomment to find out what the query is returning
+                //var_dump($row);
+                return $article;    
+            }   
+        } else {
             $article = new Article();
-            $article->setArticleID($row['ArticleID']);
-            $article->setHeadLine($row['HeadLine']);
-            $article->setArticleText($row['ArticleText']);
-            $article->setPublishDate($row['PublishDate']);
-            $article->setPublished($row['Published']);
-            $article->setNoReaders($row['NoReaders']);
-            $article->setNoLikes($row['NoLikes']);
-            $article->setNoDislike($row['NoDislike']);
-            $article->setCategoryID($row['CategoryID']);
-            $article->setUserID($row['UserID']);
-            //Uncomment to find out what the query is returning
-            //var_dump($row);
-        }   
-        
-        return $article;
+            return $article;
+        }
+//        if (mysql_num_rows($article)==0) {
+//            return false;
+//        }
     }
     
     public function test() {
@@ -214,7 +220,7 @@ class Article {
         $db = Database::getInstance();
         $db->connect();
         $this->conn = $db->getDBCon();
-//    debugging line    echo 'test line 177<br>';
+        // debugging line echo 'test line 177<br>';
         
         // Create query
         $query = "INSERT INTO Article(ArticleID, HeadLine,".
@@ -222,7 +228,7 @@ class Article {
             "NoLikes, NoDislike, CategoryID, UserID)". 
             "VALUES (NULL, ?, ?, NOW(), ?, 0, 0, 0, ?, ?)";
 
-        echo 'test line 185<br>';
+        // echo 'test line 185<br>';
         // Prepare statement
         try {
         $stmt = $this->conn->prepare($query);
@@ -230,11 +236,11 @@ class Article {
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
-//        echo 'test line 189<br>';
+        // echo 'test line 189<br>';
         // Bind data
         $stmt->bind_param("ssiii", $this->HeadLine, $this->ArticleText, $this->Published, $this->CategoryID, $this->UserID);
         
-//        echo 'test line 205';
+        // echo 'test line 205';
         
         // Execute query
         if($stmt->execute()) {
@@ -251,7 +257,7 @@ class Article {
         $db = Database::getInstance();
         $db->connect();
         $this->conn = $db->getDBCon();
-//    debugging line    echo 'test line 177<br>';
+        // debugging line    echo 'test line 177<br>';
         // Create query
         $query = "UPDATE Article SET NoReaders = ?".
             " WHERE ArticleID = ?";
@@ -263,12 +269,12 @@ class Article {
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
-//        echo 'test line 189<br>';
-//        echo 'test line 211<br>';
+        // echo 'test line 189<br>';
+        // echo 'test line 211<br>';
         // Bind data
         $stmt->bind_param("ii", $_SESSION['pageCounter'], $this->ArticleID);
         
-        
+
         // Execute query
         if($stmt->execute()) {
             return true;

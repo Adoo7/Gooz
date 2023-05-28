@@ -42,3 +42,37 @@ a.navbar-brand {
     text-justify: inter-word;
     font-size: 22px;
 }
+
+.main-page-article-text {
+    font-size: 20px;
+    tex-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+}
+
+.dashboard-article-text {
+    font-size: 20px;
+    text-align: justify;
+    text-justify: inter-word;
+    tex-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+}
+
+.hide-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+#unpublished-article-tab-pane {
+    height: 100px;
+}
+
+.hide-scroll-e {
+    overflow: hidden;
+    -ms-overflow-x: none;
+    scrollbar-width: none;
+}

@@ -12,7 +12,7 @@ $users = $user->searchUsers($q);
 echo '<table class="table col-4 table-hover">
         <thead>
             <tr>
-                <th>User ID</th>
+                <th>ID</th>
                 <th>Username</th>
                 <th>Password</th>
                 <th>Email</th>
