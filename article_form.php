@@ -4,6 +4,7 @@ include 'header.php';
 //include './Database.php';
 include './user.php';
 include 'ArticleClass.php';
+include 'Files.php';
 
 
 $db = Database::getInstance();
@@ -69,15 +70,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo 'everything set <br>';
     
     if ($article->create()) {
-        echo 'atricle added';
+        echo 'atricle added <br>';
         $file = new Files();
-        $file->getNewArticleID();
-            // Image file validation
-    if (isset($articleImage) && $articleImage['error'] === UPLOAD_ERR_OK) {
+        echo 'imdddddd <br>';
+        $file->setAtricleID(5);
+        //$file->getNewArticleID();// && $articleImage['error'] === UPLOAD_ERR_OK
+        echo $file->getAtricleID().'<br>';// && $articleImage['error'] === UPLOAD_ERR_OK
+        // Image file validation
+        echo 'file <br>';
+        echo $_FILES['articleImage'];
+        echo $_FILES['articleImage']['name'];
+    if (!empty($_FILES)) {
         $imageFileType = strtolower(pathinfo($articleImage['name'], PATHINFO_EXTENSION));
         $allowedImageTypes = array('jpg', 'jpeg', 'png', 'gif');
         
-        
+        echo 'image found';
         if (in_array($imageFileType, $allowedImageTypes)) {
             
             $article->setImage($articleImage);
@@ -88,13 +95,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $file->setFlocation($targetFilePath);
             $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
             $file->setFileType($fileType);
-            
-             if(move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)){
+            echo 'before image found <br>';
+             if(move_uploaded_file($_FILES["articleImage"]["tmp_name"], $targetFilePath)){
             // Insert image file name into database
+                 echo 'im moved <br>';
+                 echo $file->getAtricleID().'<br>';
+                 echo $file->getFileName().'<br>';
+                 echo $file->getFileType().'<br>';
+                 echo $file->getFlocation().'<br>';
+                 
                 if($file->addFile()){
-                    echo 'video uploaded';
+                    echo 'im uploaded';
                 }else{
-                    echo 'video failed';
+                    echo 'im failed';
                 }
              }
             
@@ -103,6 +116,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Handle the error or display a message to the user
             echo 'invalid image file type';
         }
+    }else{
+        echo'dwdfwdok';
     }
     
     // Video file validation
@@ -135,7 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo 'invalid video file type';
         }
     }
-        header("Location: dashboard.php");
+       // header("Location: dashboard.php");
     } else {
         echo 'something went wrong';
     }
@@ -147,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 ?>
 
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
     <table>
         <tr>
             <td>Article title</td>

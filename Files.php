@@ -9,12 +9,9 @@ class Files {
     private $ArticleID;
     
         function __construct() {
-        $this->fid = null;
-        $this->fname = null;
-        $this->ftype = null;
-        $this->flocation = null;
-        $this->uid = null;
+        
     }
+    
     
     public function getFileID() {
         return $this->FileID;
@@ -77,11 +74,11 @@ class Files {
     }
 
     function addFile() {
-
+            $query = "INSERT into files(`fid`,`ArticleID`,`fname`,`flocation`,`ftype`) VALUES(null,$this->ArticleID,'$this->FileName','$this->Flocation','$this->FileType') ";
         try {
             $db = Database::getInstance();
-            $data = $db->querySql('INSERT INTO files (fid, ArticleID, fname, flocation, ftype) VALUES '
-                    . '(NULL, ' . $this->ArticleID . ', \'' . $this->FileName . '\',\'' . $this->Flocation . '\',\'' . $this->FileType . '\')');
+        $dbc = $db->connect();
+        $result = $db->querySQL($query); 
             return true;
         } catch (Exception $e) {
             echo 'Exception: ' . $e;
