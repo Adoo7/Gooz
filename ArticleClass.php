@@ -253,15 +253,14 @@ class Article {
         return false;
     }
     
-    public function edit() {
+    public function increasePageCount() {
         $db = Database::getInstance();
         $db->connect();
         $this->conn = $db->getDBCon();
         // debugging line    echo 'test line 177<br>';
         // Create query
-        $query = "UPDATE Article SET HeadLine = ?,".
-            " ArticleText = ?, PublishDate = NOW(), Published = ?,".
-            " CategoryID = ? WHERE ArticleID = ?";
+        $query = "UPDATE Article SET NoReaders = ?".
+            " WHERE ArticleID = ?";
 
         // Prepare statement
         try {
@@ -273,8 +272,9 @@ class Article {
         // echo 'test line 189<br>';
         // echo 'test line 211<br>';
         // Bind data
-        $stmt->bind_param("ssiii", $this->HeadLine, $this->ArticleText, $this->Published, $this->CategoryID, $this->ArticleID);
+        $stmt->bind_param("ii", $_SESSION['pageCounter'], $this->ArticleID);
         
+
         // Execute query
         if($stmt->execute()) {
             return true;
