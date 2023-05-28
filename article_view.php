@@ -12,7 +12,7 @@ $db = Database::getInstance();
 $dbc = $db->connect();
 
 //determining if user is in dashboard or has clicked a category
-if(isset($_GET['id']) && isset($_GET['search'])){
+if(isset($_GET['id']) && $_GET['id'] != '' && isset($_GET['search'])){
     $categoryID = urldecode($_GET['id']);
     $searchQuery = urldecode($_GET['search']);
 
