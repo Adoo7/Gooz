@@ -126,6 +126,25 @@
         }
     }
     
+    function updateArticle(id, headline, text, published, catid) {
+        
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "AJAXPHP/updateArticle.php?id=" + id + "&headline=" + headline + "&text=" + text + "&published=" + published + "&catid=" + catid, true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function()
+
+        {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+            {   
+                document.getElementById("test").innerHTML = xmlhttp.responseText; 
+                
+                //window.alert(xmlhttp.responseText);
+            }
+            showArticles("", published);
+        }
+            
+    }
+    
     function showArticles(str, pub)
     {
         //create the AJAX request object
@@ -149,23 +168,27 @@
         
     }
     
-    function updateArticle(id, headline, text, published, catid) {
-        
-            xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("GET", "AJAXPHP/updateArticle.php?id=" + id + "&headline=" + headline + "&text=" + text + "&published=" + published + "&catid=" + catid, true);
-            xmlhttp.send();
-            xmlhttp.onreadystatechange = function()
-            
-            {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
-                {   
-                    document.getElementById("test").innerHTML = xmlhttp.responseText; 
-//                    showArticles('', published);
-//                    window.alert(xmlhttp.responseText);
-                }
-            }
-            
-        }
+    $(function () {
+        $('#edit_form').on('submit', function (e) {
+            e.preventDefault();
+
+            var formData = new FormData(this);
+
+            $.ajax({
+              type: 'post',
+              url: 'AJAXPHP/uploadImage.php',
+              data: formData,
+              processData: false,
+              contentType: false,
+              success: function () {
+                alert('Form was submitted');
+              }
+            });
+        });
+    });
+
+
+    
     </script>
 </head>
 

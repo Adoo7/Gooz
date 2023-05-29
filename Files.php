@@ -74,7 +74,7 @@ class Files {
     }
 
     function addFile() {
-            $query = "INSERT into files(`fid`,`ArticleID`,`fname`,`flocation`,`ftype`) VALUES(null,$this->ArticleID,'$this->FileName','$this->Flocation','$this->FileType') ";
+        $query = "INSERT into files(`fid`,`ArticleID`,`fname`,`flocation`,`ftype`) VALUES(null,$this->ArticleID,'$this->FileName','$this->Flocation','$this->FileType') ";
         try {
             $db = Database::getInstance();
         $dbc = $db->connect();
@@ -115,10 +115,10 @@ class Files {
     function getArticleImage() {
         $db = Database::getInstance();
         $dbc = $db->connect();
-        $data = $db->querySQL("Select * from files where ArticleID = $this->ArticleID AND ftype = 'jpg' OR "
-                . "ftype = 'jpeg' OR ftype = 'png' OR ftype = 'gif'");
-        
-        foreach($data as $row){
+        $data = $db->querySQL("Select * from files where ArticleID = $this->ArticleID AND (ftype = 'jpg' OR "
+                . "ftype = 'jpeg' OR ftype = 'png' OR ftype = 'gif')");
+        if (mysqli_num_rows($data) > 0) {
+            foreach($data as $row){
             $file = new Files();
         
             $file->setFileID($row['fid']);
@@ -128,7 +128,11 @@ class Files {
             $file->setFileName($row['fname']);
         
             return $file;
+            }
+        } else {
+            return '';
         }
+        
         
     }
     
@@ -138,7 +142,8 @@ class Files {
         $data = $db->querySQL("Select * from files where ArticleID = $this->ArticleID AND ftype = 'mp4' OR "
                 . "ftype = 'mp3' OR ftype = 'mov' OR ftype = 'avi' OR ftype = 'wmv'");
         
-        foreach($data as $row){
+        if (mysqli_num_rows($data) > 0) {
+            foreach($data as $row){
             $file = new Files();
         
             $file->setFileID($row['fid']);
@@ -148,7 +153,12 @@ class Files {
             $file->setFileName($row['fname']);
         
             return $file;
+            }
+        } else {
+            return null;
         }
+        
+        
         
     }
     
