@@ -96,7 +96,7 @@ if($id > 0){
     $articleCreator = $article->getArticleCreator();
     $publishDate = $article->getPublishDate();
     
-    echo '   
+    echo '
         <div class="d-flex flex-column gap-3 my-5 mx-2">
             <div class="d-flex justify-content-around">  <span class="fw-bold">'.$articleCreator.'</span> '.$publishDate.' </div>
             <div class="form-group">
@@ -113,17 +113,16 @@ if($id > 0){
             <div class="d-flex col-12">
                 <div class="col-6" id="imgUpload">
                     <label for="articleImage" class="btn">Select Image</label>
-                    <input type="file" style="visibility:hidden;" class="form-control" id="articleImage" value="">
-                    <button id="saveButton" class="col btn btn-secondary btn-block mb-4" type="submit"
-                    onclick="uploadImage('.$id.') name="uploadImage">Upload Image</button>
+                    <input type="file" class="form-control" id="articleImage" value="">
+                    <button class="col btn btn-secondary btn-block mb-4" onclick="uploadImage('.$id.')">Upload Image</button>
                     <div class="form-group">
-                      <img src="'.$img.'">
+                      <img id="uploadedImage" src="'.$img.'">
                     </div>
                 </div>
                 <div class="form-group col-6">
                     <label for="articleVideo" class="btn">Select Video</label>
                     <input type="file" style="visibility:hidden;" class="form-control" id="articleVideo" placeholder="Video" value="">
-                    <button id="saveButton" class="col btn btn-secondary btn-block mb-4" type="submit"
+                    <input type="button" id="saveButton" class="col btn btn-secondary btn-block mb-4" type="submit"
                     onclick="uploadImage('.$id.')">Upload Video</button>
                     <video width="100%" controls>
                         <source src="" type="video/mp4">

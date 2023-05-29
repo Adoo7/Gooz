@@ -1,4 +1,5 @@
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
         
         window.onload = function() {
@@ -167,31 +168,51 @@
         }  
         
     }
-    
-    $(function () {
-        $('#edit_form').on('submit', function (e) {
-            e.preventDefault();
 
-            var formData = new FormData(this);
-
+    $.uploadFile = function () {
+            
+        var formData = new FormData();
+            
+        var files = $('#articleImage')[0].files;
+            
+        if(files.length > 0){
+                
+            formData.append('file',files[0]);
+            
             $.ajax({
-              type: 'post',
-              url: 'AJAXPHP/uploadImage.php',
-              data: formData,
-              processData: false,
-              contentType: false,
-              success: function () {
-                alert('Form was submitted');
-              }
+                url: 'AJAXPHP/uploadImage.php',
+                type:'post',
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.status == 1){
+                        var extension = response.extension;
+                        var path = response.path;
+
+                        $("#uploadedImage").attr("src", path);
+
+                        alert('File uploaded');
+                    }
+                    else {
+                        alert('File not uploaded')
+                    }
+                }
             });
-        });
-    });
-
-
+        }else{
+            alert('select a file');
+        }
+  
+    };
     
+    function uploadImage(id)
+    {
+        $.uploadFile();
+    }
     </script>
 </head>
-
+<body>
 <div class="container-fluid h-100 overflow-auto" style="height: vh90;">
 <!-- data tabs -->
 <div class="row d-flex justify-content-start">
@@ -240,3 +261,4 @@
     <div class ="col-11 col-md-8" id="controls"></div>
 </div>
 </div>
+</body>
