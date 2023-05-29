@@ -140,12 +140,13 @@ class Article {
     public function read_single($articleID) {
         if ($articleID > 0) {
             $query = "SELECT * FROM Article WHERE ArticleID = $articleID";
-
+            
             $db = Database::getInstance();
             $dbc = $db->connect();
             $result = $db->querySQL($query);
-
-
+            
+            
+            
             // Set properties
             foreach ($result as $row) {
 
@@ -162,6 +163,7 @@ class Article {
                 $article->setUserID($row['UserID']);
                 //Uncomment to find out what the query is returning
                 //var_dump($row);
+                
                 return $article;    
             }   
         } else {

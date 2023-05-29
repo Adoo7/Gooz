@@ -9,12 +9,9 @@ class Files {
     private $ArticleID;
     
         function __construct() {
-        $this->fid = null;
-        $this->fname = null;
-        $this->ftype = null;
-        $this->flocation = null;
-        $this->uid = null;
+        
     }
+    
     
     public function getFileID() {
         return $this->FileID;
@@ -32,7 +29,7 @@ class Files {
         return $this->Flocation;
     }
 
-    public function getAtricleID() {
+    public function getArticleID() {
         return $this->ArticleID;
     }
 
@@ -52,7 +49,7 @@ class Files {
         $this->Flocation = $Flocation;
     }
 
-    public function setAtricleID($AtricleID) {
+    public function setArticleID($AtricleID) {
         $this->ArticleID = $AtricleID;
     }
     
@@ -77,11 +74,11 @@ class Files {
     }
 
     function addFile() {
-
+            $query = "INSERT into files(`fid`,`ArticleID`,`fname`,`flocation`,`ftype`) VALUES(null,$this->ArticleID,'$this->FileName','$this->Flocation','$this->FileType') ";
         try {
             $db = Database::getInstance();
-            $data = $db->querySql('INSERT INTO files (fid, ArticleID, fname, flocation, ftype) VALUES '
-                    . '(NULL, ' . $this->ArticleID . ', \'' . $this->FileName . '\',\'' . $this->Flocation . '\',\'' . $this->FileType . '\')');
+        $dbc = $db->connect();
+        $result = $db->querySQL($query); 
             return true;
         } catch (Exception $e) {
             echo 'Exception: ' . $e;
@@ -115,10 +112,55 @@ class Files {
         return $data;
     }
 
-    function getArticleFiles() {
+    function getArticleImage() {
         $db = Database::getInstance();
-        $data = $db->multiFetch('Select * from files where ArticleID=' . $this->ArticleID);
-        return $data;
+        $dbc = $db->connect();
+        $data = $db->querySQL("Select * from files where ArticleID = $this->ArticleID AND ftype = 'jpg' OR "
+                . "ftype = 'jpeg' OR ftype = 'png' OR ftype = 'gif'");
+        
+        foreach($data as $row){
+            $file = new Files();
+        
+            $file->setFileID($row['fid']);
+            $file->setFlocation($row['flocation']);
+            $file->setFileType($row['ftype']);
+            $file->setArticleID($row['ArticleID']);
+            $file->setFileName($row['fname']);
+        
+            return $file;
+        }
+        
     }
-
+    
+    function getArticleVideo() {
+        $db = Database::getInstance();
+        $dbc = $db->connect();
+        $data = $db->querySQL("Select * from files where ArticleID = $this->ArticleID AND ftype = 'mp4' OR "
+                . "ftype = 'mp3' OR ftype = 'mov' OR ftype = 'avi' OR ftype = 'wmv'");
+        
+        foreach($data as $row){
+            $file = new Files();
+        
+            $file->setFileID($row['fid']);
+            $file->setFlocation($row['flocation']);
+            $file->setFileType($row['ftype']);
+            $file->setArticleID($row['ArticleID']);
+            $file->setFileName($row['fname']);
+        
+            return $file;
+        }
+        
+    }
+    
+    public function getNewArticleID() {
+        
+        $query = "SELECT articleID FROM `Article` ORDER by ArticleID DESC LIMIT 1";
+        
+        $db = Database::getInstance();
+        $dbc = $db->connect();
+        $result = $db->querySQL($query);
+        $this->ArticleID = $result;
+    }
+    
+    
 }

@@ -169,9 +169,8 @@
     </script>
 </head>
 
-<div class="container-fluid h-100 overflow-hidden">
+<div class="container-fluid h-100 overflow-auto" style="height: vh90;">
 <!-- data tabs -->
-<div id="test">test</div>
 <div class="row d-flex justify-content-start">
     <div class ="col-12 col-xl-4 p-1 border border-top-0 rounded-bottom">
         <ul class="mt-2 nav nav-tabs nav-justified" id="navtabs">

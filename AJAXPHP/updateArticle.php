@@ -21,7 +21,7 @@ if ($id > 0) {
     $article->setPublished($_GET['published']);
     $article->setCategoryID($_GET['catid']);
     $article->setArticleID($id);
-
+    
     $article->edit();
 
     echo '<h1>Article '.$_GET['headline'].'" has been successfully updated!</h1>';
