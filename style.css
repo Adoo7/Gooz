@@ -44,10 +44,38 @@ a.navbar-brand {
     font-size: 22px;
 }
 
+
 .text-overflow-clamp {
     /* this code clamps based on specified lines */
     overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     display: -webkit-box;
+
 } 
+
+
+.dashboard-article-text {
+    font-size: 20px;
+    text-align: justify;
+    text-justify: inter-word;
+    tex-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+}
+
+.hide-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+#unpublished-article-tab-pane {
+    height: 100px;
+}
+
+.hide-scroll-e {
+    overflow: hidden;
+    -ms-overflow-x: none;
+    scrollbar-width: none;
+}
