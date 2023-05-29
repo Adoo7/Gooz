@@ -136,12 +136,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
             $file->setFileType($fileType);
             
-             if(move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)){
+             if(move_uploaded_file($_FILES["articleVideo"]["tmp_name"], $targetFilePath)){
             // Insert image file name into database
+                 echo 'im moved <br>';
+                 echo $file->getAtricleID().'<br>';
+                 echo $file->getFileName().'<br>';
+                 echo $file->getFileType().'<br>';
+                 echo $file->getFlocation().'<br>';
+                 
                 if($file->addFile()){
-                    echo 'video uploaded';
+                    echo 'im uploaded';
                 }else{
-                    echo 'video failed';
+                    echo 'im failed';
                 }
              }
         } else {
