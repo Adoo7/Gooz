@@ -1,5 +1,5 @@
 <?php
-    
+    session_start();
     include 'header.php';
     //include './Database.php';
     include './user.php';
@@ -149,6 +149,15 @@
             <div class="col-2 padding"></div>
             <ul class="comment-list col-8" style="list-style-type: none;">
               <?php 
+                
+                $hidden = '';
+                
+                if($_SESSION['RoleID'] != 3){
+                    $hidden = 'style="display: none;"';
+                } else {
+                    $hidden = '';
+                }
+              
                 $comment = new Comment();
                 $comments = $comment->getAllComments($id);
                 foreach ($comments as $comm)
@@ -168,7 +177,7 @@
                                 </header>
                                 <div class=\"d-flex py-2 justify-content-between align-items-center\">
                                     <p id=\"comment-$commID\" class=\"p-3\">$text</p>
-                                    <button class=\"col-1 btn btn-danger m-3\" onclick=\"deleteComment($commID)\">Delete</button>
+                                    <button class=\"col-1 btn btn-danger m-3\" $hidden onclick=\"deleteComment($commID)\">Delete</button>
                                 </div>
                             </article>
                           </li>";

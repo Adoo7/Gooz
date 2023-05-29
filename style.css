@@ -31,6 +31,7 @@ a.navbar-brand {
 
 .playball {
     font-family: "playball", serif;
+    font-size: 32;
 }
 
 .bg-grey {
@@ -42,3 +43,11 @@ a.navbar-brand {
     text-justify: inter-word;
     font-size: 22px;
 }
+
+.text-overflow-clamp {
+    /* this code clamps based on specified lines */
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+} 
