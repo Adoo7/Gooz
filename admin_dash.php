@@ -159,11 +159,9 @@
             {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
                 {   
-                    document.getElementById("controls").innerHTML = xmlhttp.responseText; 
-                    showArticles('', published);
-                    window.alert(xmlhttp.responseText);
-                } else {
-                    window.alert(xmlhttp.responseText);
+                    document.getElementById("test").innerHTML = xmlhttp.responseText; 
+//                    showArticles('', published);
+//                    window.alert(xmlhttp.responseText);
                 }
             }
             
@@ -173,6 +171,7 @@
 
 <div class="container-fluid h-100 overflow-hidden">
 <!-- data tabs -->
+<div id="test">test</div>
 <div class="row d-flex justify-content-start">
     <div class ="col-12 col-xl-4 p-1 border border-top-0 rounded-bottom">
         <ul class="mt-2 nav nav-tabs nav-justified" id="navtabs">

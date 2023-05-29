@@ -16,36 +16,36 @@ if(isset($_GET['id']) && $_GET['id'] != '' && isset($_GET['search'])){
     $categoryID = urldecode($_GET['id']);
     $searchQuery = urldecode($_GET['search']);
 
-    $result = $db->querySQL("SELECT * FROM Article JOIN User ON Article.UserID = User.UserID WHERE Article.CategoryID = $categoryID AND (Article.HeadLine LIKE '%$searchQuery%' OR User.UserName LIKE '%$searchQuery%' OR Article.ArticleText LIKE '%$searchQuery%')");
+    $result = $db->querySQL("SELECT * FROM Article JOIN User ON Article.UserID = User.UserID "
+            . "WHERE Article.Published = 1 AND Article.CategoryID = $categoryID "
+            . "AND (Article.HeadLine LIKE '%$searchQuery%' OR User.UserName LIKE '%$searchQuery%' OR Article.ArticleText LIKE '%$searchQuery%')");
 }
 elseif (isset($_GET['startDate']) && isset($_GET['endDate']))
 {
     $startDate = urldecode($_GET['startDate']);
     $endDate = urldecode($_GET['endDate']);
-    $result = $db->querySQL("SELECT * FROM Article WHERE PublishDate BETWEEN '$startDate' and '$endDate' ORDER BY NoReaders DESC");
+    $result = $db->querySQL("SELECT * FROM Article WHERE Published = 1 AND PublishDate BETWEEN '$startDate' and '$endDate' ORDER BY NoReaders DESC");
 }
-elseif (isset($_GET['search'])) {
-    // search query is present in URL, retrieve articles matching search query 
-=======
 elseif (isset($_GET['recentNewsBtn'])) {
     // retrieve the most recent articles
-    $result = $db->querySQL("SELECT * FROM Article ORDER BY PublishDate DESC");
+    $result = $db->querySQL("SELECT * FROM Article WHERE Published = 1 ORDER BY PublishDate DESC");
 }
 elseif (isset($_GET['search'])) { 
     // search query is present in URL, retrieve articles matching search query
 
     $searchQuery = urldecode($_GET['search']);
-    $result = $db->querySQL("SELECT Article.* FROM Article LEFT JOIN User ON Article.UserID = User.UserID WHERE Article.HeadLine LIKE '%$searchQuery%' OR User.UserName LIKE '%$searchQuery%' OR Article.ArticleText LIKE '%$searchQuery%'");
+    $result = $db->querySQL("SELECT * FROM Article LEFT JOIN User ON Article.UserID = User.UserID "
+            . "WHERE Article.Published = 1 AND Article.HeadLine LIKE '%$searchQuery%' "
+            . "OR User.UserName LIKE '%$searchQuery%' OR Article.ArticleText LIKE '%$searchQuery%'");
 } else {
-    
     // no search query in URL, determine if user is in dashboard or has clicked a category
     $categoryID = urldecode($_GET['id']);
     if(empty($categoryID)) {
         //should be sorted by views OR likes
-        $result = $db->querySQL("SELECT * FROM Article ORDER BY NoReaders DESC");
+        $result = $db->querySQL("SELECT * FROM Article WHERE Published = 1 ORDER BY NoReaders DESC");
 
     } else {
-        $result = $db->querySQL("SELECT * FROM Article WHERE CategoryID = $categoryID ORDER BY NoReaders DESC");
+        $result = $db->querySQL("SELECT * FROM Article WHERE Published = 1 AND CategoryID = $categoryID ORDER BY NoReaders DESC");
 
     }
 }

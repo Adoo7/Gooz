@@ -24,7 +24,7 @@ if ($id > 0) {
 
     $article->edit();
 
-    echo '<h1 class="text-center mt-5">Article '.$_GET['headline'].'" has been successfully updated!</h1>';
+    echo '<h1>Article '.$_GET['headline'].'" has been successfully updated!</h1>';
 } 
 else 
 {
@@ -38,8 +38,8 @@ else
     $article->create();
     
     if ($article->getPublished() == 0) {
-        echo '<h1 class="text-center mt-5">Article '.$_GET['headline'].'" has been published!</h1>';
+        echo '<h1>Article '.$_GET['headline'].'" has been published!</h1>';
     } else {
-        echo '<h1 class="text-center mt-5">Article '.$_GET['headline'].'" has been saved as draft!</h1>';
+        echo '<h1>Article '.$_GET['headline'].'" has been saved as draft!</h1>';
     }
 }
