@@ -65,7 +65,7 @@ foreach ($result as $row) {
         
     //Uncomment to find out what the query is returning
     //var_dump($row);
-}
+} 
 
 ?>
 
