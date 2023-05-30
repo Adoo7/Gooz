@@ -1,55 +1,97 @@
-<?php //
-
+<?php
 include '../Database.php';
 include '../Files.php';
 include '../ArticleClass.php';
     
-    $articleImage = $_FILES['articleImage'];
+
+
+if(isset($_FILES['file']['name'])){
+
+    /* Getting file name */
+    $filename = $_FILES['file']['name'];
+
+    /* Location */
+    $location = "../uploads/".$filename;
+
+    /* Extension */
+    $extension = strtolower(pathinfo($location,PATHINFO_EXTENSION));
+
+    /* Allowed file extensions */
+    $image_extensions = array("jpg","jpeg","png");
+    $video_extensions = array("mp4", "avi", "mov", "wmv");
+
+    $response = array();
+    $status = 0;
+
+    /* Check file extension */
+    if(in_array($extension, $image_extensions)) {
+          
+        /* Upload file */
+        if(move_uploaded_file($_FILES['file']['tmp_name'],$location)){
+                
+            $location = "uploads/".$filename;
+                
+            $status = 1;
+            $response['path'] = $location;
+            $response['extension'] = $extension;
+
+        }
+    }
+
+    $response['status'] = $status;
+
+    echo json_encode($response);
+    exit;
+}
+
+echo 0;
+
+
+
+/*    $articleImage = $_FILES['articleImage'];
     $articleVideo = $_FILES['articleVideo'];
     $targetDir = "uploads/";
     
     $id = $_GET['id'];
-    $img = $_POST["img"];
     
-    echo 'test';
-//        $file = new Files();
-//        $file->setArticleID($id);
-//        //$file->getNewArticleID();// && $articleImage['error'] === UPLOAD_ERR_OK
-//        // && $articleImage['error'] === UPLOAD_ERR_OK
-//        // Image file validation
-//        echo $_FILES['articleImage'];
-//        echo $_FILES['articleImage']['name'];
-//        if (!empty($_FILES)) {
-//            $imageFileType = strtolower(pathinfo($articleImage['name'], PATHINFO_EXTENSION));
-//            $allowedImageTypes = array('jpg', 'jpeg', 'png', 'gif');
-//
-//            if (in_array($imageFileType, $allowedImageTypes)) {
-//            
-//                $article->setImage($articleImage);
-//
-//                $fileName = basename($_FILES["articleImage"]["name"]);
-//                $file->setFileName($fileName);
-//                $targetFilePath = $targetDir . $fileName;
-//                $file->setFlocation($targetFilePath);
-//                $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
-//                $file->setFileType($fileType);
-//                
-//                if(move_uploaded_file($_FILES["articleImage"]["tmp_name"], $targetFilePath)){
-//                    
-//                    if($file->addFile()){
-//                        //echo 'im uploaded';
+        $file = new Files();
+        $file->setArticleID($id);                                                                  */
+        //$file->getNewArticleID();// && $articleImage['error'] === UPLOAD_ERR_OK
+        // && $articleImage['error'] === UPLOAD_ERR_OK
+        // Image file validation
+/*        echo $_FILES['articleImage'];
+        echo $_FILES['articleImage']['name'];
+        if (!empty($_FILES)) {
+            $imageFileType = strtolower(pathinfo($articleImage['name'], PATHINFO_EXTENSION));
+            $allowedImageTypes = array('jpg', 'jpeg', 'png', 'gif');
+
+            if (in_array($imageFileType, $allowedImageTypes)) {
+            
+                $article->setImage($articleImage);
+
+                $fileName = basename($_FILES["articleImage"]["name"]);
+                $file->setFileName($fileName);
+                $targetFilePath = $targetDir . $fileName;
+                $file->setFlocation($targetFilePath);
+                $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
+                $file->setFileType($fileType);
+                
+                if(move_uploaded_file($_FILES["articleImage"]["tmp_name"], $targetFilePath)){
+                    
+                    if($file->addFile()){                                                                   */
+                        //echo 'im uploaded';
 //                    }else{
-//                        //echo 'im failed';
+                        //echo 'im failed';
 //                    }
 //             }
-//            
+            
 //        } else {
-//            // Invalid image file type
-//            // Handle the error or display a message to the user
-//            //echo 'invalid image file type';
+            // Invalid image file type
+            // Handle the error or display a message to the user
+            //echo 'invalid image file type';
 //        }
 //    }else{
-//        //echo'dwdfwdok';
+        //echo'dwdfwdok';
 //    }
     
     // Video file validation
@@ -94,4 +136,3 @@ include '../ArticleClass.php';
 //    }
     
     //echo 'if statement ran';
-  

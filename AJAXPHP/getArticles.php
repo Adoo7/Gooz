@@ -27,7 +27,8 @@ if ($result) {
 }
 
 $table = '';
-$table .= '<ul class="table col-4 table-hover list-unstyled">';
+$table .= '<table class="table col-4 table-hover">'
+    . '<tbody>';
 
 foreach ($result as $row) {
     
@@ -43,15 +44,17 @@ foreach ($result as $row) {
     $article->setCategoryID($row['CategoryID']);
     $article->setUserID($row['UserID']);
     
-    $table .= '<li onclick="showArticleControls('.$article->getArticleID().');">' .
+    $table .= '<tr onclick="showArticleControls('.$article->getArticleID().');">' .
+                '<td>'.
                 '<div class="d-flex flex-column mb-4">'.
                 '<h4 class="text-center">' . $article->getHeadLine() . '</h4>' .
                 '<p class="dashboard-article-text">' . $article->getArticleText() . '</p>' .
                 '</div>'.
-            '</li>';
+                '</td>'.
+            '</tr>';
 }
 
-$table .= '</ul>';
+$table .= '</tbody></table>';
 
 echo $table;
 
