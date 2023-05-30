@@ -126,6 +126,26 @@
         }
     }
     
+    function updateArticle(id, headline, text, published, catid) {
+        
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "AJAXPHP/updateArticle.php?id=" + id + "&headline=" + headline + "&text=" + text + "&published=" + published + "&catid=" + catid, true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function()
+
+        {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+            {   
+                document.getElementById("test").innerHTML = xmlhttp.responseText; 
+                
+                //window.alert(xmlhttp.responseText);
+            }
+            showArticles("", published);
+        }
+            
+    }
+    
+    
     function showArticles(str, pub)
     {
         //create the AJAX request object
@@ -146,9 +166,9 @@
 //                window.alert(xmlhttp.responseText);
             }
         }  
-        
     }
     
+
     function updateArticle(id, headline, text, published, catid) {
         
             xmlhttp = new XMLHttpRequest();
@@ -166,10 +186,11 @@
             }
             
         }
+
     </script>
 </head>
 
-<div class="container-fluid h-100 overflow-hidden">
+<div class="container-fluid h-100 overflow-auto" style="height: vh90;">
 <!-- data tabs -->
 <div id="test">test</div>
 <div class="row d-flex justify-content-start">
@@ -193,7 +214,19 @@
                 <input type="text" class="w-100" name="Search" placeholder="Title or Author" onkeyup="showArticles(this.value, 0)"/>
                 <div id="unpublished-article-table" class="overflow-auto" style="height: 60vh;"></div>
                 <button class="btn btn-primary col-12 p-2 mt-4" onclick="showArticleControls(-1)" >Create New Article</button>
+
+                <nav class="d-flex justify-content-center mt-3">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+
                 <button class="btn btn-primary col-12 p-2 mt-4" onclick="window.print()" >EXPORT DATA</button>
+
             </div>
         
             <div class="tab-pane fade show col-12" id="published-article-tab-pane">
@@ -212,12 +245,17 @@
                 <div id="users-table"></div>
                 <button class="btn btn-primary col-12 p-2 mt-4" onclick="window.print()" >EXPORT DATA</button>
             </div>
+            
+            
+            
         </div>
-    </div>
-    
         
-    
+        <div class="d-flex justify-content-center">
+        
+    </div> 
+    </div> 
     <!-- controls -->
     <div class ="col-11 col-md-8" id="controls"></div>
+    
 </div>
 </div>

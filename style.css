@@ -79,3 +79,7 @@ a.navbar-brand {
     -ms-overflow-x: none;
     scrollbar-width: none;
 }
+
+.list-unstyled {
+    list-style: none;
+}

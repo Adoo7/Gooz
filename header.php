@@ -13,17 +13,21 @@
     
     if ($_SESSION['UserID'] == null || $_SESSION['loggedin'] == false) {
         $loginLink = '<a class="nav-link active text-light zoom" href="login.php">Login</a>';
-        $hidden = ' d-none';
+        $hidden = 'd-none';
     } else {
         $loginLink = '<a class="nav-link active text-light zoom" href="logout.php">Logout</a>';
         $hidden = '';
+    }
+    
+    if($_SESSION['RoleID'] == 1) {
+        $hidden = 'd-none';
     }
     
     include 'Database.php';
     
     $db = Database::getInstance();
     $dbc = $db->connect();
-
+     
     $result = $db->querySQL('SELECT * FROM Category');
     
     $list = "";
@@ -62,7 +66,7 @@
                 '.$loginLink.'
                 </li>
                 <li class="nav-item px-1">
-                <a class="nav-link active text-light zoom'.$hidden.'" href="dashboard.php">Dashboard</a>
+                <a class="nav-link active text-light zoom '.$hidden.'" href="dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item dropdown px-1">
                 <a class="nav-link dropdown-toggle text-light zoom" href="#" role="button" data-bs-toggle="dropdown">
@@ -81,11 +85,16 @@
         $catID =  $_GET['id']; 
         echo   '<input type="hidden" name="id" value="'.$catID.'">';
     }
-    echo       '<input class="form-control me-2" type="search" id="search" name="search" placeholder="Search">
-                <button class="btn btn-light" type="submit">Search</button>
-            </form>';
-    echo'        
-            </div>
+    
+    $curPageName = substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);  
+     
+    if($curPageName == 'index.php') {
+        echo '<input class="form-control me-2" type="search" id="search" name="search" placeholder="Search">
+            <button class="btn btn-light" type="submit">Search</button>';
+    }
+    
+    echo '</form>';
+    echo' </div>
         </div>
     </nav>';
 
