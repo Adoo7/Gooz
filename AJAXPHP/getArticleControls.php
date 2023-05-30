@@ -109,10 +109,10 @@ if($id > 0){
         <form class="d-flex flex-column gap-3 my-5 mx-2" id="edit_form">
             <div class="d-flex justify-content-around">  <span class="fw-bold">'.$user->getUsername().'</span> '.date("Y-m-d").'</div>
             <div class="form-group">
-              <input type="text" class="form-control" id="articleTitle" placeholder="Article Title" value="">
+              <input type="text" class="form-control" id="articleTitle" placeholder="Article Title" value="" />
             </div>
             <div class="form-group">
-              <textarea class="form-control" id="articleText" placeholder="Article Text" rows="15"></textarea>
+              <textarea class="form-control" id="articleText" placeholder="Article Text" rows="15" ></textarea>
             </div>
             <div class="form-group">
               <select class="form-control" id="articleCategory">

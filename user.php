@@ -180,7 +180,7 @@ class User {
             
             if (empty($this->Email)) {
                 $errors = false;
-                echo 'empty eamil';
+                echo 'empty email';
             }     
             if (empty($this->Password)) {
                 $errors = false;
@@ -205,7 +205,7 @@ class User {
             
             if (empty($this->Email)) {
                 $errors = false;
-                echo 'empty eamil';
+                echo 'empty email';
             }     
             if (empty($this->Password)) {
                 $errors = false;
