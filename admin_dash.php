@@ -145,6 +145,7 @@
             
     }
     
+    
     function showArticles(str, pub)
     {
         //create the AJAX request object
@@ -165,30 +166,19 @@
 //                window.alert(xmlhttp.responseText);
             }
         }  
-        
     }
     
-    $(function () {
-        $('#edit_form').on('submit', function (e) {
-            e.preventDefault();
+    function uploadImage(id) {$(function() {
+            $('button[type=submit]').click(function (event) {
+                event.preventDefault();
 
-            var formData = new FormData(this);
-
-            $.ajax({
-              type: 'post',
-              url: 'AJAXPHP/uploadImage.php',
-              data: formData,
-              processData: false,
-              contentType: false,
-              success: function () {
-                alert('Form was submitted');
-              }
+                // retrieve form element
+                var form = this.form;
+                // prepare data
+                var data = new FormData(form);
             });
         });
-    });
-
-
-    
+    }
     </script>
 </head>
 
@@ -215,6 +205,15 @@
                 <input type="text" class="w-100" name="Search" placeholder="Title or Author" onkeyup="showArticles(this.value, 0)"/>
                 <div id="unpublished-article-table" class="overflow-auto" style="height: 60vh;"></div>
                 <button class="btn btn-primary col-12 p-2 mt-4" onclick="showArticleControls(-1)" >Create New Article</button>
+                <nav class="d-flex justify-content-center mt-3">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
             </div>
         
             <div class="tab-pane fade show col-12" id="published-article-tab-pane">
@@ -231,12 +230,17 @@
                 
                 <div id="users-table"></div>
             </div>
+            
+            
+            
         </div>
-    </div>
-    
         
-    
+        <div class="d-flex justify-content-center">
+        
+    </div> 
+    </div> 
     <!-- controls -->
     <div class ="col-11 col-md-8" id="controls"></div>
+    
 </div>
 </div>

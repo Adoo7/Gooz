@@ -5,22 +5,23 @@ include '../ArticleClass.php';
 
 $q = urldecode($_GET['q']);
 $pub = urldecode($_GET['pub']);
+$id = urldecode($_GET['id']);
 
 $db = Database::getInstance();
 $dbc = $db->connect();
 
 //determining if user is in dashboard or has clicked a category
 if($q == '') {
-    $result = $db->querySQL("SELECT * FROM Article WHERE Published = $pub");
+    $result = $db->querySQL("SELECT * FROM Article WHERE Published = $pub AND UserID = $id");
 } else {//Make this work with author, will need to do complex query
-    $result = $db->querySQL("SELECT * FROM Article WHERE (HeadLine LIKE '%$q%' OR ArticleText LIKE '%$q%') AND Published = $pub"); 
+    $result = $db->querySQL("SELECT * FROM Article WHERE (HeadLine LIKE '%$q%' OR ArticleText LIKE '%$q%') AND Published = $pub AND UserID = $id"); 
 }
 if ($result) {
     $rowCount = mysqli_num_rows($result);
     if ($rowCount > 0) {        
         // Process the results
     } else {
-        echo "No results found.";
+        echo '<div class="d-flex justify-content-center col-12 pt-4"><h3>No results found.</h3></div>';
     }
 } else {
     echo "Error executing query: " . mysqli_error($dbc);

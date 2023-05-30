@@ -9,46 +9,48 @@ include '../ArticleClass.php';
     $targetDir = "uploads/";
     
     $id = $_GET['id'];
+    $img = $_POST["img"];
     
-        $file = new Files();
-        $file->setArticleID($id);
-        //$file->getNewArticleID();// && $articleImage['error'] === UPLOAD_ERR_OK
-        // && $articleImage['error'] === UPLOAD_ERR_OK
-        // Image file validation
-        echo $_FILES['articleImage'];
-        echo $_FILES['articleImage']['name'];
-        if (!empty($_FILES)) {
-            $imageFileType = strtolower(pathinfo($articleImage['name'], PATHINFO_EXTENSION));
-            $allowedImageTypes = array('jpg', 'jpeg', 'png', 'gif');
-
-            if (in_array($imageFileType, $allowedImageTypes)) {
-            
-                $article->setImage($articleImage);
-
-                $fileName = basename($_FILES["articleImage"]["name"]);
-                $file->setFileName($fileName);
-                $targetFilePath = $targetDir . $fileName;
-                $file->setFlocation($targetFilePath);
-                $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
-                $file->setFileType($fileType);
-                
-                if(move_uploaded_file($_FILES["articleImage"]["tmp_name"], $targetFilePath)){
-                    
-                    if($file->addFile()){
-                        //echo 'im uploaded';
-                    }else{
-                        //echo 'im failed';
-                    }
-             }
-            
-        } else {
-            // Invalid image file type
-            // Handle the error or display a message to the user
-            //echo 'invalid image file type';
-        }
-    }else{
-        //echo'dwdfwdok';
-    }
+    echo 'test';
+//        $file = new Files();
+//        $file->setArticleID($id);
+//        //$file->getNewArticleID();// && $articleImage['error'] === UPLOAD_ERR_OK
+//        // && $articleImage['error'] === UPLOAD_ERR_OK
+//        // Image file validation
+//        echo $_FILES['articleImage'];
+//        echo $_FILES['articleImage']['name'];
+//        if (!empty($_FILES)) {
+//            $imageFileType = strtolower(pathinfo($articleImage['name'], PATHINFO_EXTENSION));
+//            $allowedImageTypes = array('jpg', 'jpeg', 'png', 'gif');
+//
+//            if (in_array($imageFileType, $allowedImageTypes)) {
+//            
+//                $article->setImage($articleImage);
+//
+//                $fileName = basename($_FILES["articleImage"]["name"]);
+//                $file->setFileName($fileName);
+//                $targetFilePath = $targetDir . $fileName;
+//                $file->setFlocation($targetFilePath);
+//                $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
+//                $file->setFileType($fileType);
+//                
+//                if(move_uploaded_file($_FILES["articleImage"]["tmp_name"], $targetFilePath)){
+//                    
+//                    if($file->addFile()){
+//                        //echo 'im uploaded';
+//                    }else{
+//                        //echo 'im failed';
+//                    }
+//             }
+//            
+//        } else {
+//            // Invalid image file type
+//            // Handle the error or display a message to the user
+//            //echo 'invalid image file type';
+//        }
+//    }else{
+//        //echo'dwdfwdok';
+//    }
     
     // Video file validation
 //    if (isset($articleVideo) && $articleVideo['error'] === UPLOAD_ERR_OK) {

@@ -65,8 +65,6 @@ else
 {
     echo "Error executing query: " . mysqli_error($dbc);
 }
-
-
 if($id > 0){
     
     $img = '';
@@ -113,9 +111,10 @@ if($id > 0){
             <div class="d-flex col-12">
                 <div class="col-6" id="imgUpload">
                     <label for="articleImage" class="btn">Select Image</label>
-                    <input type="file" style="visibility:hidden;" class="form-control" id="articleImage" value="">
-                    <button id="saveButton" class="col btn btn-secondary btn-block mb-4" type="submit"
-                    onclick="uploadImage('.$id.') name="uploadImage">Upload Image</button>
+                    <form method="post">
+                        <input type="file" style="visibility:hidden;" class="form-control" id="articleImage" value="">
+                        <button id="imgSaveButton" class="col btn btn-secondary btn-block mb-4" type="submit" onclick="uploadImage('.$id.', articleImage.value)">Upload Image</button>
+                    </form>
                     <div class="form-group">
                       <img src="'.$img.'">
                     </div>
@@ -123,8 +122,7 @@ if($id > 0){
                 <div class="form-group col-6">
                     <label for="articleVideo" class="btn">Select Video</label>
                     <input type="file" style="visibility:hidden;" class="form-control" id="articleVideo" placeholder="Video" value="">
-                    <button id="saveButton" class="col btn btn-secondary btn-block mb-4" type="submit"
-                    onclick="uploadImage('.$id.')">Upload Video</button>
+                    <button id="vidSaveButton" class="col btn btn-secondary btn-block mb-4" type="submit" onclick="uploadImage('.$id.')">Upload Video</button>
                     <video width="100%" controls>
                         <source src="" type="video/mp4">
                     </video>

@@ -112,6 +112,10 @@ class Files {
         return $data;
     }
 
+    function insertfileGetID($articleID, $fname, $flocation, $ftype){
+        
+    }
+    
     function getArticleImage() {
         $db = Database::getInstance();
         $dbc = $db->connect();

@@ -105,33 +105,33 @@ foreach ($result as $row) {
                 });
               });
             </script>
-                    <form id="dateRangeForm" method="GET" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-                    <label for="startDate">Start Date:</label>
-                    <input type="text" id="startDate" name="startDate" placeholder="Select Start Date: ">
-                    <label for="endDate">End Date:</label>
-                    <input type="text" id="endDate" name="endDate" placeholder="Select End Date: ">
-                    <input type="hidden" name="id" value="<?php echo $categoryID ?>">
-                    <button type="submit" id="dateRangeBtn">Search</button>
-                  </form>
+            <form class="d-flex col-12 justify-content-center align-items-center gap-2" dateRangeForm" method="GET" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+                <label for="startDate">Start Date:</label>
+                <input type="text" id="startDate" name="startDate" placeholder="Select Start Date: ">
+                <label for="endDate">End Date:</label>
+                <input type="text" id="endDate" name="endDate" placeholder="Select End Date: ">
+                <input type="hidden" name="id" value="<?php echo $categoryID ?>">
+                <button type="submit" id="dateRangeBtn">Search</button>
+            </form>
 
-                  <script>
-                    // add event listener to button
-                    document.getElementById("dateRangeBtn").addEventListener("click", function() {
-                      // retrieve start date
-                      var startDate = document.getElementById("startDate").value;
+            <script>
+                // add event listener to button
+                document.getElementById("dateRangeBtn").addEventListener("click", function() {
+                  // retrieve start date
+                  var startDate = document.getElementById("startDate").value;
 
-                      if (startDate !== "") {
-                        // add start date to URL
-                        var url = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?id=<?php echo $categoryID ?>&startDate=" + startDate;
+                  if (startDate !== "") {
+                    // add start date to URL
+                    var url = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?id=<?php echo $categoryID ?>&startDate=" + startDate;
 
-                        // set form action to new URL
-                        document.getElementById("dateRangeForm").action = url;
+                    // set form action to new URL
+                    document.getElementById("dateRangeForm").action = url;
 
-                        // submit form withGET method
-                        document.getElementById("dateRangeForm").submit();
-                      }
-                    });
-                  </script>
+                    // submit form withGET method
+                    document.getElementById("dateRangeForm").submit();
+                  }
+                });
+            </script>
   </div>
 <?php
   
@@ -207,7 +207,9 @@ foreach ($result as $row) {
             $darkbg  = !$darkbg;
         }
     }
-    echo '</div>'
+    
+    echo '</div>';
 
+      
 ?>
 </section>
