@@ -193,12 +193,14 @@
                 <input type="text" class="w-100" name="Search" placeholder="Title or Author" onkeyup="showArticles(this.value, 0)"/>
                 <div id="unpublished-article-table" class="overflow-auto" style="height: 60vh;"></div>
                 <button class="btn btn-primary col-12 p-2 mt-4" onclick="showArticleControls(-1)" >Create New Article</button>
+                <button class="btn btn-primary col-12 p-2 mt-4" onclick="window.print()" >EXPORT DATA</button>
             </div>
         
             <div class="tab-pane fade show col-12" id="published-article-tab-pane">
                 <h2 class="text-center border-bottom py-4">All Published Articles</h2>
                 <input type="text" class="w-100" name="test" placeholder="Title or Author" onkeyup="showArticles(this.value, 1)"/> <!--TODO: Add functionality - search for published articles-->
                 <div id="published-article-table"></div>
+                <button class="btn btn-primary col-12 p-2 mt-4" onclick="window.print()" >EXPORT DATA</button>
             </div>
 
 
@@ -208,6 +210,7 @@
                 <input type="text" class="w-100" name="Search" placeholder="ID or Username" onkeyup="showUsers(this.value)"/>
                 
                 <div id="users-table"></div>
+                <button class="btn btn-primary col-12 p-2 mt-4" onclick="window.print()" >EXPORT DATA</button>
             </div>
         </div>
     </div>

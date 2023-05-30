@@ -58,12 +58,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <!-- Name input -->
                 <div class="my-4">
-                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" />
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" required />
                 </div>
 
                 <!-- Password input -->
                 <div class="mb-4">
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" />
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" required />
                 </div>
 
                 <!-- Submit button -->
@@ -78,17 +78,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
  
                 <!-- Email input -->
                 <div class="my-4">
-                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" />
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" required />
                 </div>
 
                 <!-- Password input -->
                 <div class="mb-4">
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" />
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" required />
                 </div>
 
                 <!-- Email input -->
                 <div class="my-4">
-                    <input type="email" id="email" name="email" class="form-control" placeholder="Email" />
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Email" required />
                 </div>
                 
                 <!<!-- Role Select input -->
