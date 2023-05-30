@@ -168,22 +168,31 @@
         }  
     }
     
-    function uploadImage(id) {$(function() {
-            $('button[type=submit]').click(function (event) {
-                event.preventDefault();
 
-                // retrieve form element
-                var form = this.form;
-                // prepare data
-                var data = new FormData(form);
-            });
-        });
-    }
+    function updateArticle(id, headline, text, published, catid) {
+        
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", "AJAXPHP/updateArticle.php?id=" + id + "&headline=" + headline + "&text=" + text + "&published=" + published + "&catid=" + catid, true);
+            xmlhttp.send();
+            xmlhttp.onreadystatechange = function()
+            
+            {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                {   
+                    document.getElementById("test").innerHTML = xmlhttp.responseText; 
+//                    showArticles('', published);
+//                    window.alert(xmlhttp.responseText);
+                }
+            }
+            
+        }
+
     </script>
 </head>
 
 <div class="container-fluid h-100 overflow-auto" style="height: vh90;">
 <!-- data tabs -->
+<div id="test">test</div>
 <div class="row d-flex justify-content-start">
     <div class ="col-12 col-xl-4 p-1 border border-top-0 rounded-bottom">
         <ul class="mt-2 nav nav-tabs nav-justified" id="navtabs">
@@ -205,6 +214,7 @@
                 <input type="text" class="w-100" name="Search" placeholder="Title or Author" onkeyup="showArticles(this.value, 0)"/>
                 <div id="unpublished-article-table" class="overflow-auto" style="height: 60vh;"></div>
                 <button class="btn btn-primary col-12 p-2 mt-4" onclick="showArticleControls(-1)" >Create New Article</button>
+
                 <nav class="d-flex justify-content-center mt-3">
                     <ul class="pagination">
                         <li class="page-item"><a class="page-link" href="#">Previous</a></li>
@@ -214,12 +224,16 @@
                         <li class="page-item"><a class="page-link" href="#">Next</a></li>
                     </ul>
                 </nav>
+
+                <button class="btn btn-primary col-12 p-2 mt-4" onclick="window.print()" >EXPORT DATA</button>
+
             </div>
         
             <div class="tab-pane fade show col-12" id="published-article-tab-pane">
                 <h2 class="text-center border-bottom py-4">All Published Articles</h2>
                 <input type="text" class="w-100" name="test" placeholder="Title or Author" onkeyup="showArticles(this.value, 1)"/> <!--TODO: Add functionality - search for published articles-->
                 <div id="published-article-table"></div>
+                <button class="btn btn-primary col-12 p-2 mt-4" onclick="window.print()" >EXPORT DATA</button>
             </div>
 
 
@@ -229,6 +243,7 @@
                 <input type="text" class="w-100" name="Search" placeholder="ID or Username" onkeyup="showUsers(this.value)"/>
                 
                 <div id="users-table"></div>
+                <button class="btn btn-primary col-12 p-2 mt-4" onclick="window.print()" >EXPORT DATA</button>
             </div>
             
             
