@@ -1,4 +1,5 @@
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
         
         window.onload = function() {
@@ -101,24 +102,95 @@
         
     }
     
-    $(function () {
-        $('#edit_form').on('submit', function (e) {
-            e.preventDefault();
-
-            var formData = new FormData(this);
-
+    $.uploadImageFile = function (Aid) {
+            
+        var formData = new FormData();
+            
+        var files = $('#articleImage')[0].files;
+            
+        var id = Aid;
+            
+        if(files.length > 0){
+                
+            formData.append('file',files[0]);
+            formData.append('id',id);
+            
             $.ajax({
-              type: 'post',
-              url: 'AJAXPHP/uploadImage.php',
-              data: formData,
-              processData: false,
-              contentType: false,
-              success: function () {
-                alert('Form was submitted');
-              }
+                url: 'AJAXPHP/uploadImage.php',
+                type:'post',
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.status == 1){
+                        var extension = response.extension;
+                        var path = response.path;
+
+                        $("#uploadedImage").attr("src", path);
+
+                        alert('File uploaded');
+                    }
+                    else {
+                        alert('File not uploaded')
+                    }
+                }
             });
-        });
-    });
+        }else{
+            alert('select a file');
+        }
+  
+    };
+    
+    function uploadImage(id)
+    {
+        $.uploadImageFile(id);
+    }
+    
+    $.uploadVideoFile = function (Aid) {
+            
+        var formData = new FormData();
+            
+        var files = $('#articleVideo')[0].files;
+        
+        var id = Aid;
+        
+        if(files.length > 0){
+                
+            formData.append('file',files[0]);
+            formData.append('id',id);
+            
+            $.ajax({
+                url: 'AJAXPHP/uploadVideo.php',
+                type:'post',
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.status == 1){
+                        var extension = response.extension;
+                        var path = response.path;
+
+                        $("#uploadedVideo").attr("src", path);
+
+                        alert('File uploaded');
+                    }
+                    else {
+                        alert('File not uploaded')
+                    }
+                }
+            });
+        }else{
+            alert('select a file');
+        }
+  
+    };
+    
+    function uploadVideo(id)
+    {
+        $.uploadVideoFile(id);
+    }
     
     </script>
 </head>
@@ -142,15 +214,6 @@
                 <input type="text" class="w-100" name="Search" placeholder="Title or Author" onkeyup="showArticles(this.value, 0)"/>
                 <div id="unpublished-article-table" class="overflow-auto" style="height: 60vh;"></div>
                 <button class="btn btn-primary col-12 p-2 mt-4" onclick="showArticleControls(-1)" >Create New Article</button>
-                <nav class="d-flex justify-content-center mt-3">
-                    <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                </nav>
             </div>
         
             <div class="tab-pane fade show col-12" id="published-article-tab-pane">

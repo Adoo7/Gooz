@@ -138,10 +138,9 @@
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
             {   
                 document.getElementById("test").innerHTML = xmlhttp.responseText; 
-                
+                showArticles('', 0);
                 //window.alert(xmlhttp.responseText);
             }
-            showArticles("", published);
         }
             
     }
@@ -169,15 +168,18 @@
         
     }
 
-    $.uploadFile = function () {
+    $.uploadImageFile = function (Aid) {
             
         var formData = new FormData();
             
         var files = $('#articleImage')[0].files;
             
+        var id = Aid;
+            
         if(files.length > 0){
                 
             formData.append('file',files[0]);
+            formData.append('id',id);
             
             $.ajax({
                 url: 'AJAXPHP/uploadImage.php',
@@ -208,12 +210,57 @@
     
     function uploadImage(id)
     {
-        $.uploadFile();
+        $.uploadImageFile(id);
+    }
+    
+    $.uploadVideoFile = function (Aid) {
+            
+        var formData = new FormData();
+            
+        var files = $('#articleVideo')[0].files;
+        
+        var id = Aid;
+        
+        if(files.length > 0){
+                
+            formData.append('file',files[0]);
+            formData.append('id',id);
+            
+            $.ajax({
+                url: 'AJAXPHP/uploadVideo.php',
+                type:'post',
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.status == 1){
+                        var extension = response.extension;
+                        var path = response.path;
+
+                        $("#uploadedVideo").attr("src", path);
+
+                        alert('File uploaded');
+                    }
+                    else {
+                        alert('File not uploaded')
+                    }
+                }
+            });
+        }else{
+            alert('select a file');
+        }
+  
+    };
+    
+    function uploadVideo(id)
+    {
+        $.uploadVideoFile(id);
     }
     </script>
 </head>
 <body>
-<div class="container-fluid h-100 overflow-auto" style="height: vh90;">
+<div class="container-fluid" style="height: vh90;">
 <!-- data tabs -->
 <div class="row d-flex justify-content-start">
     <div class ="col-12 col-xl-4 p-1 border border-top-0 rounded-bottom">
@@ -241,7 +288,7 @@
             <div class="tab-pane fade show col-12" id="published-article-tab-pane">
                 <h2 class="text-center border-bottom py-4">All Published Articles</h2>
                 <input type="text" class="w-100" name="test" placeholder="Title or Author" onkeyup="showArticles(this.value, 1)"/> <!--TODO: Add functionality - search for published articles-->
-                <div id="published-article-table"></div>
+                <div id="published-article-table" class="overflow-auto" style="height: 60vh;"></div>
             </div>
 
 
